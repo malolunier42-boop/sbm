@@ -57,3 +57,7 @@ Les tests vérifient le rendu réel (formes/matières/options), les commandes cl
 Sources officielles consultées le 16 octobre 2026 : Recherche d’entreprises, BODACC et politique officielle GitHub. SBM, SAS, SIREN 334201639, SIRET siège 33420163900039, RCS Saint-Étienne 334201639, TVA FR28334201639. Siège ZI La Gravoux, boulevard de l’Europe, 42380 Luriecq. Société créée le 26 novembre 1985. Capital de 400 000 € publié en 2012, présenté comme historique. Malo Lunier est responsable de publication communiqué par le responsable du projet. Téléphone et horaires proviennent de la fiche d’établissement transmise.
 
 Détails : `docs/company-research.md` et mentions légales. L’utilisateur indique créer des escaliers pour entreprises et particuliers. Aucun avis, certification, assurance, prix ou délai n’a été inventé. Manrope et DM Sans : OFL 1.1 ; Three.js : MIT, notices conservées.
+
+## Détails de l’expérience
+
+`experience.js` fournit les menus déroulants partagés, leur navigation clavier, le menu mobile, la progression de lecture et les apparitions des titres et cartes au défilement. Les effets se désactivent avec la préférence de mouvement réduit ; les contenus restent lisibles sans JavaScript et à l’impression. `site.css` compose les couches de styles dans un ordre unique pour toutes les pages, avec les détails arrondis de `experience.css`. Les fonctionnalités métier et les choix du configurateur restent indépendants de ces effets.

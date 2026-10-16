@@ -1,49 +1,11 @@
+import "./experience.js";
 import { SHAPES } from "./catalog.js";
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [
   ...scope.querySelectorAll(selector),
 ];
 const motion = matchMedia("(prefers-reduced-motion: reduce)");
-const menu = $(".menu-toggle");
-const nav = $("#main-nav");
-const closeMenu = () => {
-  menu.setAttribute("aria-expanded", "false");
-  menu.setAttribute("aria-label", "Ouvrir le menu");
-  nav.classList.remove("open");
-};
-menu.addEventListener("click", () => {
-  const open = menu.getAttribute("aria-expanded") !== "true";
-  menu.setAttribute("aria-expanded", String(open));
-  menu.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
-  nav.classList.toggle("open", open);
-});
-$$("a", nav).forEach((link) => link.addEventListener("click", closeMenu));
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeMenu();
-});
-matchMedia("(min-width: 981px)").addEventListener("change", (event) => {
-  if (event.matches) closeMenu();
-});
 $("#year").textContent = new Date().getFullYear();
-
-// A visual reading guide; it never changes the document's reading order.
-let scrollFrame = 0;
-const updateProgress = () => {
-  scrollFrame = 0;
-  const total = document.documentElement.scrollHeight - innerHeight;
-  $(".reading-progress").style.transform =
-    `scaleX(${total > 0 ? scrollY / total : 0})`;
-};
-addEventListener(
-  "scroll",
-  () => {
-    if (!scrollFrame && !motion.matches)
-      scrollFrame = requestAnimationFrame(updateProgress);
-  },
-  { passive: true },
-);
-addEventListener("resize", updateProgress, { passive: true });
-updateProgress();
 
 // All times are evaluated in the workshop's timezone, including daylight savings.
 function updateHours() {
