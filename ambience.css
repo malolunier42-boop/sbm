@@ -1,0 +1,65 @@
+.studio-viewer { container-type: size; }
+.studio-viewer[data-room="warm"] { background: radial-gradient(ellipse at 50% 40%, #faf2e4, #d6c8b5); }
+.studio-viewer[data-room="contemporary"] { background: radial-gradient(ellipse at 50% 40%, #f6f5ee, #d1d6cd); }
+.studio-viewer[data-room="professional"] { background: radial-gradient(ellipse at 50% 40%, #edf3ec, #bdcbc2); }
+.studio-ambience { --ambience-top: 49px; position: absolute; top: var(--ambience-top); right: 22px; z-index: 8; color: #344b3b; }
+.studio-ambience > summary {
+  display: flex; align-items: center; gap: 9px; min-height: 47px; width: 190px;
+  padding: 8px 12px; border: 1px solid #71846a30; border-radius: 17px;
+  list-style: none; cursor: pointer; background: #fffdf3e8;
+  box-shadow: 0 5px 20px #3445360a; backdrop-filter: blur(12px);
+}
+.studio-ambience > summary::-webkit-details-marker { display: none; }
+.studio-ambience summary small, .studio-ambience summary strong { display: block; }
+.studio-ambience summary small { font-size: 6px; letter-spacing: 1.4px; color: #78816e; margin-bottom: 3px; }
+.studio-ambience summary strong { font-size: 9px; font-weight: 600; }
+.studio-ambience summary > svg { width: 17px; height: 17px; margin-left: auto; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.studio-ambience[open] summary > svg { transform: rotate(180deg); }
+.ambience-dot {
+  width: 21px; height: 21px; border-radius: 8px; border: 1px solid #53634e29;
+  background: linear-gradient(135deg, #edf0df 50%, #cbd2bb 50%); flex: 0 0 auto;
+}
+[data-room="warm"] .ambience-dot { background: linear-gradient(135deg, #eedfc8 50%, #ad8864 50%); }
+[data-room="contemporary"] .ambience-dot { background: linear-gradient(135deg, #efeee7 50%, #a8afa0 50%); }
+[data-room="professional"] .ambience-dot { background: linear-gradient(135deg, #dce4da 50%, #365c51 50%); }
+.ambience-options {
+  position: absolute; top: calc(100% + 9px); right: 0;
+  width: 307px; max-width: calc(100cqw - 32px); padding: 18px;
+  border: 1px solid #71846a35; border-radius: 22px; background: #fffdf4fa;
+  box-shadow: 0 18px 55px #25382926;
+  max-height: min(410px, calc(100cqh - var(--ambience-top) - 75px), var(--ambience-viewport-space, 410px));
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.ambience-options > p { margin: 0 0 5px; font-size: 13px; font-weight: 600; letter-spacing: -0.4px; }
+.ambience-options > span { font-size: 9px; color: #73816b; }
+.ambience-options > small { display: block; margin-top: 12px; font-size: 8px; line-height: 1.6; color: #79816f; }
+#ambience-choices { display: grid; gap: 6px; margin-top: 15px; }
+#ambience-choices > button {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  color: #3b503d; background: transparent; border: 1px solid transparent;
+  border-radius: 14px; padding: 9px 8px; cursor: pointer;
+}
+#ambience-choices > button:hover { background: #edf0e3; }
+#ambience-choices > button[aria-pressed="true"] { background: #eaf0dc; border-color: #a6b78e; }
+#ambience-choices strong { font-size: 10px; font-weight: 600; display: block; }
+#ambience-choices small { font-size: 8px; line-height: 1.5; display: block; color: #738168; margin-top: 4px; }
+.ambience-check { margin-left: auto; opacity: 0; font-size: 13px; }
+[aria-pressed="true"] > .ambience-check { opacity: 1; }
+.ambience-sample {
+  display: grid; place-items: center; width: 41px; height: 44px; flex: 0 0 auto;
+  border-radius: 11px; background: linear-gradient(140deg, #f7f4e8, #d4ddc5);
+}
+.ambience-sample svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.2; }
+.ambience-warm { background: linear-gradient(140deg, #f5e6cd, #c8a17e); color: #7e5c40; }
+.ambience-contemporary { background: linear-gradient(140deg, #eeeae1, #b8c0b5); color: #647262; }
+.ambience-professional { background: linear-gradient(140deg, #d6e3d3, #6c8e7a); color: #2c5244; }
+.studio-summary p.ambience-note { margin: 8px 0 0; font-size: 9px; line-height: 1.7; color: #77816b; }
+.studio-dialog .studio-ambience { --ambience-top: 80px; right: 30px; }
+@container (max-width: 470px) {
+  .studio-ambience { --ambience-top: 87px; right: 15px; }
+  .studio-ambience > summary { width: 171px; min-height: 43px; }
+  .ambience-options { padding: 14px; }
+}
+@media (max-height: 550px) {
+  .studio-dialog .studio-ambience { --ambience-top: 58px; }
+}

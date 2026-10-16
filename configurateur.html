@@ -376,6 +376,19 @@
               ><button data-view="front" aria-pressed="false">Face</button
               ><button data-view="top" aria-pressed="false">Dessus</button>
             </div>
+            <details class="studio-ambience">
+              <summary aria-controls="ambience-options">
+                <span class="ambience-dot" aria-hidden="true"></span>
+                <span><small>SE PROJETER</small><strong id="ambience-label">Studio épuré</strong></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4" /></svg>
+              </summary>
+              <div class="ambience-options" id="ambience-options">
+                <p>Votre escalier. Votre ambiance.</p>
+                <span>Explorez un décor autour de votre création.</span>
+                <div id="ambience-choices" role="group" aria-label="Ambiance autour de l’escalier"></div>
+                <small>Décors d’inspiration, sans reproduction de votre pièce.</small>
+              </div>
+            </details>
             <div class="studio-model-wrap">
               <img
                 class="studio-fallback"
@@ -432,6 +445,7 @@
               <p class="eyebrow">VOTRE ESQUISSE PREND FORME</p>
               <h2 id="summary-title">Hélicoïdal. Chêne naturel.</h2>
               <p id="summary-detail">Structure acier · Barreaudage vertical</p>
+              <p id="ambience-note" class="ambience-note" role="status">Studio épuré · choisissez une ambiance pour vous projeter.</p>
             </div>
             <div class="studio-summary-actions">
               <button id="share-config" class="button button-quiet">
@@ -446,7 +460,7 @@
           <p class="studio-footnote">
             Cette composition est une intention visuelle. Votre escalier, ses
             dimensions, ses matériaux et son installation seront étudiés avec
-            S.B.M. Le prix est établi sur devis.
+            S.B.M. Les décors sont des espaces d’inspiration. Le prix est établi sur devis.
           </p>
           <noscript
             ><p class="studio-footnote">

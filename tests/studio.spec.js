@@ -53,6 +53,17 @@ async function renderedChange(page, action) {
   await expect.poll(async () => !(await scene(page)).equals(before)).toBe(true);
 }
 
+async function chooseAmbience(page, value) {
+  const panel = page.locator('.studio-ambience');
+  const trigger = panel.locator('summary');
+  if (!(await panel.evaluate(element => element.open))) await trigger.click();
+  await expect(page.locator(`[data-ambience="${value}"]`)).toBeVisible();
+  await page.locator(`[data-ambience="${value}"]`).click();
+  await expect(panel).not.toHaveAttribute('open', '');
+  await expect(trigger).toBeFocused();
+  await expect(page.locator(`[data-ambience="${value}"]`)).toHaveAttribute('aria-pressed', 'true');
+}
+
 async function validContact(page) {
   await expect(page.locator('#quote-fields')).toBeEnabled();
   await page.locator('#fullname').fill('Alex Martin');
@@ -124,6 +135,84 @@ test('all railing designs, risers and lighting change the rendered model', async
   expect(new URL(page.url()).searchParams.get('led')).toBe('1');
 });
 
+test('optional room ambiences change the scene while preserving the staircase and point of view', async ({ page }) => {
+  test.setTimeout(75_000);
+  await studio(page, '?shape=quarter&treadMaterial=walnut&structureColor=%23785abb&height=320&width=110&steps=18&led=1');
+  const original = Object.fromEntries(new URL(await page.locator('#quote-link').getAttribute('href')).searchParams);
+  expect(original.ambience).toBe('studio');
+  await page.locator('[data-view="front"]').click();
+  for (const ambience of ['warm', 'contemporary', 'professional', 'studio']) {
+    await renderedChange(page, () => chooseAmbience(page, ambience));
+    expect(new URL(page.url()).searchParams.get('ambience')).toBe(ambience);
+    await expect(page.locator('[data-view="front"]')).toHaveAttribute('aria-pressed', 'true');
+    const current = Object.fromEntries(new URL(await page.locator('#quote-link').getAttribute('href')).searchParams);
+    expect(current).toEqual({ ...original, ambience });
+  }
+  await expect(page.locator('[data-shape="quarter"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#summary-title')).toContainText('Noyer');
+  await expect(page.locator('#summary-detail')).toContainText('320 × 110 cm');
+  await chooseAmbience(page, 'professional');
+  const savedURL = page.url();
+  await page.goto(savedURL);
+  await expect(page.locator('#studio-stage')).toHaveClass(/ready/);
+  await expect(page.locator('[data-ambience="professional"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#ambience-note')).toContainText('Espace professionnel');
+  await expect(page.locator('#summary-title')).toContainText('Noyer');
+});
+
+test('an ambience travels with the shared project, quote and downloaded dossier', async ({ page }) => {
+  await studio(page, '?shape=half&treadMaterial=ash&height=310&width=105&steps=18&ambience=warm');
+  await expect(page.locator('[data-ambience="warm"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('#quote-link').click();
+  await expect(page.locator('#configuration-summary')).toContainText('Maison chaleureuse');
+  const editURL = new URL(await page.locator('#edit-configuration').getAttribute('href'));
+  expect(editURL.searchParams.get('ambience')).toBe('warm');
+  expect(editURL.searchParams.get('shape')).toBe('half');
+  await validContact(page);
+  await page.getByRole('button', { name: 'Préparer ma demande', exact: false }).click();
+  await expect(page.locator('#quote-print')).toContainText('Maison chaleureuse');
+  const resumeLink = new URL(await page.locator('.brief-config-link').getAttribute('href'));
+  expect(resumeLink.searchParams.get('ambience')).toBe('warm');
+  const downloadPromise = page.waitForEvent('download');
+  await page.locator('#download-brief').click();
+  const download = await downloadPromise;
+  const chunks = [];
+  for await (const chunk of await download.createReadStream()) chunks.push(chunk);
+  expect(Buffer.concat(chunks).toString('utf8')).toContain('Maison chaleureuse');
+  await page.locator('#edit-configuration').click();
+  await expect(page.locator('#studio-stage')).toHaveClass(/ready/);
+  await expect(page.locator('[data-ambience="warm"]')).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('ambience choices remain accessible on small phones and inside the immersive view', async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.setViewportSize({ width: 360, height: 800 });
+  await studio(page);
+  await chooseAmbience(page, 'contemporary');
+  await page.locator('.studio-ambience summary').click();
+  for (const [width, height] of [[320, 700], [360, 800], [390, 800]]) {
+    await page.setViewportSize({ width, height });
+    await expect(page.locator('[data-ambience="professional"]')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const menuBounds = await page.locator('.ambience-options').boundingBox();
+    expect(menuBounds.y + menuBounds.height).toBeLessThanOrEqual(height);
+  }
+  // The last choice must be reachable in the short preview, not clipped by it.
+  await chooseAmbience(page, 'professional');
+  const enlarge = page.locator('#studio-fullscreen');
+  await enlarge.click();
+  await expect(page.locator('#studio-dialog .studio-ambience')).toBeVisible();
+  await chooseAmbience(page, 'warm');
+  await expect(page.locator('#studio-canvas')).toHaveCSS('touch-action', 'none');
+  expect(await page.locator('#studio-dialog').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#studio-dialog')).not.toBeVisible();
+  await expect(enlarge).toBeFocused();
+  await expect(page.locator('.studio-preview-column .studio-ambience')).toHaveCount(1);
+  await expect(page.locator('[data-ambience="warm"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#studio-canvas')).toHaveCSS('touch-action', 'pan-y');
+});
+
 test('material inspiration becomes an editable configuration and a professional dossier with variants', async ({ page }) => {
   test.setTimeout(60_000);
   await page.goto('./matieres.html');
@@ -150,7 +239,7 @@ test('material inspiration becomes an editable configuration and a professional 
   await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowLeft');
   await page.locator('[data-audience="professional"]').click();
-  const expected = { shape: 'quarter', structureMaterial: 'wood', structureColor: '#785abb', metalFinish: 'polished', treadMaterial: 'walnut', railing: 'glass', risers: '1', led: '1', direction: 'left', height: '320', width: '110', steps: '18', audience: 'professional' };
+  const expected = { shape: 'quarter', structureMaterial: 'wood', structureColor: '#785abb', metalFinish: 'polished', treadMaterial: 'walnut', railing: 'glass', risers: '1', led: '1', direction: 'left', height: '320', width: '110', steps: '18', ambience: 'studio', audience: 'professional' };
   await page.locator('#quote-link').click();
   await expect(page).toHaveURL(/\/sbm\/devis\.html\?/);
   expect(Object.fromEntries(new URL(page.url()).searchParams)).toEqual(expected);
@@ -265,10 +354,13 @@ test('WebGL unavailable keeps all configuration choices and the quote flow worki
   await tab(page, 'material');
   await page.locator('[data-tread="stone"]').click();
   await page.locator('[data-color="#a75d43"]').click();
+  await chooseAmbience(page, 'professional');
+  await expect(page.locator('#ambience-note')).toContainText(/non simulé/i);
   await expect(page.locator('#material-label')).toContainText('MATIÈRES NON SIMULÉES');
   await page.locator('#quote-link').click();
   await expect(page.locator('#configuration-summary')).toContainText('Demi-tournant');
   await expect(page.locator('#configuration-summary')).toContainText('Pierre minérale');
+  await expect(page.locator('#configuration-summary')).toContainText('Espace professionnel');
   await validContact(page);
   await page.getByRole('button', { name: 'Préparer ma demande', exact: false }).click();
   await expect(page.locator('#quote-result')).toBeVisible();
@@ -276,7 +368,7 @@ test('WebGL unavailable keeps all configuration choices and the quote flow worki
 
 test('hostile and out-of-range configuration URLs are normalised without executing markup', async ({ page }) => {
   await page.addInitScript(() => { window.injectedByQuery = false; });
-  const hostile = new URLSearchParams({ shape: '<img src=x onerror="window.injectedByQuery=true">', treadMaterial: '__proto__', structureColor: 'javascript:alert(1)', metalFinish: 'unknown', railing: '<svg onload=alert(1)>', height: '99999', width: '-12', steps: 'NaN', direction: 'backward', led: 'false', risers: 'true', audience: 'administrator', fullname: 'Private name', email: 'private@example.test' });
+  const hostile = new URLSearchParams({ shape: '<img src=x onerror="window.injectedByQuery=true">', treadMaterial: '__proto__', structureColor: 'javascript:alert(1)', metalFinish: 'unknown', railing: '<svg onload=alert(1)>', height: '99999', width: '-12', steps: 'NaN', direction: 'backward', led: 'false', risers: 'true', ambience: '<img src=x onerror="window.injectedByQuery=true">', audience: 'administrator', fullname: 'Private name', email: 'private@example.test' });
   await studio(page, `?${hostile}`);
   await expect(page.locator('#summary-title')).toHaveText('Hélicoïdal. Chêne naturel.');
   await tab(page, 'project');
@@ -288,6 +380,7 @@ test('hostile and out-of-range configuration URLs are normalised without executi
   expect(link.searchParams.get('structureColor')).toBe('#383d3a');
   expect(link.searchParams.get('risers')).toBe('1');
   expect(link.searchParams.get('led')).toBe('0');
+  expect(link.searchParams.get('ambience')).toBe('studio');
   expect(link.searchParams.get('audience')).toBe('individual');
   expect(link.searchParams.has('fullname')).toBe(false);
   expect(link.searchParams.has('email')).toBe(false);

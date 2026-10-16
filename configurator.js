@@ -4,6 +4,7 @@ import {
   RAILINGS,
   METAL_FINISHES,
   COLORS,
+  AMBIENCES,
   DEFAULT_CONFIG,
   normalizeConfig,
   decodeConfig,
@@ -28,6 +29,36 @@ stage.before(originalStagePosition);
 const dialog = $("#studio-dialog");
 const labels = (list, key) =>
   list.find((option) => option.id === key)?.label ?? "";
+const ambiencePanel = $(".studio-ambience");
+const ambienceSummary = $("summary", ambiencePanel);
+function sizeAmbienceMenu() {
+  if (!ambiencePanel.open) return;
+  const available = Math.max(80, innerHeight - ambienceSummary.getBoundingClientRect().bottom - 24);
+  ambiencePanel.style.setProperty("--ambience-viewport-space", `${available}px`);
+}
+ambiencePanel.addEventListener("toggle", sizeAmbienceMenu);
+addEventListener("resize", sizeAmbienceMenu);
+addEventListener("scroll", sizeAmbienceMenu, { passive: true });
+AMBIENCES.forEach((option) => {
+  const button = optionButton(option, "ambience", `<span class="ambience-sample ambience-${option.id}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="${option.icon}"/></svg></span><span><strong>${option.label}</strong><small>${option.detail}</small></span><span class="ambience-check" aria-hidden="true">✓</span>`);
+  button.addEventListener("click", () => {
+    change({ ambience: option.id });
+    ambiencePanel.open = false;
+    ambienceSummary.focus({ preventScroll: true });
+  });
+  $("#ambience-choices").append(button);
+});
+document.addEventListener("pointerdown", (event) => {
+  if (!ambiencePanel.contains(event.target)) ambiencePanel.open = false;
+});
+ambiencePanel.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && ambiencePanel.open) {
+    event.preventDefault();
+    event.stopPropagation();
+    ambiencePanel.open = false;
+    ambienceSummary.focus({ preventScroll: true });
+  }
+});
 function optionButton(option, kind, content) {
   const button = document.createElement("button");
   button.type = "button";
@@ -98,6 +129,11 @@ function projectURL(page = "configurateur.html") {
   ).href;
 }
 function syncUI() {
+  selected("[data-ambience]", "ambience", configuration.ambience);
+  // The stage uses a separate data attribute from the choice buttons.
+  stage.dataset.room = configuration.ambience;
+  $("#ambience-label").textContent = labels(AMBIENCES, configuration.ambience);
+  $("#ambience-note").textContent = `${labels(AMBIENCES, configuration.ambience)} · ${stage.classList.contains("failed") ? "décor non simulé ; votre préférence reste enregistrée." : configuration.ambience === "studio" ? "choisissez une ambiance pour vous projeter." : "décor d’inspiration, à explorer en tournant autour de l’escalier."}`;
   selected("[data-shape]", "shape", configuration.shape);
   selected("[data-tread]", "tread", configuration.treadMaterial);
   selected("[data-railing]", "railing", configuration.railing);
@@ -276,6 +312,7 @@ function errorState() {
   $("#render-status").textContent = "APERÇU 3D INDISPONIBLE";
   $("#material-label").textContent =
     "VISUEL D’INSPIRATION · MATIÈRES NON SIMULÉES";
+  syncUI();
   $$(
     ".studio-toolbar button, .studio-view-options button, #studio-rotate",
   ).forEach((button) => {
@@ -369,6 +406,7 @@ async function start() {
         viewer = controller;
         stage.classList.add("ready");
         stage.classList.remove("failed");
+        syncUI();
         $("#render-status").textContent = "VOTRE CRÉATION EN 3D";
         $$(
           ".studio-toolbar button, .studio-view-options button, #studio-rotate",

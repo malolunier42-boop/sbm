@@ -143,6 +143,12 @@ export const COLORS = [
     reference: "nuance d’inspiration",
   },
 ];
+export const AMBIENCES = [
+  { id: "studio", label: "Studio épuré", detail: "L’escalier, tout simplement.", short: "Studio", icon: "M5 18h14M8 15V9l4-3 4 3v6" },
+  { id: "warm", label: "Maison chaleureuse", detail: "Parquet, tons doux et lumière chaude.", short: "Maison", icon: "m3 11 9-7 9 7M5 10v10h14V10M10 20v-7h4v7" },
+  { id: "contemporary", label: "Intérieur contemporain", detail: "Volumes clairs et matières minérales.", short: "Contemporain", icon: "M4 20V5h10v15M14 10h6v10M8 8h2m-2 4h2m-2 4h2M3 20h18" },
+  { id: "professional", label: "Espace professionnel", detail: "Un accueil soigné, une autre perspective.", short: "Professionnel", icon: "M3 20h18M5 20V4h14v16M8 8h2m4 0h2M8 12h2m4 0h2M10 20v-4h4v4" },
+];
 export const DEFAULT_CONFIG = Object.freeze({
   shape: "spiral",
   structureMaterial: "steel",
@@ -156,6 +162,7 @@ export const DEFAULT_CONFIG = Object.freeze({
   height: 280,
   width: 90,
   steps: 16,
+  ambience: "studio",
 });
 const option = (list, value, fallback) =>
   list.some((item) => item.id === value) ? value : fallback;
@@ -192,6 +199,7 @@ export function normalizeConfig(value = {}) {
     height: number(source.height, DEFAULT_CONFIG.height, 240, 360),
     width: number(source.width, DEFAULT_CONFIG.width, 70, 130),
     steps: number(source.steps, DEFAULT_CONFIG.steps, 12, 20),
+    ambience: option(AMBIENCES, source.ambience, DEFAULT_CONFIG.ambience),
   };
 }
 export function encodeConfig(config) {
@@ -220,6 +228,7 @@ export function describeConfiguration(config) {
   const color = COLORS.find((item) => item.hex === c.structureColor);
   return [
     { label: "Forme", value: label(SHAPES, c.shape) },
+    { label: "Ambiance de projection (décor indicatif)", value: label(AMBIENCES, c.ambience) },
     {
       label: "Structure",
       value: c.structureMaterial === "wood" ? "Bois" : "Acier",

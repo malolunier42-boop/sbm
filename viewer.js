@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { createAmbience } from "./ambience.js";
 
 // An original architectural study, not a model of a completed SBM project.
 export async function initViewer({
@@ -80,6 +81,7 @@ export async function initViewer({
     height: 280,
     width: 90,
     steps: 16,
+    ambience: "studio",
   };
   let modelBounds;
 
@@ -361,6 +363,16 @@ export async function initViewer({
   const softbox = new THREE.DirectionalLight(0xcce8dd, 0.95);
   softbox.position.set(-2, 3, 5);
   scene.add(softbox);
+  const ambience = createAmbience(scene);
+  const updateAmbience = () => {
+    const name = configuration.ambience;
+    ambience.build(name, modelBounds);
+    plinth.visible = name === "studio";
+    plinthRim.visible = name === "studio" && configuration.shape === "spiral";
+    ground.visible = name === "studio";
+    key.color.setHex(name === "warm" ? 0xffdfb4 : name === "studio" ? 0xffebcd : 0xf0f4ef);
+    rim.color.setHex(name === "warm" ? 0xffcd91 : name === "studio" ? 0xffd8a4 : 0xe0e9e4);
+  };
 
   // All finishes are generated once, locally. Changing a finish never rebuilds
   // a staircase or resets the camera; geometry changes release the old buffers.
@@ -842,6 +854,7 @@ export async function initViewer({
       treadMaterial: ["oak", "walnut", "ash", "steel", "stone"],
       railing: ["vertical", "horizontal", "glass", "solid"],
       direction: ["right", "left"],
+      ambience: ["studio", "warm", "contemporary", "professional"],
     };
     for (const [key, values] of Object.entries(choices)) {
       if (values.includes(input[key])) next[key] = input[key];
@@ -878,6 +891,7 @@ export async function initViewer({
     controls.autoRotate = autoRotate && !reducedMotion.matches;
     const changed = controls.update(delta);
     try {
+      ambience.update(camera);
       renderer.render(scene, camera);
     } catch (error) {
       onError(error);
@@ -991,6 +1005,7 @@ export async function initViewer({
       const next = sanitizeConfiguration(input);
       const geometryKeys = ["shape", "railing", "risers", "led", "direction", "height", "width", "steps"];
       const geometryChanged = !hasConfiguration || geometryKeys.some((key) => next[key] !== configuration[key]);
+      const ambienceChanged = !hasConfiguration || next.ambience !== configuration.ambience;
       const changed = !hasConfiguration || Object.keys(next).some((key) => next[key] !== configuration[key]);
       if (!changed) return;
       configuration = next;
@@ -1001,6 +1016,7 @@ export async function initViewer({
         currentZoom = 1;
         applyCamera();
       }
+      if (geometryChanged || ambienceChanged) updateAmbience();
       requestRender();
       notify();
     },
@@ -1107,6 +1123,7 @@ export async function initViewer({
       controls.removeEventListener("change", handleControls);
       controls.removeEventListener("start", handleInteraction);
       controls.dispose();
+      ambience.dispose();
       const geometries = new Set();
       const materials = new Set();
       scene.traverse((object) => {

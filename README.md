@@ -38,6 +38,8 @@ Géométries, grain bois et textures minérales sont générés localement. Les 
 
 Le rendu se suspend hors écran ou onglet masqué. La rotation automatique est facultative ; les mouvements réduits sont respectés. Souris, clavier et boutons sont proposés ; la manipulation tactile est activée en vue immersive pour préserver le défilement de la page. Une illustration remplace WebGL en cas d’indisponibilité, et le choix des options et le dossier restent utilisables.
 
+Le studio propose aussi des décors facultatifs : studio épuré, maison chaleureuse, intérieur contemporain ou espace professionnel. `ambience.js` génère le sol, les murs en coupe, le mobilier et l’éclairage autour de l’encombrement de l’escalier. Le changement d’ambiance conserve la caméra et les choix techniques ; les ressources de l’ancien décor sont libérées. Ce sont des espaces d’inspiration, sans reproduction de la pièce du client. L’ambiance est conservée dans le lien et le dossier de devis, y compris en cas de repli sans WebGL.
+
 ## Demande de devis
 
 L’utilisateur a confirmé un **devis sur étude**, sans grille de tarifs. Aucun prix n’est inventé. La demande reprend la configuration et permet de demander plusieurs variantes de matériaux.
