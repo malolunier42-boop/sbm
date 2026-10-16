@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="theme-color" content="#17211e" />
     <meta
       name="description"
@@ -67,6 +67,7 @@
           <div class="studio-control-heading">
             <h2 id="choices-title">Imaginez le vôtre.</h2>
             <span>PERSONNALISATION 3D</span>
+            <button id="studio-edit-preview" class="studio-edit-preview" type="button" aria-haspopup="dialog" aria-controls="studio-dialog">Voir en 3D <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></button>
           </div>
           <div
             class="studio-tabs"
@@ -403,7 +404,7 @@
               /><canvas
                 id="studio-canvas"
                 tabindex="0"
-                aria-label="Escalier personnalisé en 3D. Flèches gauche et droite pour tourner, plus et moins pour zoomer, touche Début pour réinitialiser."
+                aria-label="Escalier personnalisé en 3D. Sur écran tactile, glissez horizontalement pour pivoter et pincez pour zoomer. Au clavier, flèches pour tourner, plus et moins pour zoomer et Début pour recentrer."
               ></canvas>
             </div>
             <div class="studio-render-caption">
@@ -438,8 +439,8 @@
             </div>
             <div class="studio-motion">
               <span id="studio-hint">Glissez pour explorer</span
-              ><button id="studio-rotate" aria-pressed="false">
-                Rotation automatique
+              ><button id="studio-rotate" aria-pressed="false" aria-label="Rotation automatique">
+                <span>Rotation auto</span>
                 <span class="toggle-track"><span></span></span>
               </button>
             </div>
@@ -501,6 +502,10 @@
         </div>
       </section>
     </main>
+    <aside id="studio-mobile-dock" class="studio-mobile-dock" aria-label="Votre projet en cours" hidden>
+      <span id="studio-mobile-label"></span>
+      <div><button id="studio-dock-preview" type="button" aria-haspopup="dialog" aria-controls="studio-dialog">Voir en 3D <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></button><a id="studio-mobile-quote" href="./devis.html">Mon devis <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a></div>
+    </aside>
     <footer class="inner-footer">
       <a class="brand" href="./"
         ><span class="brand-mark">sbm<span>.</span></span

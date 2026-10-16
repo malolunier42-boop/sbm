@@ -34,7 +34,8 @@ const ambiencePanel = $(".studio-ambience");
 const ambienceSummary = $("summary", ambiencePanel);
 function sizeAmbienceMenu() {
   if (!ambiencePanel.open) return;
-  const available = Math.max(80, innerHeight - ambienceSummary.getBoundingClientRect().bottom - 24);
+  const bottom = ambienceSummary.getBoundingClientRect().bottom;
+  const available = Math.max(80, Math.min(innerHeight - bottom - 24, stage.getBoundingClientRect().bottom - bottom - 18));
   ambiencePanel.style.setProperty("--ambience-viewport-space", `${available}px`);
 }
 ambiencePanel.addEventListener("toggle", sizeAmbienceMenu);
@@ -190,6 +191,8 @@ function syncUI() {
   $("#material-label").textContent =
     `${labels(MATERIALS, configuration.treadMaterial)} · ${configuration.structureMaterial === "steel" ? (color?.label ?? configuration.structureColor) : `STRUCTURE ${structure.label}`}`.toUpperCase();
   $("#quote-link").href = projectURL("devis.html");
+  $("#studio-mobile-quote").href = projectURL("devis.html");
+  $("#studio-mobile-label").textContent = `${labels(SHAPES, configuration.shape)} · ${structure.label}`;
   $(".header-contact").href = projectURL("devis.html");
   if (stage.classList.contains("failed"))
     $("#material-label").textContent =
@@ -329,7 +332,7 @@ function errorState() {
     "VISUEL D’INSPIRATION · MATIÈRES NON SIMULÉES";
   syncUI();
   $$(
-    ".studio-toolbar button, .studio-view-options button, #studio-rotate",
+    ".studio-toolbar button, .studio-view-options button, #studio-rotate, #studio-edit-preview, #studio-dock-preview",
   ).forEach((button) => {
     button.disabled = button.id !== "studio-close";
   });
@@ -372,40 +375,76 @@ canvas.addEventListener("keydown", (event) => {
   }
 });
 let savedScroll = 0;
-$("#studio-fullscreen").addEventListener("click", () => {
+let immersiveTrigger;
+const compactScreen = matchMedia("(max-width: 760px)");
+const mobileDock = $("#studio-mobile-dock");
+let dockFrame = 0;
+function refreshMobileDock() {
+  dockFrame = 0;
+  const controls = $(".studio-controls").getBoundingClientRect();
+  const preview = canvas.getBoundingClientRect();
+  const summary = $(".studio-summary").getBoundingClientRect();
+  const headerBottom = $(".site-header").getBoundingClientRect().bottom + 12;
+  const editing = document.activeElement?.matches("input, select, textarea");
+  const show = compactScreen.matches && !dialog.open && !editing
+    && preview.bottom < headerBottom && controls.top < innerHeight - 90
+    && controls.bottom > headerBottom && summary.top > innerHeight - 80;
+  mobileDock.hidden = !show;
+  document.body.classList.toggle("mobile-dock-visible", show);
+}
+function scheduleMobileDock() {
+  if (!dockFrame) dockFrame = requestAnimationFrame(refreshMobileDock);
+}
+addEventListener("scroll", scheduleMobileDock, { passive: true });
+addEventListener("resize", scheduleMobileDock);
+document.addEventListener("focusin", scheduleMobileDock);
+document.addEventListener("focusout", scheduleMobileDock);
+compactScreen.addEventListener("change", scheduleMobileDock);
+function studioGestureHint(immersive = false) {
+  return matchMedia("(pointer: coarse)").matches
+    ? immersive ? "Glissez pour tourner · Pincez pour zoomer" : "Glissez ↔ · Pincez pour zoomer"
+    : immersive ? "Glissez pour explorer · Échap pour fermer" : "Glissez pour explorer";
+}
+function openStudioPreview(event) {
   if (!viewer) return;
+  immersiveTrigger = event.currentTarget;
   savedScroll = scrollY;
+  ambiencePanel.open = false;
   dialog.append(stage);
   dialog.showModal();
   document.body.style.overflow = "hidden";
   viewer.setInteraction(true);
-  $("#studio-hint").textContent = "Glissez pour explorer · Échap pour fermer";
+  $("#studio-hint").textContent = studioGestureHint(true);
+  refreshMobileDock();
+  $("#studio-close").focus({ preventScroll: true });
   requestAnimationFrame(() => viewer.resize());
-});
+}
+for (const id of ["studio-fullscreen", "studio-edit-preview", "studio-dock-preview"])
+  $(`#${id}`).addEventListener("click", openStudioPreview);
 $("#studio-close").addEventListener("click", () => dialog.close());
 dialog.addEventListener("close", () => {
+  ambiencePanel.open = false;
   originalStagePosition.after(stage);
   viewer?.setInteraction(false);
   document.body.style.overflow = "";
-  $("#studio-hint").textContent = matchMedia("(pointer: coarse)").matches
-    ? "Flèches pour pivoter · Agrandir pour toucher"
-    : "Glissez pour explorer";
+  $("#studio-hint").textContent = studioGestureHint();
   scrollTo({ top: savedScroll, behavior: "instant" });
+  refreshMobileDock();
   requestAnimationFrame(() => {
     viewer?.resize();
-    $("#studio-fullscreen").focus({ preventScroll: true });
+    (immersiveTrigger || $("#studio-fullscreen")).focus({ preventScroll: true });
+    scheduleMobileDock();
   });
 });
 motion.addEventListener("change", (event) => {
   $("#studio-rotate").disabled = event.matches;
   if (event.matches) viewer?.setAutoRotate(false);
 });
-if (matchMedia("(pointer: coarse)").matches)
-  $("#studio-hint").textContent =
-    "Flèches pour pivoter · Agrandir pour toucher";
+$("#studio-hint").textContent = studioGestureHint();
+scheduleMobileDock();
 syncUI();
 $$(
-  ".studio-toolbar button, .studio-view-options button, #studio-rotate",
+  ".studio-toolbar button, .studio-view-options button, #studio-rotate, #studio-edit-preview, #studio-dock-preview",
 ).forEach((button) => {
   button.disabled = button.id !== "studio-close";
 });
@@ -424,7 +463,7 @@ async function start() {
         syncUI();
         $("#render-status").textContent = "VOTRE CRÉATION EN 3D";
         $$(
-          ".studio-toolbar button, .studio-view-options button, #studio-rotate",
+          ".studio-toolbar button, .studio-view-options button, #studio-rotate, #studio-edit-preview, #studio-dock-preview",
         ).forEach((button) => {
           button.disabled = false;
         });

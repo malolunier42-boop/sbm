@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { createAmbience } from "./ambience.js";
+import { installTouchGestures } from "./touch-gestures.js";
 
 // An original architectural study, not a model of a completed SBM project.
 export async function initViewer({
@@ -29,7 +30,8 @@ export async function initViewer({
     throw error;
   }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.5 : 1.8));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.03;
@@ -44,7 +46,7 @@ export async function initViewer({
   controls.enableDamping = !reducedMotion.matches;
   controls.dampingFactor = 0.075;
   controls.enablePan = false;
-  controls.enableZoom = false; // The page keeps normal wheel scrolling; dedicated buttons zoom.
+  controls.enableZoom = false; // Native wheel scrolling stays available; touch has its own zoom.
   controls.rotateSpeed = 0.65;
   controls.autoRotateSpeed = 0.42;
   controls.minPolarAngle = 0.025;
@@ -84,6 +86,8 @@ export async function initViewer({
     ambience: "studio",
   };
   let modelBounds;
+  let cameraPositioned = false;
+  let touchGestures;
 
   const room = new RoomEnvironment();
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -348,7 +352,7 @@ export async function initViewer({
   const key = new THREE.DirectionalLight(0xffebcd, 3.1);
   key.position.set(3.5, 7.5, 4);
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.mapSize.set(coarsePointer ? 1024 : 2048, coarsePointer ? 1024 : 2048);
   key.shadow.camera.left = key.shadow.camera.bottom = -3.8;
   key.shadow.camera.right = key.shadow.camera.top = 3.8;
   key.shadow.camera.near = 0.5;
@@ -921,11 +925,11 @@ export async function initViewer({
     if (controls.autoRotate || changed) requestRender();
   }
 
-  const applyCamera = () => {
+  const applyCamera = (orbitDirection) => {
     const target = controls.target;
-    const direction = view === "top" ? new THREE.Vector3(0.001, 1, 0.01).normalize()
+    const direction = orbitDirection || (view === "top" ? new THREE.Vector3(0.001, 1, 0.01).normalize()
       : view === "front" ? new THREE.Vector3(0, 0.01, 1).normalize()
-      : new THREE.Vector3(5.2, 2.6, 7).normalize();
+      : new THREE.Vector3(5.2, 2.6, 7).normalize());
     if (modelBounds) {
       const right = new THREE.Vector3(0, 1, 0).cross(direction).normalize();
       const up = direction.clone().cross(right).normalize();
@@ -948,9 +952,10 @@ export async function initViewer({
     const distance = fitDistance / currentZoom;
     camera.position.copy(direction.multiplyScalar(distance).add(target));
     camera.lookAt(target);
-    controls.minDistance = fitDistance / 1.65;
-    controls.maxDistance = fitDistance * 1.4;
+    controls.minDistance = fitDistance / 1.5;
+    controls.maxDistance = fitDistance / 0.72;
     controls.update();
+    cameraPositioned = true;
     requestRender();
   };
 
@@ -958,11 +963,13 @@ export async function initViewer({
     if (disposed) return;
     const { width, height } = canvas.parentElement.getBoundingClientRect();
     if (width < 1 || height < 1) return;
+    const orbitDirection = cameraPositioned
+      ? camera.position.clone().sub(controls.target).normalize() : undefined;
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
     if (modelBounds) {
-      applyCamera();
+      applyCamera(orbitDirection);
       return;
     }
     const vertical = 3.1 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
@@ -972,7 +979,7 @@ export async function initViewer({
     const nextDistance = Math.max(vertical, horizontal);
     if (Math.abs(fitDistance - nextDistance) > 0.01 || firstRender) {
       fitDistance = nextDistance;
-      applyCamera();
+      applyCamera(orbitDirection);
     }
     requestRender();
   };
@@ -985,6 +992,7 @@ export async function initViewer({
       autoRotate = false;
       notify();
     }
+    controls.autoRotate = false;
     view = "perspective";
     notify();
   };
@@ -1119,11 +1127,9 @@ export async function initViewer({
       applyCamera();
       notify();
     },
-    // Optional: explicitly engage touch manipulation; false preserves page scroll.
+    // Embedded mode preserves vertical page scrolling; immersive mode also tilts.
     setInteraction(enabled) {
-      controls.touches.ONE = enabled ? THREE.TOUCH.ROTATE : null;
-      controls.touches.TWO = enabled ? THREE.TOUCH.DOLLY_ROTATE : null;
-      canvas.style.touchAction = enabled ? "none" : "pan-y";
+      touchGestures?.setInteraction(enabled);
     },
     resize,
     dispose() {
@@ -1139,6 +1145,7 @@ export async function initViewer({
       window.removeEventListener("resize", resize);
       controls.removeEventListener("change", handleControls);
       controls.removeEventListener("start", handleInteraction);
+      touchGestures?.dispose();
       controls.dispose();
       ambience.dispose();
       const geometries = new Set();
@@ -1159,6 +1166,33 @@ export async function initViewer({
       renderer.dispose();
     },
   };
+
+  touchGestures = installTouchGestures({
+    canvas,
+    getZoom: () => currentZoom,
+    onStart() {
+      handleInteraction();
+      // Finish any previous mouse damping before taking over with a finger.
+      const damping = controls.enableDamping;
+      controls.enableDamping = false;
+      controls.update();
+      controls.enableDamping = damping;
+    },
+    onOrbit(yaw, pitch) {
+      if (disposed) return;
+      const spherical = new THREE.Spherical().setFromVector3(
+        camera.position.clone().sub(controls.target),
+      );
+      spherical.theta += yaw;
+      spherical.phi = THREE.MathUtils.clamp(
+        spherical.phi + pitch, controls.minPolarAngle, controls.maxPolarAngle,
+      );
+      camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(spherical));
+      controls.update();
+      requestRender();
+    },
+    onZoom: (zoom) => controller.zoom(zoom / currentZoom),
+  });
 
   if (initialConfiguration) controller.setConfiguration(initialConfiguration);
 

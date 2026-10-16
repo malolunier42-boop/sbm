@@ -271,7 +271,8 @@ fullscreenTrigger.addEventListener("click", () => {
   document.body.style.overflow = "hidden";
   viewer.setInteraction(true);
   $(".drag-hint span").textContent =
-    "Glissez pour explorer · Échap pour fermer";
+    matchMedia("(pointer: coarse)").matches ? "Glissez pour tourner · Pincez pour zoomer" : "Glissez pour explorer · Échap pour fermer";
+  $(".immersive-close").focus({ preventScroll: true });
   requestAnimationFrame(() => viewer.resize());
 });
 $(".immersive-close").addEventListener("click", () => immersiveDialog.close());
@@ -280,7 +281,7 @@ immersiveDialog.addEventListener("close", () => {
   viewer?.setInteraction(false);
   document.body.style.overflow = "";
   $(".drag-hint span").textContent = matchMedia("(pointer: coarse)").matches
-    ? "Flèches pour pivoter · Grand écran tactile"
+    ? "Glissez ↔ · Pincez pour zoomer"
     : "Glissez pour explorer";
   scrollTo({ top: immersiveScroll, behavior: "instant" });
   requestAnimationFrame(() => {
@@ -290,7 +291,7 @@ immersiveDialog.addEventListener("close", () => {
 });
 if (matchMedia("(pointer: coarse)").matches)
   $(".drag-hint span").textContent =
-    "Flèches pour pivoter · Grand écran tactile";
+    "Glissez ↔ · Pincez pour zoomer";
 viewerButtons().forEach((button) => {
   button.disabled = true;
 });

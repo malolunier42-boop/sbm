@@ -1,0 +1,218 @@
+/* The mobile model has its own space: touch controls never sit on the stair. */
+.studio-edit-preview,
+.studio-mobile-dock { display: none; }
+.studio-edit-preview .icon, .studio-mobile-dock .icon { width: 16px; height: 16px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+@media screen and (max-width: 760px) {
+  .studio-intro { padding: 30px 5% 24px; }
+  .studio-intro h1 { font-size: clamp(37px, 9.5vw, 56px); line-height: 1.12; }
+  .studio-intro > .eyebrow,
+  .studio-intro .eyebrow { font-size: 10px; line-height: 1.6; }
+  .studio-intro > p { font-size: 15px; line-height: 1.65; margin-top: 16px; max-width: 35ch; }
+  .studio-layout { padding: 0 4% 32px; gap: 24px; }
+  .studio-viewer {
+    container-type: inline-size;
+    display: grid;
+    grid-template-areas: "heading" "views" "ambience" "model" "caption" "tools" "motion";
+    grid-template-rows: auto auto auto auto auto auto auto;
+    gap: 10px;
+    padding: 13px;
+    height: auto;
+    min-height: 0;
+    border-radius: 23px;
+  }
+  .studio-scene-heading { grid-area: heading; position: static; align-items: center; gap: 8px; min-height: 23px; }
+  .scene-label { font-size: 8px; line-height: 1.6; letter-spacing: 1px; }
+  .render-status { font-size: 8px; line-height: 1.6; letter-spacing: 0.5px; text-align: right; }
+  .studio-view-options { grid-area: views; position: static; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+  .studio-view-options > button { min-width: 44px; min-height: 44px; font-size: 12px; padding: 10px 5px; }
+  .studio-ambience { grid-area: ambience; position: relative; top: auto; right: auto; width: 100%; }
+  .studio-ambience > summary { width: 100%; min-height: 54px; padding: 10px 12px; gap: 12px; border-radius: 15px; }
+  .studio-ambience summary small { font-size: 9px; letter-spacing: 1px; }
+  .studio-ambience summary strong { font-size: 13px; line-height: 1.4; }
+  .studio-ambience summary > svg { width: 22px; height: 22px; }
+  .ambience-dot { width: 30px; height: 30px; border-radius: 10px; }
+  .ambience-options { left: 0; right: 0; width: 100%; max-width: none; padding: 14px; max-height: min(440px, var(--ambience-viewport-space, 300px)); }
+  .ambience-options > p { font-size: 16px; line-height: 1.4; }
+  .ambience-options > span,
+  .ambience-options > small { font-size: 12px; line-height: 1.6; }
+  #ambience-choices { gap: 8px; margin-top: 12px; }
+  #ambience-choices > button { gap: 10px; padding: 11px 8px; min-height: 68px; }
+  #ambience-choices strong { font-size: 13px; line-height: 1.4; }
+  #ambience-choices small { font-size: 11px; line-height: 1.5; }
+  .ambience-sample { width: 36px; height: 45px; }
+  .studio-model-wrap { grid-area: model; position: relative; inset: auto; height: clamp(270px, 77vw, 370px); min-height: 0; margin: 0 -7px; }
+  .studio-render-caption { grid-area: caption; position: static; flex-wrap: wrap; gap: 4px 12px; font-size: 9px; letter-spacing: 0.5px; line-height: 1.6; }
+  .studio-render-caption > span:last-child { font-size: 8px; }
+  .studio-toolbar {
+    grid-area: tools; position: static; transform: none; display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0;
+    width: 100%; max-width: 420px; margin: 0 auto; padding: 0; border-radius: 17px;
+  }
+  .studio-toolbar > button { width: 100%; min-width: 44px; height: 48px; font-size: 24px; border-radius: 13px; }
+  .studio-toolbar > button > .icon { width: 20px; height: 20px; }
+  .studio-toolbar > span { display: none; }
+  .studio-motion { grid-area: motion; position: static; gap: 8px; min-height: 44px; }
+  .studio-motion > span { flex: 1; max-width: none; font-size: 10px; line-height: 1.55; }
+  .studio-motion > button { flex: 0 0 auto; min-width: 44px; min-height: 44px; font-size: 11px; gap: 7px; padding: 8px 0 8px 6px; }
+  .studio-motion .toggle-track { width: 28px; height: 15px; }
+  .studio-motion .toggle-track > span { width: 8px; height: 8px; }
+  .studio-motion [aria-pressed="true"] .toggle-track > span { transform: translateX(13px); }
+
+  .studio-controls { overflow: visible; scroll-margin-top: 94px; }
+  .studio-control-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; padding: 21px 17px; }
+  .studio-control-heading h2 { font-size: 23px; }
+  .studio-control-heading > span { font-size: 8px; grid-column: 1; letter-spacing: 0.8px; }
+  .studio-edit-preview { display: flex; grid-column: 2; grid-row: 1 / 3; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 12px; background: #e8eddb; border: 1px solid #afbc9b; border-radius: 14px; font-size: 12px; }
+  .studio-edit-preview:disabled { opacity: 0.45; }
+  .studio-tabs { position: sticky; top: calc(86px + env(safe-area-inset-top)); z-index: 15; margin: 0 10px; gap: 3px; padding: 4px; border-radius: 16px; background: #edf0e5f7; box-shadow: 0 7px 20px #263b2810; backdrop-filter: blur(12px); }
+  .studio-tabs > button { min-height: 54px; font-size: 12px; padding: 8px 1px; }
+  .studio-tabs > button > span { font-size: 9px; }
+  .studio-panels { padding: 26px 17px; }
+  .studio-panels [role="tabpanel"] { scroll-margin-top: 160px; }
+  .panel-kicker { font-size: 10px; line-height: 1.7; letter-spacing: 1px; }
+  .studio-panels h3 { font-size: 30px; line-height: 1.2; }
+  .panel-description { font-size: 15px; line-height: 1.75; }
+  .field-label { font-size: 15px; margin: 26px 0 14px; gap: 8px; }
+  .field-label > span { font-size: 12px; }
+  .shape-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .shape-options > button { padding: 17px 9px; }
+  .shape-options > button > svg { width: 56px; height: 56px; margin-bottom: 12px; }
+  .shape-options > button > strong { font-size: 14px; line-height: 1.4; }
+  .shape-options > button > small { font-size: 11px; line-height: 1.5; margin-top: 6px; }
+  .structure-options { gap: 10px; }
+  .structure-options > button { display: block; padding: 12px; }
+  .structure-options .material-chip { width: 100%; height: 47px; margin-bottom: 10px; }
+  .structure-options strong { font-size: 14px; line-height: 1.4; }
+  .structure-options small { display: none; }
+  .structure-note { font-size: 13px; line-height: 1.7; margin-top: 14px; }
+  .tread-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .tread-options > button { padding: 7px; min-height: 105px; }
+  .tread-options .material-chip { height: 62px; }
+  .tread-options > button > span:last-child { font-size: 12px; line-height: 1.5; }
+  .segmented > button { min-height: 48px; padding: 10px 6px; font-size: 13px; }
+  .studio-colors { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .color-pick { min-height: 48px; min-width: 44px; padding: 5px; border-radius: 13px; }
+  .custom-color { display: grid; grid-template-columns: minmax(0, 1fr) 44px auto; gap: 8px; }
+  .custom-color > label { font-size: 13px; line-height: 1.5; }
+  .custom-color > input { width: 44px; height: 44px; }
+  .custom-color > span { font-size: 12px; }
+  .railing-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .railing-options > button { padding: 17px 11px; }
+  .railing-options strong { font-size: 13px; line-height: 1.4; }
+  .railing-options > [data-railing="none"] { min-height: 72px; }
+  .panel-small, .toggle-option small { font-size: 13px; line-height: 1.7; }
+  .toggle-option { min-height: 72px; padding: 22px 0; gap: 12px; }
+  .toggle-option strong { font-size: 15px; }
+  .dimension-field > label { font-size: 14px; gap: 8px; }
+  .dimension-field input[type="number"] { min-height: 44px; width: 64px; font-size: 16px; }
+  .dimension-field input[type="range"] { min-height: 44px; }
+  .dimension-field > div { font-size: 11px; }
+  .panel-next { min-height: 50px; font-size: 14px; }
+  .studio-controls-bottom { padding: 14px 17px 20px; }
+  .studio-controls-bottom > button { min-height: 44px; font-size: 12px; }
+  .studio-summary { padding: 8px 1% 24px; }
+  .studio-summary .eyebrow { font-size: 10px; line-height: 1.6; }
+  .studio-summary h2 { font-size: 28px; }
+  .studio-summary p:not(.eyebrow), .studio-summary p.ambience-note { font-size: 14px; line-height: 1.7; }
+  .studio-summary-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .studio-summary-actions > .button { min-height: 50px; font-size: 14px; padding: 14px 18px; }
+  .studio-footnote { font-size: 13px; line-height: 1.75; }
+  .studio-bottom-info p { font-size: 15px; line-height: 1.75; }
+  .studio-bottom-info > div > span { font-size: 11px; }
+  .share-link-field { grid-row: auto; }
+  .share-link-field label { font-size: 13px; line-height: 1.6; }
+  .share-link-field input { font-size: 16px; min-height: 48px; width: 100%; }
+
+  .studio-mobile-dock:not([hidden]) { display: block; position: fixed; z-index: 35; left: 10px; right: 10px; bottom: max(8px, env(safe-area-inset-bottom)); padding: 9px 10px 10px; border: 1px solid #f8f7e229; border-radius: 22px; color: #f8f7e8; background: #1c3028f5; box-shadow: 0 10px 40px #0d241b40; backdrop-filter: blur(16px); }
+  #studio-mobile-label { display: block; font-size: 11px; line-height: 1.4; padding: 0 5px 7px; letter-spacing: 0.3px; }
+  .studio-mobile-dock > div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .studio-mobile-dock button, .studio-mobile-dock a { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 11px 14px; border: 1px solid #c6d2ae50; border-radius: 13px; color: #f5f5e7; background: #ffffff0b; font-size: 13px; }
+  .studio-mobile-dock a { background: #d8e6b0; color: #263a2d; border-color: #d8e6b0; }
+  .mobile-dock-visible .scroll-top { bottom: calc(115px + env(safe-area-inset-bottom)); }
+
+  .hero .model-stage, .immersive-dialog .model-stage {
+    display: grid; grid-template-areas: "heading" "views" "model" "tools" "motion";
+    grid-template-rows: auto auto auto auto auto; gap: 10px; height: auto; min-height: 0; padding: 14px;
+  }
+  .model-stage .scene-caption { grid-area: heading; position: static; flex-direction: row; align-items: center; gap: 8px; min-height: 24px; }
+  .model-stage .scene-caption .label { font-size: 9px; line-height: 1.6; letter-spacing: 0.8px; }
+  .model-stage .scene-type { font-size: 8px; line-height: 1.5; letter-spacing: 0.6px; }
+  .model-stage .view-presets { grid-area: views; position: static; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .model-stage .view-presets button { min-height: 44px; min-width: 44px; font-size: 12px; padding: 10px 4px; }
+  .model-stage .model-wrap { grid-area: model; position: relative; inset: auto; height: clamp(290px, 80vw, 390px); min-height: 0; margin: 0 -7px; }
+  .model-stage .model-annotation { display: none; }
+  .model-stage .viewer-toolbar { grid-area: tools; position: static; transform: none; width: 100%; max-width: 420px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; margin: 0 auto; padding: 0; border-radius: 16px; }
+  .model-stage .viewer-toolbar .icon-button { width: 100%; min-width: 44px; height: 48px; border-radius: 12px; }
+  .model-stage .viewer-toolbar .icon { width: 20px; height: 20px; }
+  .model-stage .toolbar-divider { display: none; }
+  .model-stage .scene-bottom { grid-area: motion; position: static; display: flex; align-items: center; gap: 8px; min-height: 44px; }
+  .model-stage .drag-hint { flex: 1; min-width: 0; gap: 7px; font-size: 10px; line-height: 1.6; }
+  .model-stage .drag-hint .icon { display: none; }
+  .model-stage #auto-rotate { font-size: 11px; min-height: 44px; min-width: 44px; gap: 7px; }
+  .finish-panel { padding: 16px; gap: 12px; }
+  .finish-panel .label { font-size: 10px; line-height: 1.6; }
+  .finish-name { font-size: 13px; line-height: 1.5; }
+  .finish-panel { flex-wrap: wrap; }
+  .finish-options { gap: 8px; }
+  .finish-options .swatch { width: 44px; height: 44px; min-width: 44px; }
+  .hero-shapes button { min-height: 60px; font-size: 12px; line-height: 1.4; padding: 10px 4px; }
+  .model-note { font-size: 12px; line-height: 1.7; }
+}
+
+/* Both portrait and landscape immersive views respect the device safe area. */
+@media screen and (max-width: 760px), screen and (max-height: 500px) and (max-width: 980px) {
+  .studio-dialog, .immersive-dialog { width: 100%; height: 100dvh; max-width: 100%; max-height: 100dvh; margin: 0; padding: 0; border-radius: 0; }
+  .studio-dialog .studio-viewer {
+    display: grid; container-type: inline-size;
+    grid-template-areas: "heading" "views" "ambience" "model" "caption" "tools" "motion";
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto auto auto;
+    gap: 9px; height: 100%; min-height: 0; border-radius: 0;
+    padding: max(13px, env(safe-area-inset-top)) max(13px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(13px, env(safe-area-inset-left));
+  }
+  .studio-dialog .studio-model-wrap { grid-area: model; position: relative; inset: auto; height: auto; min-height: 0; }
+  .studio-dialog .studio-ambience { top: auto; right: auto; }
+  .studio-dialog .studio-toolbar > button { min-width: 44px; min-height: 44px; height: 48px; }
+  .immersive-dialog .model-stage {
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto; height: 100%; min-height: 0; border-radius: 0;
+    padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  }
+  .immersive-dialog .model-stage .model-wrap { grid-area: model; position: relative; inset: auto; height: auto; min-height: 0; }
+  .immersive-dialog .scene-caption { grid-area: heading; position: static; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; }
+  .immersive-dialog .view-presets { grid-area: views; position: static; }
+  .immersive-dialog .viewer-toolbar { grid-area: tools; }
+  .immersive-dialog .scene-bottom { grid-area: motion; position: static; }
+  .immersive-dialog .model-annotation { display: none; }
+  .immersive-dialog .model-stage #auto-rotate { min-width: 44px; min-height: 44px; font-size: 12px; }
+}
+
+@media screen and (max-height: 500px) and (orientation: landscape) and (max-width: 980px) {
+  .studio-dialog .studio-viewer {
+    grid-template-columns: 218px minmax(0, 1fr);
+    grid-template-rows: 25px 44px minmax(0, 1fr) 48px;
+    grid-template-areas: "heading heading" "views model" "ambience model" "motion tools";
+    gap: 10px 18px;
+  }
+  .studio-dialog .studio-scene-heading { grid-area: heading; position: static; }
+  .studio-dialog .scene-label, .studio-dialog .render-status { font-size: 9px; }
+  .studio-dialog .studio-view-options { grid-area: views; position: static; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .studio-dialog .studio-view-options > button { min-height: 44px; min-width: 44px; font-size: 11px; padding: 8px 4px; }
+  .studio-dialog .studio-ambience { grid-area: ambience; align-self: start; position: relative; width: 100%; }
+  .studio-dialog .studio-ambience > summary { width: 100%; min-height: 54px; }
+  .studio-dialog .studio-ambience summary small { font-size: 9px; }
+  .studio-dialog .studio-ambience summary strong { font-size: 12px; }
+  .studio-dialog .ambience-options { left: 0; right: auto; width: 310px; max-width: calc(100vw - 30px); max-height: min(300px, var(--ambience-viewport-space, 180px)); }
+  .studio-dialog .studio-render-caption { display: none; }
+  .studio-dialog .studio-toolbar { grid-area: tools; position: static; transform: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; width: 100%; max-width: 420px; padding: 0; }
+  .studio-dialog .studio-toolbar > span { display: none; }
+  .studio-dialog .studio-toolbar > button { width: 100%; min-width: 44px; height: 48px; }
+  .studio-dialog .studio-motion { grid-area: motion; position: static; }
+  .studio-dialog .studio-motion > span { display: none; }
+  .studio-dialog .studio-motion > button { min-height: 44px; font-size: 12px; padding: 8px 0; }
+  .immersive-dialog .model-stage { display: grid; grid-template-columns: 210px minmax(0, 1fr); grid-template-rows: 26px minmax(0, 1fr) 48px; grid-template-areas: "heading heading" "views model" "motion tools"; gap: 12px 18px; }
+  .immersive-dialog .model-stage .view-presets { display: grid; grid-template-columns: 1fr; align-content: start; gap: 8px; }
+  .immersive-dialog .model-stage .view-presets button { min-height: 44px; font-size: 12px; }
+  .immersive-dialog .model-stage .viewer-toolbar { display: grid; grid-template-columns: repeat(6, 1fr); position: static; transform: none; gap: 0; width: 100%; padding: 0; }
+  .immersive-dialog .model-stage .viewer-toolbar .icon-button { min-width: 44px; width: 100%; height: 48px; }
+  .immersive-dialog .toolbar-divider, .immersive-dialog .model-stage .drag-hint { display: none; }
+}
