@@ -35,7 +35,7 @@ Trois pages sont exportées : accueil, `mentions-legales.html`, `confidentialite
 - **Annuaire des entreprises / API officielle Recherche d’entreprises**, consultée le 16 octobre 2026 : SBM (SAS), SIREN 334201639, SIRET siège 33420163900039, siège ZI La Gravoux, boulevard de l’Europe, 42380 Luriecq, création société 26 novembre 1985, TVA FR28334201639.
 - **Fiche Google transmise par l’utilisateur** : nom commercial, présentation de l’activité, téléphone 04 77 50 15 65, horaires. Le siège officiel précise l’adresse de secteur initialement donnée.
 - **Utilisateur** : Malo Lunier, responsable de publication. Cette fonction n’est pas assimilée à la présidence de la société.
-- Sources et crédits détaillés dans les mentions légales. Le capital social, l’immatriculation précise et le courriel professionnel restent à confirmer ; ne pas les inventer.
+- Sources et crédits détaillés dans les mentions légales. Le RCS Saint-Étienne 334 201 639 est confirmé par le BODACC du 15 octobre 2026. Le dernier capital retrouvé dans les 24 avis consultés est 400 000 €, publié le 9 mars 2012 et présenté comme historique ; son actualité reste à confirmer. L’utilisateur fournira le courriel professionnel ultérieurement.
 
 Le modèle 3D et les visuels sont des études artistiques originales, explicitement identifiées comme inspirations. Ils ne présentent pas de réalisations de l’entreprise et ne sont ni des plans techniques ni des devis. Le site historique n’a pas pu être chargé pour récupérer des photos réelles.
 
