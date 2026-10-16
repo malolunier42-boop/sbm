@@ -160,16 +160,12 @@
               </p>
               <div class="field-label">La structure</div>
               <div
-                class="segmented"
+                class="structure-options"
                 id="structure-options"
                 role="group"
                 aria-label="Matière de structure"
-              >
-                <button data-structure="steel" aria-pressed="true">Acier</button
-                ><button data-structure="wood" aria-pressed="false">
-                  Bois
-                </button>
-              </div>
+              ></div>
+              <p class="structure-note" id="structure-note"></p>
               <div class="field-label">Les marches</div>
               <div
                 class="tread-options"
@@ -177,32 +173,36 @@
                 role="group"
                 aria-label="Matière des marches"
               ></div>
-              <div class="field-label">
-                La couleur du métal <span id="color-name"></span>
+              <div id="metal-color-fields">
+                <div class="field-label">
+                  <span id="metal-color-label">La couleur du métal</span> <span id="color-name"></span>
+                </div>
+                <div
+                  class="studio-colors"
+                  id="color-options"
+                  role="group"
+                  aria-label="Couleur de la structure métallique"
+                ></div>
+                <div class="custom-color">
+                  <label for="custom-color">Votre propre couleur</label
+                  ><input id="custom-color" type="color" value="#383d3a" /><span
+                    id="color-hex"
+                    >#383D3A</span
+                  >
+                </div>
               </div>
-              <div
-                class="studio-colors"
-                id="color-options"
-                role="group"
-                aria-label="Couleur de la structure métallique"
-              ></div>
-              <div class="custom-color">
-                <label for="custom-color">Votre propre couleur</label
-                ><input id="custom-color" type="color" value="#383d3a" /><span
-                  id="color-hex"
-                  >#383D3A</span
-                >
+              <div id="metal-finish-fields">
+                <div class="field-label" id="metal-finish-label">L’aspect du métal</div>
+                <div
+                  class="segmented"
+                  id="finish-options"
+                  role="group"
+                  aria-label="Aspect du métal"
+                ></div>
               </div>
-              <div class="field-label">L’aspect du métal</div>
-              <div
-                class="segmented"
-                id="finish-options"
-                role="group"
-                aria-label="Aspect du métal"
-              ></div>
               <p class="panel-small">
-                Les couleurs à l’écran sont indicatives. Les échantillons et
-                associations sont à valider avec l’atelier.
+                Matières et couleurs sont des intentions visuelles. Faisabilité,
+                assemblages, échantillons et finitions sont à étudier avec l’atelier.
               </p>
               <button class="panel-next" data-next="details">
                 Dessiner les détails <span>→</span>
@@ -218,7 +218,7 @@
               <p class="panel-kicker">03 / LE DÉTAIL FAIT LA DIFFÉRENCE</p>
               <h3>Affirmez le caractère.</h3>
               <p class="panel-description">
-                Une ligne fine, de la transparence, un ruban plein…
+                Une ligne fine, de la transparence, un ruban plein ou la silhouette seule.
               </p>
               <div class="field-label">Le garde-corps</div>
               <div
@@ -227,6 +227,10 @@
                 role="group"
                 aria-label="Type de garde-corps"
               ></div>
+              <p id="railing-note" class="panel-small" hidden>
+                Vue sans garde-corps pour explorer la silhouette. Les protections
+                des accès et des paliers seront étudiées avec l’atelier selon votre espace.
+              </p>
               <label class="toggle-option"
                 ><span
                   ><strong>Avec contremarches</strong

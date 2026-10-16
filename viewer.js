@@ -518,6 +518,7 @@ export async function initViewer({
     return mesh;
   };
   const guardrail = (points, pickets, style = configuration.railing) => {
+    if (style === "none") return;
     tube(points.map((point) => raise(point, 0.94)), 0.023);
     if (style === "vertical") {
       pickets.forEach(({ bottom, top }) => segment(bottom, raise(top, 0.925), 0.009));
@@ -565,13 +566,29 @@ export async function initViewer({
       material.bumpScale = 0.013;
       material.needsUpdate = true;
     }
-    if (configuration.structureMaterial === "wood") {
-      metal.map = configuration.treadMaterial === "walnut" ? walnutTexture : configuration.treadMaterial === "ash" ? ashTexture : oakTexture;
-      metal.color.setHex(configuration.treadMaterial === "walnut" ? 0xf3cfad : 0xffe8c5);
+    const structureWood = {
+      wood: { map: oakTexture, color: 0xffe8c5 },
+      walnut: { map: walnutTexture, color: 0xf3cfad },
+      ash: { map: ashTexture, color: 0xfff0d6 },
+    }[configuration.structureMaterial];
+    if (structureWood) {
+      metal.map = structureWood.map;
+      metal.color.setHex(structureWood.color);
       metal.roughness = 0.57;
       metal.metalness = 0;
       metal.bumpMap = null;
-    } else metal.map = null;
+    } else {
+      metal.map = null;
+      if (configuration.structureMaterial === "aluminium") {
+        metal.color.setHex(0xc8cfce);
+        metal.metalness = 0.92;
+        metal.roughness = { matte: 0.56, brushed: 0.34, polished: 0.18 }[configuration.metalFinish];
+      } else if (configuration.structureMaterial === "stainless") {
+        metal.color.setHex(0xa5b9be);
+        metal.metalness = 0.98;
+        metal.roughness = { matte: 0.44, brushed: 0.24, polished: 0.08 }[configuration.metalFinish];
+      }
+    }
     metal.needsUpdate = true;
     const treads = {
       oak: { map: oakTexture, color: 0xffe2bc, roughness: 0.57, metalness: 0 },
@@ -849,10 +866,10 @@ export async function initViewer({
     const next = { ...configuration };
     const choices = {
       shape: ["spiral", "straight", "quarter", "half"],
-      structureMaterial: ["steel", "wood"],
+      structureMaterial: ["steel", "wood", "walnut", "ash", "aluminium", "stainless"],
       metalFinish: ["matte", "brushed", "polished"],
       treadMaterial: ["oak", "walnut", "ash", "steel", "stone"],
-      railing: ["vertical", "horizontal", "glass", "solid"],
+      railing: ["none", "vertical", "horizontal", "glass", "solid"],
       direction: ["right", "left"],
       ambience: ["studio", "warm", "contemporary", "professional"],
     };

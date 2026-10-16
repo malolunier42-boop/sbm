@@ -1,6 +1,7 @@
 import {
   SHAPES,
   MATERIALS,
+  STRUCTURES,
   RAILINGS,
   METAL_FINISHES,
   COLORS,
@@ -76,6 +77,11 @@ SHAPES.forEach((option) => {
   button.addEventListener("click", () => change({ shape: option.id }));
   $("#shape-options").append(button);
 });
+STRUCTURES.forEach((option) => {
+  const button = optionButton(option, "structure", `<span class="material-chip ${option.className}" aria-hidden="true"></span><span><strong>${option.label}</strong><small>${option.detail}</small></span>`);
+  button.addEventListener("click", () => change({ structureMaterial: option.id }));
+  $("#structure-options").append(button);
+});
 MATERIALS.forEach((option) => {
   const button = optionButton(
     option,
@@ -89,7 +95,7 @@ RAILINGS.forEach((option) => {
   const button = optionButton(
     option,
     "railing",
-    `<span class="rail-sketch rail-${option.id}" aria-hidden="true"></span><strong>${option.short}</strong>`,
+    `<span class="rail-sketch rail-${option.id}" aria-hidden="true">${option.id === "none" ? '<svg viewBox="0 0 65 38"><path d="M5 32h12v-7h12v-7h12v-7h12V4M5 36h16v-7h12v-7h12v-7h13"/></svg>' : ""}</span><strong>${option.short}</strong>`,
   );
   button.setAttribute("aria-label", option.label);
   button.addEventListener("click", () => change({ railing: option.id }));
@@ -145,6 +151,20 @@ function syncUI() {
   const color = COLORS.find(
     (option) => option.hex === configuration.structureColor,
   );
+  const structure = STRUCTURES.find((option) => option.id === configuration.structureMaterial);
+  const woodStructure = structure.family === "wood";
+  const noRailing = configuration.railing === "none";
+  $("#structure-note").textContent = woodStructure
+    ? `${structure.label} naturel pour la structure. La matière des marches se choisit séparément.`
+    : configuration.structureMaterial === "steel"
+      ? "Personnalisez la teinte et l’aspect de votre structure en acier."
+      : `${structure.label} dans sa teinte naturelle. Choisissez son aspect mat, brossé ou poli.`;
+  $("#metal-color-fields").hidden = configuration.structureMaterial !== "steel" && noRailing;
+  $("#metal-finish-fields").hidden = woodStructure && noRailing;
+  $("#metal-color-label").textContent = configuration.structureMaterial === "steel" ? "La couleur du métal" : "La couleur de la main courante";
+  $("#metal-finish-label").textContent = woodStructure ? "L’aspect de la main courante" : "L’aspect du métal";
+  $("#color-options").setAttribute("aria-label", configuration.structureMaterial === "steel" ? "Couleur de la structure métallique" : "Couleur de la main courante");
+  $("#railing-note").hidden = !noRailing;
   $("#color-name").textContent = color?.label ?? "Personnalisée";
   $("#custom-color").value = configuration.structureColor;
   $("#color-hex").textContent = configuration.structureColor.toUpperCase();
@@ -166,9 +186,9 @@ function syncUI() {
   $("#summary-title").textContent =
     `${labels(SHAPES, configuration.shape)}. ${labels(MATERIALS, configuration.treadMaterial)}.`;
   $("#summary-detail").textContent =
-    `Structure ${configuration.structureMaterial === "wood" ? "bois" : "acier"} · ${labels(RAILINGS, configuration.railing)} · ${configuration.height} × ${configuration.width} cm`;
+    `Structure ${structure.label} · ${labels(RAILINGS, configuration.railing)} · ${configuration.height} × ${configuration.width} cm`;
   $("#material-label").textContent =
-    `${labels(MATERIALS, configuration.treadMaterial)} · ${configuration.structureMaterial === "wood" ? "STRUCTURE BOIS" : (color?.label ?? configuration.structureColor)}`.toUpperCase();
+    `${labels(MATERIALS, configuration.treadMaterial)} · ${configuration.structureMaterial === "steel" ? (color?.label ?? configuration.structureColor) : `STRUCTURE ${structure.label}`}`.toUpperCase();
   $("#quote-link").href = projectURL("devis.html");
   $(".header-contact").href = projectURL("devis.html");
   if (stage.classList.contains("failed"))
@@ -230,11 +250,6 @@ $$("[data-next]").forEach((button) =>
 $$("[data-direction]").forEach((button) =>
   button.addEventListener("click", () =>
     change({ direction: button.dataset.direction }),
-  ),
-);
-$$("[data-structure]").forEach((button) =>
-  button.addEventListener("click", () =>
-    change({ structureMaterial: button.dataset.structure }),
   ),
 );
 $$("[data-audience]").forEach((button) =>

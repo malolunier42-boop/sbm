@@ -103,8 +103,8 @@ test('all four stair shapes, direction and dimensions change the rendered geomet
   await expect(page.locator('#summary-detail')).toContainText('330 × 125 cm');
 });
 
-test('materials, metal finishes, custom colour and wood structure change actual canvas pixels', async ({ page }) => {
-  test.setTimeout(75_000);
+test('tread materials, finishes and six independent structure materials change actual canvas pixels', async ({ page }) => {
+  test.setTimeout(90_000);
   await studio(page, '?shape=straight');
   await tab(page, 'material');
   for (const material of ['walnut', 'ash', 'steel', 'stone', 'oak']) {
@@ -117,8 +117,16 @@ test('materials, metal finishes, custom colour and wood structure change actual 
   await renderedChange(page, () => page.locator('[data-color="#254d3f"]').click());
   await renderedChange(page, () => page.locator('#custom-color').fill('#c95d91'));
   await expect(page.locator('#color-hex')).toHaveText('#C95D91');
-  await renderedChange(page, () => page.locator('[data-structure="wood"]').click());
-  await expect(page.locator('#summary-detail')).toContainText('Structure bois');
+  // Treads stay oak throughout: changing a structure must have its own visible
+  // effect instead of only changing the wood selected for the steps.
+  for (const [structure, label] of [['wood', 'Chêne'], ['walnut', 'Noyer'], ['ash', 'Frêne'], ['aluminium', 'Aluminium'], ['stainless', 'Inox'], ['steel', 'Acier']]) {
+    await renderedChange(page, () => page.locator(`[data-structure="${structure}"]`).click());
+    await expect(page.locator(`[data-structure="${structure}"]`)).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-tread="oak"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#summary-detail')).toContainText(`Structure ${label}`);
+    expect(new URL(page.url()).searchParams.get('structureMaterial')).toBe(structure);
+    expect(new URL(page.url()).searchParams.get('treadMaterial')).toBe('oak');
+  }
 });
 
 test('all railing designs, risers and lighting change the rendered model', async ({ page }) => {
@@ -133,6 +141,74 @@ test('all railing designs, risers and lighting change the rendered model', async
   await renderedChange(page, () => page.locator('#led').check());
   expect(new URL(page.url()).searchParams.get('risers')).toBe('1');
   expect(new URL(page.url()).searchParams.get('led')).toBe('1');
+});
+
+test('railings can be removed and restored on every staircase shape', async ({ page }) => {
+  test.setTimeout(90_000);
+  await studio(page);
+  for (const shape of ['straight', 'quarter', 'half', 'spiral']) {
+    await tab(page, 'shape');
+    await renderedChange(page, () => page.locator(`[data-shape="${shape}"]`).click());
+    await tab(page, 'details');
+    await renderedChange(page, () => page.locator('[data-railing="none"]').click());
+    await expect(page.locator('[data-railing="none"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('#summary-detail')).toContainText('Sans garde-corps');
+    expect(new URL(page.url()).searchParams.get('railing')).toBe('none');
+    const quoteURL = new URL(await page.locator('#quote-link').getAttribute('href'));
+    expect(quoteURL.searchParams.get('railing')).toBe('none');
+    expect(quoteURL.searchParams.get('shape')).toBe(shape);
+    await renderedChange(page, () => page.locator('[data-railing="vertical"]').click());
+    await expect(page.locator('[data-railing="vertical"]')).toHaveAttribute('aria-pressed', 'true');
+  }
+});
+
+test('a walnut structure without railings survives a shared link, quote dossier and return to the studio', async ({ page }) => {
+  await studio(page, '?shape=half&structureMaterial=walnut&treadMaterial=ash&railing=none&ambience=warm&structureColor=%238b4020&metalFinish=polished');
+  await tab(page, 'material');
+  await expect(page.locator('[data-structure="walnut"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('[data-tread="ash"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#metal-color-fields')).toBeHidden();
+  await expect(page.locator('#metal-finish-fields')).toBeHidden();
+  await tab(page, 'details');
+  await expect(page.locator('[data-railing="none"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.goto(page.url());
+  await expect(page.locator('#studio-stage')).toHaveClass(/ready/);
+  await expect(page.locator('#summary-detail')).toContainText('Structure Noyer');
+  await expect(page.locator('#summary-detail')).toContainText('Sans garde-corps');
+  await page.locator('#quote-link').click();
+  await expect(page.locator('#configuration-summary')).toContainText('Noyer');
+  await expect(page.locator('#configuration-summary')).toContainText('Frêne');
+  await expect(page.locator('#configuration-summary')).toContainText('Sans garde-corps');
+  await expect(page.locator('#configuration-summary')).toContainText('Bois naturel');
+  await expect(page.locator('#configuration-summary')).not.toContainText('Couleur');
+  const editURL = new URL(await page.locator('#edit-configuration').getAttribute('href'));
+  expect(editURL.searchParams.get('structureMaterial')).toBe('walnut');
+  expect(editURL.searchParams.get('treadMaterial')).toBe('ash');
+  expect(editURL.searchParams.get('railing')).toBe('none');
+  await validContact(page);
+  await page.getByRole('button', { name: 'Préparer ma demande', exact: false }).click();
+  for (const label of ['Noyer', 'Frêne', 'Sans garde-corps']) await expect(page.locator('#quote-print')).toContainText(label);
+  const resumeURL = new URL(await page.locator('.brief-config-link').getAttribute('href'));
+  expect(resumeURL.searchParams.get('structureMaterial')).toBe('walnut');
+  expect(resumeURL.searchParams.get('railing')).toBe('none');
+  const downloadPromise = page.waitForEvent('download');
+  await page.locator('#download-brief').click();
+  const download = await downloadPromise;
+  const chunks = [];
+  for await (const chunk of await download.createReadStream()) chunks.push(chunk);
+  const dossier = Buffer.concat(chunks).toString('utf8');
+  for (const label of ['Noyer', 'Frêne', 'Sans garde-corps']) expect(dossier).toContain(label);
+  await page.locator('#edit-configuration').click();
+  await expect(page.locator('#studio-stage')).toHaveClass(/ready/);
+  await tab(page, 'material');
+  await expect(page.locator('[data-structure="walnut"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('[data-structure="steel"]').click();
+  await expect(page.locator('#metal-color-fields')).toBeVisible();
+  await expect(page.locator('#metal-finish-fields')).toBeVisible();
+  await expect(page.locator('#custom-color')).toHaveValue('#8b4020');
+  await expect(page.locator('[data-finish="polished"]')).toHaveAttribute('aria-pressed', 'true');
+  await tab(page, 'details');
+  await expect(page.locator('[data-railing="none"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('optional room ambiences change the scene while preserving the staircase and point of view', async ({ page }) => {

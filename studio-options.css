@@ -1,0 +1,59 @@
+.structure-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+.structure-options > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 76px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f0f1e7;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.structure-options > button:hover { background: #e6ebd8; }
+.structure-options > button[aria-pressed="true"] {
+  border-color: var(--copper-dark);
+  background: #e4e8d7;
+  box-shadow: inset 0 0 0 1px #9c704e22;
+}
+.structure-options .material-chip {
+  display: block;
+  width: 33px;
+  height: 42px;
+  flex: 0 0 auto;
+  border: 1px solid #6c786526;
+}
+.structure-options strong { display: block; font-size: 10px; font-weight: 600; }
+.structure-options small { display: block; font-size: 8px; line-height: 1.55; color: var(--muted); margin-top: 5px; }
+.structure-steel { background: linear-gradient(120deg, #626d65, #353f39 48%, #56605a); }
+.structure-aluminium { background: repeating-linear-gradient(90deg, #c8cfcc 0 1px, #dbe0dc 1px 2px, #bbc6c0 2px 3px); }
+.structure-stainless { background: linear-gradient(125deg, #788b8c, #e1ece8 33%, #98b0b2 50%, #d9e6e1 68%, #829c9d); }
+.structure-note { font-size: 8px; line-height: 1.8; color: var(--muted); margin-top: 11px; }
+#metal-color-label { font-size: inherit; font-weight: inherit; color: inherit; }
+.railing-options > [data-railing="none"] {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 66px;
+}
+.railing-options > [data-railing="none"] strong { margin-top: 0; }
+.rail-none { width: 65px; height: 38px; flex: 0 0 auto; border: 0; }
+.rail-none svg { width: 65px; height: 38px; fill: none; stroke: #627657; stroke-width: 1.6; }
+@media (max-width: 540px) {
+  .structure-options > button { padding: 10px 8px; gap: 8px; }
+  .structure-options .material-chip { width: 26px; height: 38px; }
+  .structure-options strong { font-size: 10px; }
+  .structure-options small { font-size: 8px; }
+  .structure-note { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .structure-options > button { transition: none; }
+}

@@ -67,7 +67,16 @@ export const METAL_FINISHES = [
   { id: "brushed", label: "Brossé", detail: "La matière sous la lumière." },
   { id: "polished", label: "Poli", detail: "Des reflets plus présents." },
 ];
+export const STRUCTURES = [
+  { id: "steel", label: "Acier", detail: "Une structure aux couleurs de votre choix.", className: "structure-steel", family: "metal" },
+  { id: "wood", label: "Chêne", detail: "Un bois naturel, clair et chaleureux.", className: "wood-oak", family: "wood" },
+  { id: "walnut", label: "Noyer", detail: "Une structure en bois aux tons profonds.", className: "wood-walnut", family: "wood" },
+  { id: "ash", label: "Frêne", detail: "Un bois blond à l’allure lumineuse.", className: "wood-ash", family: "wood" },
+  { id: "aluminium", label: "Aluminium", detail: "Un métal clair, dans sa teinte naturelle.", className: "structure-aluminium", family: "metal" },
+  { id: "stainless", label: "Inox", detail: "L’acier inoxydable et ses reflets argentés.", className: "structure-stainless", family: "metal" },
+];
 export const RAILINGS = [
+  { id: "none", label: "Sans garde-corps", short: "Sans garde-corps", detail: "Explorer la ligne de l’escalier seule." },
   {
     id: "vertical",
     label: "Barreaudage vertical",
@@ -176,7 +185,7 @@ export function normalizeConfig(value = {}) {
   const source = value && typeof value === "object" ? value : {};
   return {
     shape: option(SHAPES, source.shape, DEFAULT_CONFIG.shape),
-    structureMaterial: source.structureMaterial === "wood" ? "wood" : "steel",
+    structureMaterial: option(STRUCTURES, source.structureMaterial, DEFAULT_CONFIG.structureMaterial),
     structureColor:
       typeof source.structureColor === "string" &&
       /^#[0-9a-f]{6}$/i.test(source.structureColor)
@@ -226,21 +235,23 @@ export function describeConfiguration(config) {
   const c = normalizeConfig(config);
   const label = (list, key) => list.find((item) => item.id === key)?.label;
   const color = COLORS.find((item) => item.hex === c.structureColor);
+  const structure = STRUCTURES.find((item) => item.id === c.structureMaterial);
+  const colorDescription = color
+    ? `${color.label} (${color.hex})`
+    : `Couleur personnalisée ${c.structureColor}`;
   return [
     { label: "Forme", value: label(SHAPES, c.shape) },
     { label: "Ambiance de projection (décor indicatif)", value: label(AMBIENCES, c.ambience) },
     {
       label: "Structure",
-      value: c.structureMaterial === "wood" ? "Bois" : "Acier",
+      value: structure.label,
     },
     { label: "Marches", value: label(MATERIALS, c.treadMaterial) },
-    {
-      label: "Couleur de structure",
-      value: color
-        ? `${color.label} (${color.hex})`
-        : `Couleur personnalisée ${c.structureColor}`,
-    },
-    { label: "Aspect du métal", value: label(METAL_FINISHES, c.metalFinish) },
+    ...(c.structureMaterial === "steel" ? [{ label: "Couleur de structure", value: colorDescription }] : [
+      { label: "Finition de structure", value: structure.family === "wood" ? "Bois naturel" : `${structure.label} naturel` },
+      ...(c.railing === "none" ? [] : [{ label: "Couleur de la main courante", value: colorDescription }]),
+    ]),
+    ...(structure.family === "wood" && c.railing === "none" ? [] : [{ label: structure.family === "wood" ? "Aspect de la main courante" : "Aspect de la structure métallique", value: label(METAL_FINISHES, c.metalFinish) }]),
     { label: "Garde-corps", value: label(RAILINGS, c.railing) },
     { label: "Hauteur à franchir", value: `${c.height} cm (indicative)` },
     { label: "Largeur", value: `${c.width} cm (indicative)` },
