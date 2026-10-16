@@ -23,7 +23,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Install browser for production checks
+        run: npx playwright install --with-deps chromium
+      - name: Build and test website
+        run: npm test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
