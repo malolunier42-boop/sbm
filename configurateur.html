@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#17211e" />
+    <meta
+      name="description"
+      content="Imaginez votre escalier avec S.B.M. : quatre formes en 3D, structures bois ou métal, matières, couleurs et garde-corps. Préparez votre demande de devis sur étude."
+    />
+    <title>Votre escalier, vos choix — Configurateur S.B.M.</title>
+    <link
+      rel="canonical"
+      href="https://malolunier42-boop.github.io/sbm/configurateur.html"
+    />
+    <link rel="icon" href="%BASE_URL%favicon.svg" />
+    <link rel="stylesheet" href="/fonts.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/atelier.css" />
+  </head>
+  <body class="configurator-page">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="S.B.M. Décor Stylisé, accueil"
+        ><span class="brand-mark">sbm<span>.</span></span
+        ><span class="brand-caption">DÉCOR<br />STYLISÉ</span></a
+      >
+      <nav id="main-nav" aria-label="Navigation principale">
+        <a href="./particuliers.html">Particuliers</a
+        ><a href="./professionnels.html">Professionnels</a
+        ><a href="./matieres.html">Matières & finitions</a
+        ><a href="./#atelier">L’atelier</a
+        ><a href="./configurateur.html">Le studio 3D</a>
+      </nav>
+      <a
+        class="header-contact"
+        href="./devis.html"
+        aria-label="Préparer ma demande de devis"
+        ><span>Parlons de votre projet</span
+        ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 19 19 5M5 5h14v14" /></svg></a
+      ><button
+        class="menu-toggle icon-button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 8h18M3 16h18" />
+        </svg>
+      </button>
+    </header>
+    <main id="contenu">
+      <div class="studio-intro">
+        <div>
+          <p class="eyebrow">
+            <span class="status-dot"></span> VOTRE STUDIO DE CRÉATION
+          </p>
+          <h1>Votre espace.<br /><em>Votre signature.</em></h1>
+        </div>
+        <p>
+          Explorez les formes. Composez les matières.<br />Un escalier qui
+          commence avec vos envies.
+        </p>
+      </div>
+      <div class="studio-layout">
+        <section class="studio-controls" aria-labelledby="choices-title">
+          <div class="studio-control-heading">
+            <h2 id="choices-title">Imaginez le vôtre.</h2>
+            <span>PERSONNALISATION 3D</span>
+          </div>
+          <div
+            class="studio-tabs"
+            role="tablist"
+            aria-label="Étapes de personnalisation"
+          >
+            <button
+              id="tab-shape"
+              role="tab"
+              aria-controls="panel-shape"
+              aria-selected="true"
+              tabindex="0"
+              data-tab="shape"
+            >
+              <span>01</span> Forme</button
+            ><button
+              id="tab-material"
+              role="tab"
+              aria-controls="panel-material"
+              aria-selected="false"
+              tabindex="-1"
+              data-tab="material"
+            >
+              <span>02</span> Matières</button
+            ><button
+              id="tab-details"
+              role="tab"
+              aria-controls="panel-details"
+              aria-selected="false"
+              tabindex="-1"
+              data-tab="details"
+            >
+              <span>03</span> Détails</button
+            ><button
+              id="tab-project"
+              role="tab"
+              aria-controls="panel-project"
+              aria-selected="false"
+              tabindex="-1"
+              data-tab="project"
+            >
+              <span>04</span> Projet
+            </button>
+          </div>
+          <div class="studio-panels">
+            <div
+              role="tabpanel"
+              id="panel-shape"
+              aria-labelledby="tab-shape"
+              tabindex="0"
+            >
+              <p class="panel-kicker">01 / UNE LIGNE QUI VOUS RESSEMBLE</p>
+              <h3>Quelle silhouette ?</h3>
+              <p class="panel-description">
+                Quatre manières de faire dialoguer les niveaux.
+              </p>
+              <div
+                class="shape-options"
+                id="shape-options"
+                role="group"
+                aria-label="Forme de l’escalier"
+              ></div>
+              <div class="field-label">Le sens de la montée</div>
+              <div
+                class="segmented"
+                id="direction-options"
+                role="group"
+                aria-label="Sens de montée"
+              >
+                <button data-direction="right" aria-pressed="true">
+                  À droite</button
+                ><button data-direction="left" aria-pressed="false">
+                  À gauche
+                </button>
+              </div>
+              <button class="panel-next" data-next="material">
+                Choisir les matières <span>→</span>
+              </button>
+            </div>
+            <div
+              role="tabpanel"
+              id="panel-material"
+              aria-labelledby="tab-material"
+              tabindex="0"
+              hidden
+            >
+              <p class="panel-kicker">02 / LES MATIÈRES SE RENCONTRENT</p>
+              <h3>L’accord parfait.</h3>
+              <p class="panel-description">
+                Structure, marches et nuances : composez votre palette.
+              </p>
+              <div class="field-label">La structure</div>
+              <div
+                class="segmented"
+                id="structure-options"
+                role="group"
+                aria-label="Matière de structure"
+              >
+                <button data-structure="steel" aria-pressed="true">Acier</button
+                ><button data-structure="wood" aria-pressed="false">
+                  Bois
+                </button>
+              </div>
+              <div class="field-label">Les marches</div>
+              <div
+                class="tread-options"
+                id="tread-options"
+                role="group"
+                aria-label="Matière des marches"
+              ></div>
+              <div class="field-label">
+                La couleur du métal <span id="color-name"></span>
+              </div>
+              <div
+                class="studio-colors"
+                id="color-options"
+                role="group"
+                aria-label="Couleur de la structure métallique"
+              ></div>
+              <div class="custom-color">
+                <label for="custom-color">Votre propre couleur</label
+                ><input id="custom-color" type="color" value="#383d3a" /><span
+                  id="color-hex"
+                  >#383D3A</span
+                >
+              </div>
+              <div class="field-label">L’aspect du métal</div>
+              <div
+                class="segmented"
+                id="finish-options"
+                role="group"
+                aria-label="Aspect du métal"
+              ></div>
+              <p class="panel-small">
+                Les couleurs à l’écran sont indicatives. Les échantillons et
+                associations sont à valider avec l’atelier.
+              </p>
+              <button class="panel-next" data-next="details">
+                Dessiner les détails <span>→</span>
+              </button>
+            </div>
+            <div
+              role="tabpanel"
+              id="panel-details"
+              aria-labelledby="tab-details"
+              tabindex="0"
+              hidden
+            >
+              <p class="panel-kicker">03 / LE DÉTAIL FAIT LA DIFFÉRENCE</p>
+              <h3>Affirmez le caractère.</h3>
+              <p class="panel-description">
+                Une ligne fine, de la transparence, un ruban plein…
+              </p>
+              <div class="field-label">Le garde-corps</div>
+              <div
+                class="railing-options"
+                id="railing-options"
+                role="group"
+                aria-label="Type de garde-corps"
+              ></div>
+              <label class="toggle-option"
+                ><span
+                  ><strong>Avec contremarches</strong
+                  ><small>Une silhouette plus enveloppante.</small></span
+                ><input id="risers" type="checkbox" /><span
+                  class="switch-visual"
+                  aria-hidden="true"
+                ></span></label
+              ><label class="toggle-option"
+                ><span
+                  ><strong>Un trait de lumière</strong
+                  ><small
+                    >Explorer une intention d’éclairage LED chaud.</small
+                  ></span
+                ><input id="led" type="checkbox" /><span
+                  class="switch-visual"
+                  aria-hidden="true"
+                ></span></label
+              ><button class="panel-next" data-next="project">
+                Préciser mon espace <span>→</span>
+              </button>
+            </div>
+            <div
+              role="tabpanel"
+              id="panel-project"
+              aria-labelledby="tab-project"
+              tabindex="0"
+              hidden
+            >
+              <p class="panel-kicker">04 / VOTRE ESPACE, VOS ENVIES</p>
+              <h3>À votre mesure.</h3>
+              <p class="panel-description">
+                Des repères visuels pour préparer la discussion, sans relevé
+                technique.
+              </p>
+              <div class="dimension-field">
+                <div class="dimension-label">
+                  <label for="height">Hauteur à franchir</label
+                  ><span
+                    ><input
+                      id="height-number"
+                      type="number"
+                      min="240"
+                      max="360"
+                      step="1"
+                      aria-label="Hauteur à franchir en centimètres"
+                      value="280"
+                    />
+                    cm</span
+                  >
+                </div>
+                <input
+                  id="height"
+                  type="range"
+                  min="240"
+                  max="360"
+                  step="1"
+                  value="280"
+                />
+                <div><span>240 cm</span><span>360 cm</span></div>
+              </div>
+              <div class="dimension-field">
+                <div class="dimension-label">
+                  <label for="width">Largeur des marches</label
+                  ><span
+                    ><input
+                      id="width-number"
+                      type="number"
+                      min="70"
+                      max="130"
+                      step="1"
+                      aria-label="Largeur des marches en centimètres"
+                      value="90"
+                    />
+                    cm</span
+                  >
+                </div>
+                <input
+                  id="width"
+                  type="range"
+                  min="70"
+                  max="130"
+                  step="1"
+                  value="90"
+                />
+                <div><span>70 cm</span><span>130 cm</span></div>
+              </div>
+              <div class="dimension-field">
+                <label for="steps"
+                  >Nombre de marches <span id="steps-value">16</span></label
+                ><input
+                  id="steps"
+                  type="range"
+                  min="12"
+                  max="20"
+                  step="1"
+                  value="16"
+                />
+                <div><span>12 marches</span><span>20 marches</span></div>
+              </div>
+              <div class="field-label">Votre projet concerne</div>
+              <div
+                class="segmented"
+                id="audience-options"
+                role="group"
+                aria-label="Type de client"
+              >
+                <button data-audience="individual" aria-pressed="true">
+                  Un particulier</button
+                ><button data-audience="professional" aria-pressed="false">
+                  Un professionnel
+                </button>
+              </div>
+              <p class="panel-small">
+                Un besoin hors de ces repères ? Précisez-le dans votre demande.
+                L’atelier étudie avec vous l’encombrement, le confort et les
+                contraintes de votre lieu.
+              </p>
+            </div>
+          </div>
+          <div class="studio-controls-bottom">
+            <button id="reset-config">Repartir d’une page blanche</button
+            ><span id="config-message" role="status"></span>
+          </div>
+        </section>
+        <div class="studio-preview-column">
+          <section
+            class="studio-viewer"
+            id="studio-stage"
+            aria-label="Aperçu 3D de votre escalier"
+          >
+            <div class="studio-scene-heading">
+              <span class="scene-label"
+                >ÉTUDE N° <span id="model-index">01</span> /
+                <span id="shape-label">HÉLICOÏDAL</span></span
+              ><span class="render-status" id="render-status" role="status"
+                >PRÉPARATION DU MODÈLE</span
+              >
+            </div>
+            <div
+              class="studio-view-options"
+              role="group"
+              aria-label="Point de vue"
+            >
+              <button data-view="perspective" aria-pressed="true">
+                Perspective</button
+              ><button data-view="front" aria-pressed="false">Face</button
+              ><button data-view="top" aria-pressed="false">Dessus</button>
+            </div>
+            <div class="studio-model-wrap">
+              <img
+                class="studio-fallback"
+                src="%BASE_URL%stair-study.jpg"
+                alt="Rendu d’inspiration d’un escalier en métal et bois"
+                width="650"
+                height="800"
+              /><canvas
+                id="studio-canvas"
+                tabindex="0"
+                aria-label="Escalier personnalisé en 3D. Flèches gauche et droite pour tourner, plus et moins pour zoomer, touche Début pour réinitialiser."
+              ></canvas>
+            </div>
+            <div class="studio-render-caption">
+              <span id="material-label">CHÊNE NATUREL · ACIER GRAPHITE</span
+              ><span>MODÈLE D’INSPIRATION</span>
+            </div>
+            <div class="studio-toolbar">
+              <button id="studio-left" aria-label="Pivoter vers la gauche">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 12H4m6-6-6 6 6 6" />
+                </svg></button
+              ><button id="studio-right" aria-label="Pivoter vers la droite">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12h16m-6-6 6 6-6 6" />
+                </svg></button
+              ><span></span
+              ><button id="studio-in" aria-label="Rapprocher la vue">+</button
+              ><button id="studio-out" aria-label="Éloigner la vue">-</button
+              ><button id="studio-reset" aria-label="Recentrer la vue">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" />
+                </svg></button
+              ><button id="studio-fullscreen" aria-label="Agrandir la vue 3D">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 4H4v5m11-5h5v5M4 15v5h5m6 0h5v-5" />
+                </svg></button
+              ><button id="studio-close" aria-label="Fermer la vue immersive">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 6 12 12M6 18 18 6" />
+                </svg>
+              </button>
+            </div>
+            <div class="studio-motion">
+              <span id="studio-hint">Glissez pour explorer</span
+              ><button id="studio-rotate" aria-pressed="false">
+                Rotation automatique
+                <span class="toggle-track"><span></span></span>
+              </button>
+            </div>
+          </section>
+          <div class="studio-summary">
+            <div>
+              <p class="eyebrow">VOTRE ESQUISSE PREND FORME</p>
+              <h2 id="summary-title">Hélicoïdal. Chêne naturel.</h2>
+              <p id="summary-detail">Structure acier · Barreaudage vertical</p>
+            </div>
+            <div class="studio-summary-actions">
+              <button id="share-config" class="button button-quiet">
+                Copier mon lien</button
+              ><a id="quote-link" class="button button-dark" href="./devis.html"
+                >Demander mon devis
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 19 19 5M5 5h14v14" /></svg
+              ></a>
+            </div>
+          </div>
+          <p class="studio-footnote">
+            Cette composition est une intention visuelle. Votre escalier, ses
+            dimensions, ses matériaux et son installation seront étudiés avec
+            S.B.M. Le prix est établi sur devis.
+          </p>
+          <noscript
+            ><p class="studio-footnote">
+              Activez JavaScript pour personnaliser l’escalier. Pour votre
+              projet, appelez le <a href="tel:+33477501565">04 77 50 15 65</a>.
+            </p></noscript
+          >
+        </div>
+      </div>
+      <section class="studio-bottom-info">
+        <div>
+          <span>01 /</span>
+          <h2>Explorez librement.</h2>
+          <p>
+            Revenez sur chaque choix. Mélangez les intentions, changez les
+            matières, comparez les couleurs.
+          </p>
+        </div>
+        <div>
+          <span>02 /</span>
+          <h2>Gardez votre idée.</h2>
+          <p>
+            Le lien conserve les choix de votre escalier. Partagez-le, ou
+            retrouvez votre projet plus tard.
+          </p>
+        </div>
+        <div>
+          <span>03 /</span>
+          <h2>Rencontrons-nous.</h2>
+          <p>
+            Transformez votre composition en un dossier de demande, puis
+            échangez avec l’atelier pour son étude.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="inner-footer">
+      <a class="brand" href="./"
+        ><span class="brand-mark">sbm<span>.</span></span
+        ><span class="brand-caption">DÉCOR<br />STYLISÉ</span></a
+      ><span>Un escalier, votre signature.</span>
+      <nav aria-label="Informations">
+        <a href="./mentions-legales.html">Mentions légales</a
+        ><a href="./confidentialite.html">Confidentialité</a
+        ><a href="tel:+33477501565">04 77 50 15 65</a>
+      </nav>
+    </footer>
+    <dialog
+      id="studio-dialog"
+      class="studio-dialog"
+      aria-label="Vue immersive de votre escalier"
+    ></dialog>
+    <script type="module" src="/page.js"></script>
+    <script type="module" src="/configurator.js"></script>
+  </body>
+</html>

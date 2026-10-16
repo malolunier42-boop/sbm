@@ -38,6 +38,7 @@
     />
     <link rel="stylesheet" href="/fonts.css" />
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/atelier.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -136,13 +137,16 @@
         ><span class="brand-caption">DÉCOR<br />STYLISÉ</span></a
       >
       <nav id="main-nav" aria-label="Navigation principale">
-        <a href="#atelier">L’atelier</a><a href="#savoir-faire">Savoir-faire</a
-        ><a href="#inspirations">Inspirations</a><a href="#contact">Contact</a>
+        <a href="./particuliers.html">Particuliers</a
+        ><a href="./professionnels.html">Professionnels</a
+        ><a href="./matieres.html">Matières & finitions</a
+        ><a href="#atelier">L’atelier</a
+        ><a href="./configurateur.html">Le studio 3D</a>
       </nav>
       <a
         class="header-contact"
-        href="tel:+33477501565"
-        aria-label="Appeler S.B.M. au 04 77 50 15 65"
+        href="./configurateur.html"
+        aria-label="Créer mon escalier en 3D"
         ><span>Parlons de votre projet</span
         ><svg class="icon"><use href="#i-arrow" /></svg></a
       ><button
@@ -169,8 +173,8 @@
             lumière.<br />Un univers qui prend vie.
           </p>
           <div class="hero-actions">
-            <a class="button button-copper" href="#contact"
-              >Imaginer mon projet
+            <a class="button button-copper" href="./configurateur.html"
+              >Créer mon escalier
               <svg class="icon"><use href="#i-arrow" /></svg></a
             ><a class="text-action" href="#experience"
               >Entrer dans l’expérience
@@ -320,6 +324,21 @@
               </button>
             </div>
           </div>
+          <div
+            class="hero-shapes"
+            role="group"
+            aria-label="Découvrir les formes d’escalier"
+          >
+            <button data-preview-shape="spiral" aria-pressed="true">
+              Hélicoïdal</button
+            ><button data-preview-shape="straight" aria-pressed="false">
+              Droit</button
+            ><button data-preview-shape="quarter" aria-pressed="false">
+              Quart tournant</button
+            ><button data-preview-shape="half" aria-pressed="false">
+              Demi-tournant
+            </button>
+          </div>
           <p class="model-note" id="model-description">
             Création 3D d’inspiration. Ce modèle n’est ni une réalisation
             S.B.M., ni une étude technique ou une offre commerciale.
@@ -348,6 +367,116 @@
         ><span>LIGNES</span><svg class="icon"><use href="#i-spark" /></svg
         ><span>CARACTÈRE</span><svg class="icon"><use href="#i-spark" /></svg>
       </div>
+      <section class="collection-home" aria-labelledby="collection-title">
+        <div class="section-top">
+          <div>
+            <p class="eyebrow">LA LIBERTÉ COMMENCE PAR UN CHOIX</p>
+            <h2 id="collection-title">
+              Quatre lignes.<br /><em>Votre point de départ.</em>
+            </h2>
+          </div>
+          <p class="section-intro">
+            Une maison, un lieu de travail, une idée à part.<br />Chaque espace
+            mérite son propre dessin.
+          </p>
+        </div>
+        <div class="collection-grid">
+          <a class="collection-card" href="./configurateur.html?shape=straight"
+            ><figure>
+              <img
+                src="%BASE_URL%models/straight.jpg"
+                alt="Étude 3D d’un escalier le droit"
+                width="650"
+                height="800"
+                loading="lazy"
+              /><span>01 / MODÈLE D’INSPIRATION</span>
+            </figure>
+            <div>
+              <h3>Le droit</h3>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg></div></a
+          ><a class="collection-card" href="./configurateur.html?shape=quarter"
+            ><figure>
+              <img
+                src="%BASE_URL%models/quarter.jpg"
+                alt="Étude 3D d’un escalier le quart tournant"
+                width="650"
+                height="800"
+                loading="lazy"
+              /><span>02 / MODÈLE D’INSPIRATION</span>
+            </figure>
+            <div>
+              <h3>Le quart tournant</h3>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg></div></a
+          ><a class="collection-card" href="./configurateur.html?shape=half"
+            ><figure>
+              <img
+                src="%BASE_URL%models/half.jpg"
+                alt="Étude 3D d’un escalier le demi-tournant"
+                width="650"
+                height="800"
+                loading="lazy"
+              /><span>03 / MODÈLE D’INSPIRATION</span>
+            </figure>
+            <div>
+              <h3>Le demi-tournant</h3>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg></div></a
+          ><a class="collection-card" href="./configurateur.html?shape=spiral"
+            ><figure>
+              <img
+                src="%BASE_URL%models/spiral.jpg"
+                alt="Étude 3D d’un escalier l’hélicoïdal"
+                width="650"
+                height="800"
+                loading="lazy"
+              /><span>04 / MODÈLE D’INSPIRATION</span>
+            </figure>
+            <div>
+              <h3>L’hélicoïdal</h3>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg></div
+          ></a>
+        </div>
+        <p class="collection-caption">
+          Des modèles de création pour composer votre projet. Chaque ouvrage
+          fera l’objet d’une étude par l’atelier.
+        </p>
+      </section>
+      <section class="audience-home" aria-label="Un escalier pour votre projet">
+        <div class="audience-home-grid">
+          <article class="audience-home-card">
+            <p class="eyebrow">01 / POUR LES PARTICULIERS</p>
+            <h2>Votre maison.<br /><em>Votre manière de vivre.</em></h2>
+            <p>
+              Un nouvel intérieur, une rénovation ou une envie de changement.
+              Imaginez l’escalier qui relie vos espaces et reflète votre style.
+            </p>
+            <a href="./particuliers.html"
+              >Découvrir votre univers
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
+          </article>
+          <article class="audience-home-card">
+            <p class="eyebrow">02 / POUR LES PROFESSIONNELS</p>
+            <h2>Des lieux de travail.<br /><em>Du caractère.</em></h2>
+            <p>
+              Entreprises, commerces, architectes : préparez une intention
+              claire, les usages et les contraintes de votre projet avec
+              l’atelier.
+            </p>
+            <a href="./professionnels.html"
+              >Construire votre projet
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
+          </article>
+        </div>
+      </section>
       <section class="section atelier" id="atelier">
         <div class="section-side">
           <span class="section-number">01 /</span>
@@ -540,6 +669,19 @@
           </article>
         </div>
       </section>
+      <aside class="studio-invite">
+        <div>
+          <strong>Votre escalier ne ressemble qu’à vous.</strong
+          ><span
+            >Formes, bois, métal, couleurs, garde-corps. Faites dialoguer vos
+            idées en 3D.</span
+          >
+        </div>
+        <a class="button button-dark" href="./configurateur.html"
+          >Entrer dans le studio
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+        ></a>
+      </aside>
       <section class="material-section" id="matieres">
         <div class="material-orb" aria-hidden="true">
           <div class="orb-inner"></div>

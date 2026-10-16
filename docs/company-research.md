@@ -75,3 +75,8 @@ Coordonnées GitHub, Inc. et contacts recoupés dans les sources officielles :
 Adresse de l’hébergeur reprise dans les mentions légales : 88 Colin P. Kelly Jr. St., San Francisco, CA 94107, United States. Support : https://support.github.com/. Confidentialité : https://support.github.com/contact/privacy.
 
 Manrope et DM Sans : licences OFL 1.1 jointes dans `public/fonts/`. Three.js : MIT, notice jointe à la page légale et dans le paquet installé. Polices et ressources 3D servies localement ; aucune requête à un service de polices, de statistiques ou de publicité.
+
+
+## Extension du studio et du parcours de devis
+
+Le responsable du projet indique fabriquer des escaliers pour les particuliers et les entreprises. Il confirme un devis sur étude et l’absence de grille tarifaire à publier. Le studio élargit les intentions visuelles (formes, matières, couleurs et détails) sans promesse de disponibilité de chaque combinaison. Aucun prix ou délai n’a été calculé arbitrairement. L’e-mail professionnel sera communiqué ultérieurement. Le formulaire assemble un dossier local TXT/PDF à transmettre selon les indications de l’atelier ; il ne prétend pas envoyer une demande. La confidentialité a été adaptée aux liens de configuration partageables et aux exports.

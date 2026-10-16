@@ -115,7 +115,7 @@ test.describe('mobile', () => {
 
   test('navigation closes after choosing an anchor and leaves touch scrolling available', async ({ page }) => {
     await openViewer(page);
-    await expect(page.getByRole('link', { name: 'Appeler S.B.M. au 04 77 50 15 65', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Créer mon escalier en 3D', exact: true })).toBeVisible();
     const menu = page.locator('.menu-toggle');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');

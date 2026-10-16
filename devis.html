@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17211e" />
+    <meta
+      name="description"
+      content="Préparez votre projet d’escalier sur mesure avec S.B.M. Décor Stylisé à Luriecq. Particuliers et professionnels : configuration, variantes de matières et dossier de demande de devis."
+    />
+    <link
+      rel="canonical"
+      href="https://malolunier42-boop.github.io/sbm/devis.html"
+    />
+    <link rel="icon" href="%BASE_URL%favicon.svg" />
+    <link rel="stylesheet" href="/fonts.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/atelier.css" />
+    <title>Votre projet, votre devis — S.B.M. Décor Stylisé</title>
+  </head>
+  <body class="quote-page">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <symbol id="i-arrow" viewBox="0 0 24 24">
+          <path d="M5 19 19 5M5 5h14v14" />
+        </symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24">
+          <path d="M3 8h18M3 16h18" />
+        </symbol>
+        <symbol id="i-close" viewBox="0 0 24 24">
+          <path d="m6 6 12 12M6 18 18 6" />
+        </symbol>
+      </defs>
+    </svg>
+    <header class="site-header">
+      <a
+        class="brand"
+        href="./index.html"
+        aria-label="S.B.M. Décor Stylisé, accueil"
+        ><span class="brand-mark">sbm<span>.</span></span
+        ><span class="brand-caption">DÉCOR<br />STYLISÉ</span></a
+      >
+      <nav id="main-nav" aria-label="Navigation principale">
+        <a href="./particuliers.html">Particuliers</a
+        ><a href="./professionnels.html">Professionnels</a
+        ><a href="./matieres.html">Matières & finitions</a
+        ><a href="./#atelier">L’atelier</a
+        ><a href="./configurateur.html">Le studio 3D</a>
+      </nav>
+      <a
+        class="header-contact"
+        href="tel:+33477501565"
+        aria-label="Appeler S.B.M. au 04 77 50 15 65"
+        ><span>04 77 50 15 65</span
+        ><svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+      ></a>
+      <button
+        class="menu-toggle icon-button"
+        aria-expanded="false"
+        aria-controls="main-nav"
+        aria-label="Ouvrir le menu"
+      >
+        <svg class="icon" aria-hidden="true"><use href="#i-menu" /></svg>
+      </button>
+    </header>
+    <main id="contenu">
+      <section class="page-hero quote-hero">
+        <div>
+          <p class="eyebrow">VOTRE PROJET · NOTRE PROCHAIN ÉCHANGE</p>
+          <h1 class="page-title">
+            Une idée précise.<br /><em>Un projet à vous.</em>
+          </h1>
+          <p class="page-intro">
+            Un escalier de maison, un lieu de travail, un projet d’architecte.
+            Rassemblez vos envies et les contraintes de votre espace : nous
+            avons une belle base pour en parler.
+          </p>
+        </div>
+        <div class="quote-hero-note">
+          <span class="small-label">CHIFFRAGE PAR L’ATELIER</span>
+          <p>
+            Chaque lieu a ses dimensions.<br />Chaque matière, ses
+            possibilités.<br /><strong
+              >Votre prix se construit sur étude.</strong
+            >
+          </p>
+        </div>
+      </section>
+      <section
+        class="quote-layout"
+        aria-label="Préparer votre demande de devis"
+      >
+        <aside class="quote-sidebar">
+          <div class="quote-config-card">
+            <span class="small-label">01 / VOTRE POINT DE DÉPART</span>
+            <h2>Votre escalier,<br /><em>en quelques lignes.</em></h2>
+            <dl id="configuration-summary" class="configuration-summary"></dl>
+            <a
+              id="edit-configuration"
+              class="button button-dark"
+              href="./configurateur.html"
+              >Modifier dans le studio 3D <span aria-hidden="true">↗</span></a
+            >
+            <button id="copy-config" class="text-link" type="button" disabled>
+              Copier le lien de cette configuration
+            </button>
+            <p id="config-copy-status" class="form-status" role="status"></p>
+            <p class="quote-note">
+              Configuration d’inspiration, non contractuelle. Dimensions,
+              faisabilité, sécurité et choix définitifs seront validés avec
+              l’atelier. Aucune commande n’est passée ici.
+            </p>
+          </div>
+          <div class="quote-help-card">
+            <span class="small-label">UN ÉCHANGE DIRECT</span>
+            <h3>Les beaux projets<br />commencent par une conversation.</h3>
+            <a class="quote-phone" href="tel:+33477501565">04 77 50 15 65</a>
+            <address>
+              ZI La Gravoux<br />Boulevard de l’Europe<br />42380 Luriecq
+            </address>
+            <p>
+              Appelez l’atelier pour organiser la transmission de votre dossier
+              et étudier votre projet.
+            </p>
+          </div>
+        </aside>
+        <div class="quote-main">
+          <form
+            id="quote-form"
+            class="quote-form"
+            aria-labelledby="quote-form-title"
+          >
+            <fieldset id="quote-fields" disabled>
+              <legend class="sr-only">Votre demande de devis</legend>
+              <div class="form-heading">
+                <span class="small-label">02 / DONNEZ VIE À VOTRE IDÉE</span>
+                <h2 id="quote-form-title">
+                  Parlez-nous<br /><em>de votre projet.</em>
+                </h2>
+                <p>
+                  Les champs marqués d’un astérisque sont nécessaires pour
+                  préparer votre dossier.
+                </p>
+              </div>
+              <fieldset class="audience-fieldset">
+                <legend>Vous êtes *</legend>
+                <div class="audience-options">
+                  <label class="audience-option"
+                    ><input
+                      type="radio"
+                      name="audience"
+                      value="individual"
+                      checked
+                      required
+                    /><span
+                      ><strong>Un particulier</strong
+                      ><small>Un lieu de vie, à votre image.</small></span
+                    ></label
+                  >
+                  <label class="audience-option"
+                    ><input
+                      type="radio"
+                      name="audience"
+                      value="professional"
+                      required
+                    /><span
+                      ><strong>Un professionnel</strong
+                      ><small
+                        >Entreprise, architecte, maîtrise d’œuvre.</small
+                      ></span
+                    ></label
+                  >
+                </div>
+              </fieldset>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="fullname">Nom et prénom *</label
+                  ><input
+                    id="fullname"
+                    name="fullname"
+                    autocomplete="name"
+                    maxlength="120"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="phone">Téléphone *</label
+                  ><input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    maxlength="40"
+                    required
+                    aria-describedby="phone-help"
+                  /><small id="phone-help"
+                    >Numéro français ou international, avec indicatif si
+                    nécessaire.</small
+                  >
+                </div>
+                <div class="field">
+                  <label for="email"
+                    >Votre e-mail <span>(facultatif)</span></label
+                  ><input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                  />
+                </div>
+                <div class="field" id="company-field" hidden>
+                  <label for="company">Entreprise ou agence *</label
+                  ><input
+                    id="company"
+                    name="company"
+                    autocomplete="organization"
+                    maxlength="160"
+                  />
+                </div>
+                <div class="field">
+                  <label for="city"
+                    >Lieu du projet <span>(facultatif)</span></label
+                  ><input
+                    id="city"
+                    name="city"
+                    autocomplete="address-level2"
+                    placeholder="Commune et code postal"
+                    maxlength="180"
+                  />
+                </div>
+                <div class="field">
+                  <label for="project-type">Votre contexte *</label
+                  ><select id="project-type" name="project-type" required>
+                    <option value="" selected disabled>
+                      Choisir votre projet
+                    </option>
+                    <option value="renovation">
+                      Rénovation / remplacement
+                    </option>
+                    <option value="newbuild">Construction neuve</option>
+                    <option value="other">Autre / à définir ensemble</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="timeline">À quel horizon ? *</label
+                  ><select id="timeline" name="timeline" required>
+                    <option value="" selected disabled>
+                      Choisir un horizon
+                    </option>
+                    <option value="exploring">Je commence à réfléchir</option>
+                    <option value="under3">Idéalement sous 3 mois</option>
+                    <option value="3to6">Dans 3 à 6 mois</option>
+                    <option value="over6">Dans plus de 6 mois</option>
+                    <option value="discuss">
+                      À définir avec l’atelier
+                    </option></select
+                  ><small
+                    >Un souhait de calendrier, à confirmer selon l’étude et les
+                    disponibilités.</small
+                  >
+                </div>
+                <div class="field">
+                  <label for="budget"
+                    >Budget envisagé, en € <span>(facultatif)</span></label
+                  ><input
+                    id="budget"
+                    name="budget"
+                    type="number"
+                    min="0"
+                    max="100000000"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="Votre enveloppe personnelle"
+                  /><small
+                    >Une indication de votre part, sans estimation
+                    automatique.</small
+                  >
+                </div>
+              </div>
+              <fieldset class="material-comparison">
+                <legend>Envie de comparer les matières ?</legend>
+                <p>
+                  Choisissez les variantes de marches que vous aimeriez faire
+                  chiffrer. L’atelier précisera leur faisabilité et leurs
+                  différences de prix.
+                </p>
+                <div class="material-checks">
+                  <label
+                    ><input
+                      type="checkbox"
+                      name="compare-material"
+                      value="oak"
+                    />
+                    Chêne</label
+                  ><label
+                    ><input
+                      type="checkbox"
+                      name="compare-material"
+                      value="walnut"
+                    />
+                    Noyer</label
+                  ><label
+                    ><input
+                      type="checkbox"
+                      name="compare-material"
+                      value="ash"
+                    />
+                    Frêne</label
+                  ><label
+                    ><input
+                      type="checkbox"
+                      name="compare-material"
+                      value="steel"
+                    />
+                    Acier</label
+                  ><label
+                    ><input
+                      type="checkbox"
+                      name="compare-material"
+                      value="stone"
+                    />
+                    Pierre</label
+                  >
+                </div>
+              </fieldset>
+              <div class="field">
+                <label for="message"
+                  >Ce qui compte pour vous <span>(facultatif)</span></label
+                ><textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  maxlength="4000"
+                  placeholder="Lumière, circulation, ambiance, trémie, contraintes d’accès, garde-corps, usage professionnel… Racontez-nous votre idée."
+                ></textarea>
+              </div>
+              <div class="quote-note privacy-note">
+                <strong>Vos informations restent dans cette page.</strong> Ce
+                formulaire prépare un dossier sur votre appareil ; il ne
+                l’envoie pas à S.B.M. Téléchargez-le ou imprimez-le, puis
+                appelez l’atelier pour convenir de sa transmission. Le site
+                n’enregistre pas vos coordonnées. Votre navigateur peut proposer
+                l’autoremplissage.
+                <a href="./confidentialite.html"
+                  >Comprendre la confidentialité</a
+                >.
+              </div>
+              <button class="button button-dark" type="submit">
+                Préparer ma demande <span aria-hidden="true">↗</span>
+              </button>
+            </fieldset>
+          </form>
+          <p id="quote-load-status" class="quote-note" role="status">
+            Chargement du formulaire… Si celui-ci reste indisponible, vous
+            pouvez joindre l’atelier au
+            <a href="tel:+33477501565">04 77 50 15 65</a>.
+          </p>
+          <noscript
+            ><p class="quote-note">
+              JavaScript est nécessaire pour préparer le dossier localement.
+              Appelez S.B.M. au
+              <a href="tel:+33477501565">04 77 50 15 65</a> pour parler
+              directement de votre projet.
+            </p></noscript
+          >
+          <section
+            id="quote-result"
+            class="quote-result"
+            aria-labelledby="quote-result-title"
+            hidden
+          >
+            <div class="quote-result-heading">
+              <span class="small-label">03 / VOTRE PROJET PREND FORME</span>
+              <h2 id="quote-result-title" tabindex="-1">
+                Votre dossier est prêt.<br /><em>À vous la suite.</em>
+              </h2>
+              <p id="quote-status" role="status">
+                Dossier préparé sur votre appareil. Il n’a pas été envoyé à
+                S.B.M.
+              </p>
+            </div>
+            <div class="quote-actions">
+              <button
+                id="download-brief"
+                class="button button-dark"
+                type="button"
+              >
+                Télécharger mon dossier .txt</button
+              ><button
+                id="print-brief"
+                class="button button-light"
+                type="button"
+              >
+                Imprimer / enregistrer en PDF</button
+              ><button id="copy-brief" class="text-link" type="button">
+                Copier le résumé
+              </button>
+            </div>
+            <p id="brief-action-status" class="form-status" role="status"></p>
+            <p class="quote-note">
+              Pour obtenir un devis, appelez le
+              <a href="tel:+33477501565">04 77 50 15 65</a> afin d’organiser
+              l’étude et la transmission de ce dossier. Dans la fenêtre
+              d’impression, choisissez « Enregistrer au format PDF » si votre
+              navigateur le propose.
+            </p>
+            <article
+              id="quote-print"
+              class="quote-document"
+              aria-label="Dossier de projet à conserver"
+            ></article>
+          </section>
+        </div>
+      </section>
+      <section
+        class="quote-steps section-shell"
+        aria-label="Les étapes vers votre devis"
+      >
+        <div>
+          <span class="small-label">01 / IMAGINER</span>
+          <h3>Vous composez.</h3>
+          <p>
+            Forme, matières, teintes et dimensions donnent une direction à votre
+            projet.
+          </p>
+        </div>
+        <div>
+          <span class="small-label">02 / ÉCHANGER</span>
+          <h3>Nous en parlons.</h3>
+          <p>
+            Contactez l’atelier avec votre dossier pour préciser le lieu,
+            l’usage et vos contraintes.
+          </p>
+        </div>
+        <div>
+          <span class="small-label">03 / ÉTUDIER</span>
+          <h3>L’atelier chiffre.</h3>
+          <p>
+            La faisabilité, les variantes et le prix font l’objet d’une étude
+            personnalisée.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-top">
+        <a
+          class="brand"
+          href="./index.html"
+          aria-label="S.B.M. Décor Stylisé, accueil"
+          ><span class="brand-mark">sbm<span>.</span></span
+          ><span class="brand-caption">DÉCOR<br />STYLISÉ</span></a
+        >
+        <p>Votre espace. <em>Votre signature.</em></p>
+        <a href="tel:+33477501565">04 77 50 15 65 ↗</a>
+      </div>
+      <div class="footer-bottom">
+        <span
+          >© <span id="year">2026</span> S.B.M. Décor Stylisé · SIRET 334 201
+          639 00039</span
+        >
+        <div>
+          <a href="./mentions-legales.html">Mentions légales</a
+          ><a href="./confidentialite.html">Confidentialité</a
+          ><a href="./mentions-legales.html#sources">Sources & crédits</a>
+        </div>
+        <span>LE SUR-MESURE COMMENCE ICI.</span>
+      </div>
+    </footer>
+    <script type="module" src="/page.js"></script>
+    <script type="module" src="/quote.js"></script>
+  </body>
+</html>

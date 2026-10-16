@@ -1,3 +1,4 @@
+import { SHAPES } from "./catalog.js";
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [
   ...scope.querySelectorAll(selector),
@@ -20,7 +21,7 @@ $$("a", nav).forEach((link) => link.addEventListener("click", closeMenu));
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeMenu();
 });
-matchMedia("(min-width: 621px)").addEventListener("change", (event) => {
+matchMedia("(min-width: 981px)").addEventListener("change", (event) => {
   if (event.matches) closeMenu();
 });
 $("#year").textContent = new Date().getFullYear();
@@ -162,6 +163,7 @@ projectDialog.addEventListener("click", (event) => {
 
 let viewer;
 let requestedFinish = "graphite";
+let requestedShape = "spiral";
 const stage = $("#model-stage");
 const canvas = $("#stair-canvas");
 const rotationButton = $("#auto-rotate");
@@ -205,6 +207,7 @@ async function startViewer() {
           button.disabled = false;
         });
         $(".view-presets").hidden = false;
+        viewer.setConfiguration({ shape: requestedShape });
         viewer.setFinish(requestedFinish);
         if (motion.matches) {
           rotationButton.disabled = true;
@@ -229,6 +232,19 @@ $$(".swatch").forEach((button) =>
       other.classList.toggle("selected", selected);
       other.setAttribute("aria-pressed", String(selected));
     });
+  }),
+);
+$$("[data-preview-shape]").forEach((button) =>
+  button.addEventListener("click", () => {
+    requestedShape = button.dataset.previewShape;
+    viewer?.setConfiguration({ shape: requestedShape });
+    viewer?.setFinish(requestedFinish);
+    $$("[data-preview-shape]").forEach((other) =>
+      other.setAttribute("aria-pressed", String(other === button)),
+    );
+    $(".scene-caption .label").textContent = SHAPES.find(
+      (shape) => shape.id === requestedShape,
+    ).label.toUpperCase();
   }),
 );
 $("#rotate-left").addEventListener("click", () => viewer?.rotate(-Math.PI / 7));

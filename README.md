@@ -1,46 +1,59 @@
-# S.B.M. Décor Stylisé
+# S.B.M. Décor Stylisé — l’atelier et le studio 3D
 
-Site vitrine français pour SBM à Luriecq : direction artistique forêt/cuivre/ivoire, modèle original d’escalier 3D interactif, trois finitions, vues prédéfinies, exploration immersive, galerie filtrable, FAQ, contact et pages légales.
+Site français multipage pour SBM à Luriecq, destiné aux particuliers et aux professionnels. Le configurateur compose un escalier original en 3D puis transmet ses choix à un dossier de demande de devis.
 
-## Lancer le site
+## Développement
 
-Prérequis : Node.js 20.19+ ou 22.12+.
+Node.js 20.19+ ou 22.12+.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Le chemin de base est `/sbm/`, comme sur GitHub Pages. Le serveur Vite affiche son adresse dans le terminal.
-
-## Build et tests
+Le site utilise `/sbm/`, le même préfixe que GitHub Pages. Les ressources, les polices et le moteur 3D sont servis localement ; aucune clé API ou connexion MCP n’est nécessaire pour visiter ou lancer le site.
 
 ```sh
 npm run build
 npm test
 ```
 
-Les tests Playwright démarrent un serveur de production sur le port 4175. Dans l’environnement cloud, Chromium système est détecté. Sur une autre machine, installer le navigateur de test avec `npx playwright install chromium`, ou définir `PLAYWRIGHT_CHROMIUM_EXECUTABLE` vers un Chromium existant.
+Les tests Playwright compilent le site puis démarrent un serveur de production sur le port 4175. Chromium système est détecté dans le cloud. Ailleurs : `npx playwright install chromium`, ou définir `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
 
-Les vérifications portent sur le rendu 3D réel et ses changements de matière, le clavier, les interactions mobiles, les filtres, les fenêtres modales, les pages légales, les mouvements réduits et le remplacement visuel sans WebGL. Les tests ne nécessitent aucun service externe.
+## Pages
 
-## Publication
+- `index.html` : atelier, collection des quatre modèles et accès aux univers.
+- `particuliers.html` : rénovation, construction et projets de maison.
+- `professionnels.html` : entreprises, commerces, architectes et usages du lieu.
+- `matieres.html` : palettes, matières et liens avec présélection dans le studio.
+- `configurateur.html` : création d’une intention personnalisée.
+- `devis.html` : dossier préparatoire et variantes à faire chiffrer.
+- `mentions-legales.html` et `confidentialite.html` : identité, sources et fonctionnement réel du site.
 
-Le workflow `.github/workflows/pages.yml` construit et publie `dist` à chaque envoi sur `main`. Dans GitHub, choisir **Settings → Pages → Source → GitHub Actions**. Le site cible est `https://malolunier42-boop.github.io/sbm/`.
+## Configurateur
 
-Trois pages sont exportées : accueil, `mentions-legales.html`, `confidentialite.html`. Les assets utilisent le préfixe `/sbm/`. Aucun serveur Node, compte, clé API, MCP ou formulaire externe n’est nécessaire en production.
+Quatre formes (droit, quart tournant, demi-tournant, hélicoïdal), structures acier ou bois, marches chêne/noyer/frêne/acier/pierre, huit couleurs proposées et teinte libre, trois aspects métalliques, quatre garde-corps, contremarches, LED, sens et dimensions indicatives. Les choix sont validés par une liste autorisée dans `catalog.js`, repris dans l’URL sans données personnelles, partageables et conservés entre le studio et le dossier.
 
-## Données et contenus
+Géométries, grain bois et textures minérales sont générés localement. Les rendus `public/models/` proviennent de notre propre moteur ; ils ne représentent pas des chantiers S.B.M. Le modèle est une intention artistique, pas un plan technique ou une preuve de conformité. Les échantillons, dimensions, usages, matériaux et conditions définitifs demandent une étude de l’atelier.
 
-- **Annuaire des entreprises / API officielle Recherche d’entreprises**, consultée le 16 octobre 2026 : SBM (SAS), SIREN 334201639, SIRET siège 33420163900039, siège ZI La Gravoux, boulevard de l’Europe, 42380 Luriecq, création société 26 novembre 1985, TVA FR28334201639.
-- **Fiche Google transmise par l’utilisateur** : nom commercial, présentation de l’activité, téléphone 04 77 50 15 65, horaires. Le siège officiel précise l’adresse de secteur initialement donnée.
-- **Utilisateur** : Malo Lunier, responsable de publication. Cette fonction n’est pas assimilée à la présidence de la société.
-- Sources et crédits détaillés dans les mentions légales. Le RCS Saint-Étienne 334 201 639 est confirmé par le BODACC du 15 octobre 2026. Le dernier capital retrouvé dans les 24 avis consultés est 400 000 €, publié le 9 mars 2012 et présenté comme historique ; son actualité reste à confirmer. L’utilisateur fournira le courriel professionnel ultérieurement.
+Le rendu se suspend hors écran ou onglet masqué. La rotation automatique est facultative ; les mouvements réduits sont respectés. Souris, clavier et boutons sont proposés ; la manipulation tactile est activée en vue immersive pour préserver le défilement de la page. Une illustration remplace WebGL en cas d’indisponibilité, et le choix des options et le dossier restent utilisables.
 
-Le modèle 3D et les visuels sont des études artistiques originales, explicitement identifiées comme inspirations. Ils ne présentent pas de réalisations de l’entreprise et ne sont ni des plans techniques ni des devis. Le site historique n’a pas pu être chargé pour récupérer des photos réelles.
+## Demande de devis
 
-## Conception technique
+L’utilisateur a confirmé un **devis sur étude**, sans grille de tarifs. Aucun prix n’est inventé. La demande reprend la configuration et permet de demander plusieurs variantes de matériaux.
 
-HTML/CSS/JavaScript avec Vite et Three.js chargé dans un module séparé. Le modèle est produit localement avec géométries et texture bois procédurales : aucune image, fonte ou bibliothèque distante n’est chargée à la visite. Le rendu s’arrête hors écran, onglet masqué et lorsque la scène est immobile ; la rotation automatique est facultative et respecte la préférence de mouvement réduit. Le défilement tactile reste libre ; les gestes de manipulation sont activés en vue immersive. Les commandes clavier et boutons offrent une alternative au glissement.
+L’adresse e-mail professionnelle n’a pas encore été fournie. Le formulaire prépare donc un **dossier local**, sans envoi automatique : coordonnées, contexte, calendrier souhaité, budget éventuel et commentaires. Il peut être téléchargé en TXT, copié ou imprimé/enregistré en PDF depuis le navigateur. Le visiteur appelle ensuite le 04 77 50 15 65 pour convenir de sa transmission. Ne pas afficher un faux statut « envoyé » ou « demande reçue ».
 
-Aucun cookie applicatif, stockage local, mesure d’audience ou formulaire de collecte. Google Maps s’ouvre uniquement sur demande. Polices Manrope et DM Sans sous OFL 1.1, Three.js sous MIT ; notices dans les pages légales et `public/fonts/`.
+Les coordonnées ne sont placées ni dans les liens de configuration, ni dans un stockage local ou une base de données. Les exports sont désactivés si le formulaire est modifié après génération, jusqu’à sa nouvelle préparation. La confidentialité décrit l’historique des URLs de configuration, les fichiers exportés et l’autoremplissage éventuel du navigateur. Aucun suivi publicitaire ni mesure d’audience.
+
+## Validation et publication
+
+Les tests vérifient le rendu réel (formes/matières/options), les commandes clavier, les liens et états partagés, le dossier complet et son contenu téléchargé, la validation client pro/particulier, les URL invalides, le repli sans WebGL, les mouvements réduits et le mobile. Aucun service externe n’est nécessaire pour les exécuter.
+
+`.github/workflows/pages.yml` installe les dépendances et Chromium, exécute les tests puis publie `dist` à chaque envoi sur `main`. Dans GitHub : **Settings → Pages → Source → GitHub Actions**. Adresse : https://malolunier42-boop.github.io/sbm/.
+
+## Identité et sources
+
+Sources officielles consultées le 16 octobre 2026 : Recherche d’entreprises, BODACC et politique officielle GitHub. SBM, SAS, SIREN 334201639, SIRET siège 33420163900039, RCS Saint-Étienne 334201639, TVA FR28334201639. Siège ZI La Gravoux, boulevard de l’Europe, 42380 Luriecq. Société créée le 26 novembre 1985. Capital de 400 000 € publié en 2012, présenté comme historique. Malo Lunier est responsable de publication communiqué par le responsable du projet. Téléphone et horaires proviennent de la fiche d’établissement transmise.
+
+Détails : `docs/company-research.md` et mentions légales. L’utilisateur indique créer des escaliers pour entreprises et particuliers. Aucun avis, certification, assurance, prix ou délai n’a été inventé. Manrope et DM Sans : OFL 1.1 ; Three.js : MIT, notices conservées.
