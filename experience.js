@@ -8,6 +8,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const chevron =
   '<svg class="nav-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>';
 let activeDropdown;
+let touchNavigation = false;
 
 function closeDropdown(restoreFocus = false) {
   if (!activeDropdown) return;
@@ -95,21 +96,35 @@ function dropdown(label, id, kicker, links) {
     if (
       hover.matches &&
       desktop.matches &&
-      e.pointerType === "mouse" &&
-      activeDropdown !== group
-    )
-      open(true);
+      e.pointerType === "mouse"
+    ) {
+      touchNavigation = false;
+      if (activeDropdown !== group) open(true);
+    }
   });
-  group.addEventListener("pointerleave", () => {
+  group.addEventListener("pointerleave", (event) => {
+    // Touch pointers leave when the finger lifts. That must not dismiss a menu,
+    // especially on Safari where tapping a button does not give it focus.
+    if (!hover.matches || !desktop.matches || event.pointerType !== "mouse")
+      return;
     leave = setTimeout(() => {
-      if (activeDropdown === group && !group.contains(document.activeElement))
+      if (
+        !touchNavigation &&
+        activeDropdown === group &&
+        !group.contains(document.activeElement)
+      )
         closeDropdown();
     }, 180);
   });
   group.addEventListener("focusout", (event) => {
+    if (touchNavigation) return;
     if (event.relatedTarget && group.contains(event.relatedTarget)) return;
     setTimeout(() => {
-      if (activeDropdown === group && !group.contains(document.activeElement))
+      if (
+        !touchNavigation &&
+        activeDropdown === group &&
+        !group.contains(document.activeElement)
+      )
         closeDropdown();
     }, 0);
   });
@@ -174,13 +189,20 @@ if (header && nav && menuToggle) {
   nav.addEventListener("click", (e) => {
     if (e.target.closest("a")) closeNavigation();
   });
-  document.addEventListener("pointerdown", (e) => {
-    if (!header.contains(e.target)) {
-      closeDropdown();
-      if (!desktop.matches) closeNavigation();
-    }
-  });
+  document.addEventListener(
+    "pointerdown",
+    (e) => {
+      // Capture the input type before any resulting blur/focus events.
+      touchNavigation = e.pointerType === "touch" || e.pointerType === "pen";
+      if (!header.contains(e.target)) {
+        closeDropdown();
+        if (!desktop.matches) closeNavigation();
+      }
+    },
+    true,
+  );
   document.addEventListener("keydown", (e) => {
+    touchNavigation = false;
     if (e.key !== "Escape") return;
     if (activeDropdown) {
       e.preventDefault();
