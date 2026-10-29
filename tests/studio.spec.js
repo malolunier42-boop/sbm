@@ -96,6 +96,14 @@ test('all four stair shapes, direction and dimensions change the rendered geomet
     await page.locator('#height-number').fill('330');
     await page.locator('#height-number').press('Tab');
   });
+  // Give the helical sketch enough diameter for a 125cm radial width. At
+  // 180cm diameter the centre post physically limits both 90 and 125cm wishes
+  // to the same drawn width; that limit is explained beside the width control.
+  await page.locator('#advanced-project > summary').click();
+  await renderedChange(page, async () => {
+    await page.locator('#diameter-number').fill('280');
+    await page.locator('#diameter-number').press('Tab');
+  });
   await renderedChange(page, async () => {
     await page.locator('#width-number').fill('125');
     await page.locator('#width-number').press('Tab');

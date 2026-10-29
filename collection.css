@@ -1,0 +1,164 @@
+/* The catalogue is a place to browse: spacious drawing boards, quiet details. */
+.riaux-link-arrow { display: inline-block; width: 17px; height: 17px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.6; vertical-align: middle; margin-left: 5px; }
+.riaux-collection-page { --riaux-gutter: clamp(22px, 6vw, 104px); }
+.riaux-collection-hero { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 5%; padding: 78px var(--riaux-gutter) 60px; background: #192920; color: #f7f4e9; overflow: hidden; }
+.riaux-collection-hero .eyebrow { color: #cfa786; }
+.riaux-collection-hero h1 { font: 500 clamp(48px, 5.9vw, 91px)/1.07 var(--heading); letter-spacing: -.065em; margin: 24px 0 26px; }
+.riaux-collection-hero h1 em { font-family: Georgia, serif; font-weight: 400; color: #d8dfbf; }
+.riaux-collection-hero-copy > p:not(.eyebrow) { color: #d2dacb; font-size: 15px; line-height: 1.9; max-width: 490px; }
+.riaux-hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 23px; margin-top: 31px; }
+.riaux-hero-actions .text-action { color: #e9eadf; font-size: 12px; }
+.riaux-hero-drawing { position: relative; min-height: 460px; display: flex; align-items: center; justify-content: center; isolation: isolate; margin: 0; }
+.riaux-hero-drawing::before { content: ''; position: absolute; z-index: -1; inset: -17px 16px 17px -17px; border: 1px solid #8d9d6d47; border-radius: 88px 19px 58px 19px; }
+.riaux-hero-drawing > img { display: block; width: 100%; height: 460px; object-fit: cover; object-position: center 55%; border-radius: 88px 19px 58px 19px; filter: saturate(.85); }
+.riaux-hero-drawing > svg { position: absolute; bottom: -9px; left: -19px; width: 175px; height: auto; border: 1px solid #dce2cc; border-radius: 19px; background: #e4e9d9; box-shadow: 0 12px 35px #020d0835; transform: rotate(-5deg); }
+.riaux-hero-art-label { position: absolute; bottom: 17px; left: auto; right: 20px; display: flex; flex-direction: column; gap: 5px; padding: 12px 15px; border-radius: 12px; background: #14231ed9; font-size: 8px; letter-spacing: .7px; color: #bdcaaa; }
+.riaux-hero-art-label strong { color: #e9eadf; font-weight: 400; }
+.riaux-collection-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 27px var(--riaux-gutter); background: #dce2ca; border-bottom: 1px solid #c9d1bb; }
+.riaux-collection-facts > div { display: flex; align-items: center; gap: 14px; }
+.riaux-collection-facts strong { font: 500 30px/1 var(--heading); letter-spacing: -1.8px; }
+.riaux-collection-facts span { font-size: 11px; color: #53634a; line-height: 1.6; }
+.riaux-catalogue { padding: 76px var(--riaux-gutter) 92px; }
+.riaux-catalogue-heading { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 30px; }
+.riaux-catalogue-heading h2 { font-size: clamp(35px, 3.8vw, 58px); letter-spacing: -2.5px; line-height: 1.15; margin-top: 12px; }
+.riaux-catalogue-heading > p { max-width: 340px; font-size: 13px; color: var(--muted); line-height: 1.85; }
+.riaux-browse-tools { margin-bottom: 32px; border: 1px solid #d1d7c7; border-radius: 23px; background: #f8f8f1; padding: 22px; }
+.riaux-search-row { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+.riaux-search-row label { display: flex; flex-direction: column; gap: 7px; font-size: 11px; color: #53624d; }
+.riaux-search-row input, .riaux-search-row select { width: 100%; min-width: 0; min-height: 51px; border: 1px solid #cbd3bf; border-radius: 13px; background: #fffefa; color: #25392a; font-size: 15px; padding: 12px 16px; }
+.riaux-search-row input:focus-visible, .riaux-search-row select:focus-visible { outline: 2px solid #8a9c68; outline-offset: 3px; }
+.riaux-filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 19px; }
+.riaux-filter-row button { min-height: 44px; border: 1px solid #d0d8c2; border-radius: 999px; padding: 10px 17px; font-size: 12px; background: transparent; transition: background .18s, color .18s, border-color .18s; }
+.riaux-filter-row button[aria-pressed='true'] { color: #f3f3e8; background: #253e2d; border-color: #253e2d; }
+.riaux-filter-row button:hover { border-color: #68815a; }
+.riaux-result-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 39px; margin-top: 15px; border-top: 1px solid #dce1d3; padding-top: 14px; font-size: 11px; color: #65745b; }
+.riaux-result-row button { min-height: 32px; background: none; border: 0; padding: 2px 0; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.riaux-model-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 25px; }
+.riaux-model-card { min-width: 0; overflow: hidden; border: 1px solid #d6dccd; border-radius: 25px; background: #fbfaf5; box-shadow: 0 8px 24px #24391d04; transition: box-shadow .25s, border-color .25s; }
+.riaux-model-card[hidden] { display: none !important; }
+.riaux-model-card:hover { border-color: #b7c4a8; box-shadow: 0 15px 38px #24391d0c; }
+.riaux-model-art { position: relative; aspect-ratio: 1.16; background: #e8ecdf; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.riaux-model-card[data-family='mixed'] .riaux-model-art { background: #ece7da; }
+.riaux-model-card[data-family='metal'] .riaux-model-art { background: #e2e8e5; }
+.riaux-model-card[data-family='enclosed'] .riaux-model-art { background: #e9e4d9; }
+.riaux-model-card[data-family='specific'] .riaux-model-art { background: #e4e6da; }
+.riaux-model-card[data-family='outdoor'] .riaux-model-art { background: #e1e9d8; }
+.riaux-model-photo { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+@media (hover: hover) and (pointer: fine) { .riaux-model-card:hover .riaux-model-photo { transform: scale(1.045); } }
+.riaux-model-number { position: absolute; left: 17px; top: 17px; z-index: 1; font-size: 10px; color: #33492c; letter-spacing: 1px; background: #f6f7eecc; border-radius: 50%; padding: 6px 9px; }
+.riaux-model-kind { position: absolute; z-index: 1; bottom: 14px; right: 16px; background: #fcfcf5bc; color: #45573c; padding: 5px 11px; border: 1px solid #f9faf3; border-radius: 999px; font-size: 9px; }
+.riaux-model-body { padding: 23px 24px 20px; }
+.riaux-model-collection { color: #7c8b6b; font-size: 9px; letter-spacing: .7px; text-transform: uppercase; }
+.riaux-model-body h3 { font: 500 28px/1.2 var(--heading); letter-spacing: -1.2px; margin: 8px 0 14px; }
+.riaux-model-description { font-size: 12px; color: #63715b; line-height: 1.85; min-height: 67px; }
+.riaux-model-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 17px 0 19px; }
+.riaux-model-badges span { border: 1px solid #d8dfce; color: #647359; font-size: 9px; border-radius: 8px; padding: 4px 8px; }
+.riaux-model-details { border-top: 1px solid #dfe3d6; }
+.riaux-model-details > summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 50px; list-style: none; font-size: 11px; cursor: pointer; }
+.riaux-model-details > summary::-webkit-details-marker { display: none; }
+.riaux-model-details > summary > span { display: grid; place-items: center; width: 24px; height: 24px; background: #e9eedf; border-radius: 50%; font-size: 17px; transition: transform .2s; }
+.riaux-model-details[open] > summary > span { transform: rotate(45deg); }
+.riaux-model-specs { margin: 6px 0 17px; }
+.riaux-detail-drawing { border-radius: 15px; background: #e9eddf; padding-bottom: 12px; margin: 0 0 17px; }
+.riaux-detail-drawing svg { width: 100%; max-height: 180px; }
+.riaux-detail-drawing small { display: block; text-align: center; color: #738063; font-size: 9px; }
+.riaux-model-specs dt { font-size: 9px; text-transform: uppercase; letter-spacing: .8px; color: #8a967d; margin-top: 13px; }
+.riaux-model-specs dd { margin: 4px 0 0; font-size: 11px; line-height: 1.8; color: #45563e; }
+.riaux-model-notes { padding-left: 15px; margin: 0 0 17px; font-size: 10px; color: #68795a; line-height: 1.8; }
+.riaux-model-notes li + li { margin-top: 7px; }
+.riaux-model-source { font-size: 9px; color: #8b957e; margin: 0 0 20px; }
+.riaux-model-update { color: #795d3b; font-size: 11px; line-height: 1.8; padding: 12px 13px; margin-bottom: 17px; border: 1px solid #e1d5bd; background: #f7f0df; border-radius: 11px; }
+.riaux-full-photo { display: inline-block; padding: 0 0 17px; font-size: 10px; color: #526742; text-decoration: underline; text-underline-offset: 3px; }
+.riaux-model-link { min-height: 47px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-radius: 999px; background: #e8eddf; padding: 11px 16px; font-size: 11px; color: #34492b; transition: background .2s; }
+.riaux-model-link:hover { background: #d7e0c8; }
+.riaux-model-link > span { font-size: 19px; line-height: 1; }
+.riaux-empty { padding: 55px 20px; text-align: center; border: 1px dashed #bcc9ae; border-radius: 23px; }
+.riaux-empty[hidden] { display: none; }
+.riaux-empty h3 { font: 500 26px var(--heading); letter-spacing: -1px; }
+.riaux-empty p { color: #6d7b60; font-size: 13px; margin: 12px 0 25px; }
+.riaux-empty button { border: 0; border-radius: 999px; background: #253e2d; color: #f3f4e8; padding: 13px 22px; min-height: 47px; font-size: 13px; }
+.riaux-catalogue-note { max-width: 780px; font-size: 11px; line-height: 1.9; color: #718065; margin-top: 32px; }
+.riaux-design-guide { background: #e4e8da; padding: 70px var(--riaux-gutter); }
+.riaux-design-guide h2 { font-size: clamp(32px, 3.7vw, 53px); line-height: 1.15; letter-spacing: -2.2px; margin: 13px 0 35px; }
+.riaux-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.riaux-guide-grid article { background: #f6f7ed; border: 1px solid #d6dfc7; border-radius: 22px; padding: 28px; }
+.riaux-guide-grid article > span { color: #9b764e; font-size: 11px; }
+.riaux-guide-grid h3 { font: 500 20px var(--heading); letter-spacing: -.7px; margin: 20px 0 14px; }
+.riaux-guide-grid p { color: #69775c; font-size: 12px; line-height: 1.9; }
+.riaux-guide-grid a { display: inline-flex; gap: 15px; align-items: center; min-height: 44px; font-size: 11px; margin-top: 15px; color: #425738; text-decoration: underline; text-underline-offset: 5px; }
+.riaux-collection-ending { display: flex; align-items: center; justify-content: space-between; gap: 45px; padding: 65px var(--riaux-gutter); background: #1c2c23; color: #eff1e4; }
+.riaux-collection-ending h2 { font: 500 clamp(29px, 3vw, 45px)/1.2 var(--heading); letter-spacing: -1.7px; margin: 14px 0; }
+.riaux-collection-ending p:not(.eyebrow) { max-width: 560px; color: #b7c4a8; font-size: 13px; line-height: 1.8; }
+.riaux-collection-ending .eyebrow { color: #cda887; }
+.riaux-access { margin: 0 6% 60px; padding: 37px 40px; border: 1px solid #cbd5bc; background: linear-gradient(105deg, #e3e9d6, #f6f6ee); border-radius: 25px; display: flex; align-items: center; justify-content: space-between; gap: 35px; }
+.riaux-access h2 { font: 500 clamp(25px, 2.7vw, 37px)/1.2 var(--heading); letter-spacing: -1.4px; margin: 10px 0 13px; }
+.riaux-access p:not(.eyebrow) { max-width: 620px; font-size: 13px; color: #66775a; line-height: 1.9; }
+.riaux-access .button { flex-shrink: 0; font-size: 12px; }
+@media (max-width: 1120px) {
+  .riaux-model-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .riaux-collection-hero { gap: 2%; }
+  .riaux-hero-drawing { min-height: 410px; }
+  .riaux-hero-drawing > img { height: 410px; }
+  .riaux-guide-grid article { padding: 24px; }
+}
+@media (max-width: 760px) {
+  .riaux-collection-page { --riaux-gutter: clamp(20px, 5.3vw, 36px); }
+  .riaux-collection-hero { grid-template-columns: 1fr; padding-top: 43px; padding-bottom: 32px; gap: 28px; }
+  .riaux-collection-hero h1 { font-size: clamp(46px, 11vw, 73px); margin: 22px 0; }
+  .riaux-collection-hero-copy > p:not(.eyebrow) { font-size: 14px; line-height: 1.85; }
+  .riaux-hero-actions { gap: 18px; }
+  .riaux-hero-actions .button { font-size: 12px; }
+  .riaux-hero-drawing { min-height: 340px; max-width: 460px; width: 100%; margin: 9px auto 15px; }
+  .riaux-hero-drawing > img { height: 340px; border-radius: 62px 16px 44px 16px; }
+  .riaux-hero-drawing::before { inset: -11px 12px 12px -11px; border-radius: 62px 16px 44px 16px; }
+  .riaux-hero-drawing > svg { width: 130px; left: -8px; bottom: -15px; }
+  .riaux-hero-art-label { right: 12px; bottom: 13px; font-size: 7px; padding: 9px 10px; }
+  .riaux-collection-facts { padding-top: 22px; padding-bottom: 22px; gap: 15px; }
+  .riaux-collection-facts > div { align-items: start; flex-direction: column; gap: 7px; }
+  .riaux-collection-facts strong { font-size: 26px; }
+  .riaux-collection-facts span { font-size: 10px; }
+  .riaux-catalogue { padding-top: 48px; padding-bottom: 55px; }
+  .riaux-catalogue-heading { display: block; margin-bottom: 25px; }
+  .riaux-catalogue-heading h2 { font-size: 38px; letter-spacing: -1.9px; }
+  .riaux-catalogue-heading > p { margin-top: 20px; max-width: 500px; font-size: 14px; }
+  .riaux-browse-tools { padding: 16px; border-radius: 20px; }
+  .riaux-search-row { grid-template-columns: 1fr; gap: 12px; }
+  .riaux-search-row label { font-size: 12px; }
+  .riaux-search-row input, .riaux-search-row select { font-size: 16px; min-height: 51px; padding-right: 10px; }
+  .riaux-filter-row { gap: 7px; }
+  .riaux-filter-row button { font-size: 12px; padding: 10px 13px; }
+  .riaux-result-row { align-items: start; font-size: 11px; gap: 10px; }
+  .riaux-result-row button { min-height: 44px; margin-top: -10px; font-size: 11px; }
+  .riaux-model-grid { gap: 22px; }
+  .riaux-model-body { padding: 20px 20px 18px; }
+  .riaux-model-description { font-size: 13px; min-height: 0; }
+  .riaux-model-collection { font-size: 10px; }
+  .riaux-model-details > summary { min-height: 54px; font-size: 13px; }
+  .riaux-model-link { min-height: 50px; font-size: 13px; }
+  .riaux-model-specs dt { font-size: 10px; }
+  .riaux-model-specs dd, .riaux-model-notes { font-size: 12px; }
+  .riaux-model-source { font-size: 10px; }
+  .riaux-model-badges span { font-size: 10px; }
+  .riaux-model-kind { font-size: 10px; }
+  .riaux-catalogue-note { font-size: 12px; }
+  .riaux-design-guide { padding-top: 45px; padding-bottom: 45px; }
+  .riaux-guide-grid { grid-template-columns: 1fr; gap: 15px; }
+  .riaux-guide-grid article { padding: 25px; }
+  .riaux-guide-grid h3 { margin-top: 16px; }
+  .riaux-guide-grid p { font-size: 14px; }
+  .riaux-guide-grid a { font-size: 13px; }
+  .riaux-collection-ending { display: block; padding-top: 45px; padding-bottom: 45px; }
+  .riaux-collection-ending .button { margin-top: 25px; font-size: 13px; }
+  .riaux-access { margin: 0 var(--mobile-gutter, 5.3%) 40px; padding: 27px 23px; display: block; }
+  .riaux-access p:not(.eyebrow) { font-size: 14px; }
+  .riaux-access .button { margin-top: 23px; font-size: 13px; }
+}
+@media (max-width: 570px) { .riaux-model-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .riaux-model-card, .riaux-model-photo, .riaux-model-details > summary > span { transition: none; } }
+@media print {
+  .riaux-browse-tools, .riaux-model-link, .riaux-hero-actions, .riaux-collection-ending { display: none; }
+  .riaux-collection-hero { color: #17211e; background: none; padding: 20px; }
+  .riaux-collection-hero-copy > p:not(.eyebrow) { color: #17211e; }
+  .riaux-model-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .riaux-model-card { break-inside: avoid; box-shadow: none; }
+}

@@ -1,0 +1,316 @@
+/* The selected collection and the room context stay readable before the full dossier. */
+.quote-page .quote-model-card {
+  margin-top: 26px;
+  padding: 23px 21px 17px;
+  border: 1px solid #b4c1a7;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #fbfaf4, #edf0e3);
+  box-shadow: 0 8px 24px #223c2007;
+}
+.quote-model-card[hidden],
+.quote-model-card details[hidden],
+.quote-config-adjustments[hidden] {
+  display: none;
+}
+.quote-page .quote-model-source {
+  margin: 0 0 10px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  line-height: 1.7;
+  color: #617051;
+}
+.quote-model-card > h3 {
+  margin: 0;
+  font-size: 29px;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.quote-model-card > p:not(.quote-model-source) {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #5e6d54;
+}
+.quote-model-facts {
+  margin-top: 18px;
+  padding-top: 4px;
+  border-top: 1px solid #cbd2bf;
+}
+.quote-model-facts > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 11px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.quote-model-facts > div > span {
+  flex-shrink: 0;
+  color: #6b785f;
+}
+.quote-model-facts strong {
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.quote-model-card details {
+  margin-top: 15px;
+  border-top: 1px solid #cbd2bf;
+}
+.quote-model-card summary,
+.quote-config-details > summary {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.quote-model-card summary::-webkit-details-marker,
+.quote-config-details > summary::-webkit-details-marker,
+.quote-space-details > summary::-webkit-details-marker {
+  display: none;
+}
+.quote-model-card summary > span:last-child,
+.quote-config-details > summary > span:last-child {
+  font-size: 19px;
+  transition: transform .2s;
+}
+.quote-model-card details[open] > summary > span:last-child,
+.quote-config-details[open] > summary > span:last-child,
+.quote-space-details[open] .quote-details-plus {
+  transform: rotate(45deg);
+}
+.quote-model-card ul {
+  margin: 0 0 13px;
+  padding-left: 17px;
+  font-size: 11px;
+  line-height: 1.9;
+  color: #617051;
+}
+.quote-model-card li + li {
+  margin-top: 6px;
+}
+.quote-collection-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.7;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.quote-collection-link > svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.quote-config-details {
+  margin: 19px 0 23px;
+  border-top: 1px solid #b9c5aa;
+  border-bottom: 1px solid #b9c5aa;
+}
+.quote-config-details > summary {
+  min-height: 54px;
+}
+.quote-config-details > summary strong {
+  font-weight: 600;
+}
+.quote-config-details > summary > span:nth-child(2) {
+  margin-left: auto;
+  color: #69795a;
+  font-size: 10px;
+}
+.quote-config-details .configuration-summary {
+  margin: 0 0 15px;
+}
+.quote-config-adjustments {
+  margin-top: 18px;
+  padding: 15px 17px;
+  border: 1px solid #cab48f;
+  border-radius: 14px;
+  background: #f7ecd9;
+  color: #715431;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.quote-catalogue .quote-sidebar {
+  position: static;
+}
+.quote-space-details {
+  margin-top: 28px;
+  border: 1px solid #c9d1bb;
+  border-radius: 19px;
+  background: #f3f4eb;
+  overflow: hidden;
+}
+.quote-space-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 84px;
+  padding: 18px 21px;
+  cursor: pointer;
+  list-style: none;
+}
+.quote-space-details > summary strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.2px;
+  line-height: 1.5;
+}
+.quote-space-details > summary small {
+  display: block;
+  margin-top: 6px;
+  color: #6b785f;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.quote-details-plus {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid #c7d0b9;
+  border-radius: 50%;
+  font-size: 21px;
+  transition: transform .2s;
+}
+.quote-space-content {
+  padding: 0 21px 23px;
+}
+.quote-space-content > p:first-child {
+  margin: 0 0 22px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: #637256;
+}
+.quote-page .quote-space-help {
+  margin: 17px 0 23px;
+  font-size: 10px;
+  line-height: 1.9;
+  color: #637256;
+}
+.quote-space-details input,
+.quote-space-details select,
+.quote-space-details textarea {
+  background: #fffef8;
+  border-radius: 10px;
+}
+.quote-page .material-checks label {
+  border-radius: 12px;
+  min-height: 48px;
+  padding: 10px 12px;
+  gap: 9px;
+  transition: border-color .2s, background .2s;
+}
+.quote-material-sample {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #53634429;
+  background-color: #cbb391;
+}
+.quote-model-card summary:focus-visible,
+.quote-config-details > summary:focus-visible,
+.quote-space-details > summary:focus-visible,
+.quote-collection-link:focus-visible {
+  outline: 2px solid var(--copper-dark);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+@media (max-width: 760px) {
+  .quote-page .quote-model-card {
+    padding: 21px 18px 14px;
+    border-radius: 18px;
+  }
+  .quote-model-card > h3 {
+    font-size: 30px;
+  }
+  .quote-page .quote-model-source {
+    font-size: 10px;
+  }
+  .quote-model-card > p:not(.quote-model-source),
+  .quote-model-card ul,
+  .quote-model-card summary,
+  .quote-collection-link,
+  .quote-config-details > summary {
+    font-size: 14px;
+  }
+  .quote-model-facts > div {
+    font-size: 13px;
+  }
+  .quote-config-details > summary {
+    min-height: 58px;
+  }
+  .quote-config-details > summary > span:nth-child(2) {
+    font-size: 11px;
+  }
+  .quote-config-adjustments {
+    font-size: 14px;
+    padding: 15px;
+  }
+  .quote-space-details > summary {
+    padding: 18px 16px;
+  }
+  .quote-space-details > summary strong {
+    font-size: 15px;
+  }
+  .quote-space-details > summary small,
+  .quote-page .quote-space-help {
+    font-size: 13px;
+  }
+  .quote-space-content {
+    padding: 0 16px 20px;
+  }
+  .quote-space-content .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .quote-space-content > p:first-child {
+    font-size: 14px;
+  }
+  .quote-page .quote-space-details input,
+  .quote-page .quote-space-details select,
+  .quote-page .quote-space-details textarea {
+    min-height: 50px;
+    font-size: 16px;
+  }
+  .quote-page .material-checks label {
+    font-size: 14px;
+    min-height: 50px;
+    flex: 1 1 130px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quote-model-card summary > span:last-child,
+  .quote-config-details > summary > span:last-child,
+  .quote-details-plus,
+  .quote-page .material-checks label {
+    transition: none;
+  }
+}
+@media print {
+  .quote-model-card,
+  .quote-config-adjustments,
+  .quote-config-details,
+  .quote-space-details {
+    display: none;
+  }
+}

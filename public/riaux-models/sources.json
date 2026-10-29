@@ -1,0 +1,186 @@
+{
+  "source": "Catalogue Riaux2026 fourni par le responsable du projet",
+  "credit": "Groupe Riaux / Riaux Escaliers — photographies et illustrations non contractuelles",
+  "images": {
+    "elementaire": {
+      "sourcePage": 13,
+      "width": 1171,
+      "height": 828,
+      "bytes": 69612
+    },
+    "origine": {
+      "sourcePage": 15,
+      "width": 1171,
+      "height": 829,
+      "bytes": 78540
+    },
+    "harmonie": {
+      "sourcePage": 17,
+      "width": 1171,
+      "height": 829,
+      "bytes": 68276
+    },
+    "tricolore": {
+      "sourcePage": 19,
+      "width": 1171,
+      "height": 828,
+      "bytes": 65268
+    },
+    "cottage": {
+      "sourcePage": 21,
+      "width": 1171,
+      "height": 828,
+      "bytes": 68922
+    },
+    "ambition": {
+      "sourcePage": 23,
+      "width": 1171,
+      "height": 829,
+      "bytes": 54630
+    },
+    "boreal": {
+      "sourcePage": 25,
+      "width": 1171,
+      "height": 828,
+      "bytes": 62852
+    },
+    "escale": {
+      "sourcePage": 27,
+      "width": 1171,
+      "height": 828,
+      "bytes": 48388
+    },
+    "duplex": {
+      "sourcePage": 29,
+      "width": 570,
+      "height": 828,
+      "bytes": 12734
+    },
+    "style": {
+      "sourcePage": 29,
+      "width": 570,
+      "height": 829,
+      "bytes": 46636
+    },
+    "austral": {
+      "sourcePage": 33,
+      "width": 1171,
+      "height": 828,
+      "bytes": 51630
+    },
+    "urbain": {
+      "sourcePage": 35,
+      "width": 570,
+      "height": 828,
+      "bytes": 37288
+    },
+    "chic": {
+      "sourcePage": 35,
+      "width": 570,
+      "height": 828,
+      "bytes": 36332
+    },
+    "fabrique": {
+      "sourcePage": 37,
+      "width": 1171,
+      "height": 828,
+      "bytes": 92600
+    },
+    "dynamique": {
+      "sourcePage": 39,
+      "width": 570,
+      "height": 828,
+      "bytes": 30842
+    },
+    "rythmique": {
+      "sourcePage": 39,
+      "width": 571,
+      "height": 828,
+      "bytes": 29658
+    },
+    "sillage": {
+      "sourcePage": 41,
+      "width": 1171,
+      "height": 828,
+      "bytes": 69804
+    },
+    "transat": {
+      "sourcePage": 43,
+      "width": 570,
+      "height": 828,
+      "bytes": 47406
+    },
+    "vogue": {
+      "sourcePage": 43,
+      "width": 570,
+      "height": 828,
+      "bytes": 81888
+    },
+    "voile": {
+      "sourcePage": 45,
+      "width": 1171,
+      "height": 829,
+      "bytes": 73988
+    },
+    "nautique": {
+      "sourcePage": 47,
+      "width": 570,
+      "height": 828,
+      "bytes": 50422
+    },
+    "cap": {
+      "sourcePage": 47,
+      "width": 570,
+      "height": 828,
+      "bytes": 44494
+    },
+    "zephyr": {
+      "sourcePage": 49,
+      "width": 1171,
+      "height": 828,
+      "bytes": 82990
+    },
+    "sonora": {
+      "sourcePage": 51,
+      "width": 1171,
+      "height": 828,
+      "bytes": 67206
+    },
+    "levant": {
+      "sourcePage": 53,
+      "width": 1171,
+      "height": 828,
+      "bytes": 110060
+    },
+    "lips": {
+      "sourcePage": 55,
+      "width": 1171,
+      "height": 828,
+      "bytes": 76020
+    },
+    "mistral": {
+      "sourcePage": 57,
+      "width": 1171,
+      "height": 828,
+      "bytes": 128020
+    },
+    "kit-carre": {
+      "sourcePage": 58,
+      "width": 494,
+      "height": 701,
+      "bytes": 23496
+    },
+    "circulaire": {
+      "sourcePage": 58,
+      "width": 494,
+      "height": 701,
+      "bytes": 29578
+    },
+    "outdoor": {
+      "sourcePage": 59,
+      "width": 1072,
+      "height": 700,
+      "bytes": 94388
+    }
+  }
+}

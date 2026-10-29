@@ -10,7 +10,9 @@ import {
   normalizeConfig,
   decodeConfig,
   encodeConfig,
+  configurationForModel,
 } from "./catalog.js";
+import { mountCatalogueStudio } from "./studio-catalogue.js";
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [
   ...scope.querySelectorAll(selector),
@@ -28,6 +30,16 @@ const canvas = $("#studio-canvas");
 const originalStagePosition = document.createComment("studio-viewer-home");
 stage.before(originalStagePosition);
 const dialog = $("#studio-dialog");
+const catalogueControls = mountCatalogueStudio({
+  read: () => configuration,
+  change,
+  selectModel(id) {
+    configuration = configurationForModel(id, configuration);
+    syncUI();
+    syncURL();
+    viewer?.setConfiguration(configuration);
+  },
+});
 const labels = (list, key) =>
   list.find((option) => option.id === key)?.label ?? "";
 const ambiencePanel = $(".studio-ambience");
@@ -136,6 +148,7 @@ function projectURL(page = "configurateur.html") {
   ).href;
 }
 function syncUI() {
+  const catalogue = catalogueControls.sync(configuration);
   selected("[data-ambience]", "ambience", configuration.ambience);
   // The stage uses a separate data attribute from the choice buttons.
   stage.dataset.room = configuration.ambience;
@@ -154,15 +167,20 @@ function syncUI() {
   );
   const structure = STRUCTURES.find((option) => option.id === configuration.structureMaterial);
   const woodStructure = structure.family === "wood";
+  const paintedWood = woodStructure && configuration.structureFinish === "painted";
   const noRailing = configuration.railing === "none";
-  $("#structure-note").textContent = woodStructure
+  $("#structure-note").textContent = catalogue.catalogue
+    ? `${structure.label} pour la structure. Les essences et finitions proposées ci-dessous suivent les options de ${catalogue.model.label}.`
+    : woodStructure
     ? `${structure.label} naturel pour la structure. La matière des marches se choisit séparément.`
     : configuration.structureMaterial === "steel"
       ? "Personnalisez la teinte et l’aspect de votre structure en acier."
       : `${structure.label} dans sa teinte naturelle. Choisissez son aspect mat, brossé ou poli.`;
-  $("#metal-color-fields").hidden = configuration.structureMaterial !== "steel" && noRailing;
+  $("#metal-color-fields").hidden = catalogue.catalogue
+    ? woodStructure && configuration.structureFinish !== "painted"
+    : !paintedWood && configuration.structureMaterial !== "steel" && noRailing;
   $("#metal-finish-fields").hidden = woodStructure && noRailing;
-  $("#metal-color-label").textContent = configuration.structureMaterial === "steel" ? "La couleur du métal" : "La couleur de la main courante";
+  $("#metal-color-label").textContent = catalogue.catalogue || paintedWood ? "La couleur de la structure" : configuration.structureMaterial === "steel" ? "La couleur du métal" : "La couleur de la main courante";
   $("#metal-finish-label").textContent = woodStructure ? "L’aspect de la main courante" : "L’aspect du métal";
   $("#color-options").setAttribute("aria-label", configuration.structureMaterial === "steel" ? "Couleur de la structure métallique" : "Couleur de la main courante");
   $("#railing-note").hidden = !noRailing;
@@ -185,20 +203,20 @@ function syncUI() {
     SHAPES.findIndex((shape) => shape.id === configuration.shape) + 1,
   ).padStart(2, "0");
   $("#summary-title").textContent =
-    `${labels(SHAPES, configuration.shape)}. ${labels(MATERIALS, configuration.treadMaterial)}.`;
+    `${catalogue.catalogue ? `${catalogue.model.label} · ` : ""}${labels(SHAPES, configuration.shape)}. ${labels(MATERIALS, configuration.treadMaterial)}.`;
   $("#summary-detail").textContent =
     `Structure ${structure.label} · ${labels(RAILINGS, configuration.railing)} · ${configuration.height} × ${configuration.width} cm`;
   $("#material-label").textContent =
     `${labels(MATERIALS, configuration.treadMaterial)} · ${configuration.structureMaterial === "steel" ? (color?.label ?? configuration.structureColor) : `STRUCTURE ${structure.label}`}`.toUpperCase();
   $("#quote-link").href = projectURL("devis.html");
   $("#studio-mobile-quote").href = projectURL("devis.html");
-  $("#studio-mobile-label").textContent = `${labels(SHAPES, configuration.shape)} · ${structure.label}`;
+  $("#studio-mobile-label").textContent = `${catalogue.catalogue ? catalogue.model.label : labels(SHAPES, configuration.shape)} · ${structure.label}`;
   $(".header-contact").href = projectURL("devis.html");
   if (stage.classList.contains("failed"))
     $("#material-label").textContent =
       "VISUEL D’INSPIRATION · MATIÈRES NON SIMULÉES";
   const fallback = $(".studio-fallback");
-  const next = `${import.meta.env.BASE_URL}models/${configuration.shape}.jpg`;
+  const next = `${import.meta.env.BASE_URL}models/${configuration.shape === "spiral-square" ? "spiral" : configuration.shape}.jpg`;
   if (fallback.dataset.modelShape !== configuration.shape) {
     fallback.dataset.modelShape = configuration.shape;
     fallback.src = next;
@@ -211,6 +229,7 @@ function syncURL() {
 function change(patch) {
   configuration = normalizeConfig({ ...configuration, ...patch });
   syncUI();
+  catalogueControls.announceAdjustment(patch, configuration);
   syncURL();
   clearTimeout(renderTimer);
   renderTimer = setTimeout(() => viewer?.setConfiguration(configuration), 70);

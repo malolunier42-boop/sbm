@@ -161,6 +161,11 @@ if (header && nav && menuToggle) {
       "inspiration-navigation",
       "LA MATIÈRE COMME INSPIRATION",
       [
+        extraLink(
+          "./collection.html",
+          "La collection Riaux",
+          "30 modèles, des silhouettes à personnaliser en 3D.",
+        ),
         enhanceLink(material, "Bois, métal, couleurs et finitions."),
         extraLink(
           "./#inspirations",

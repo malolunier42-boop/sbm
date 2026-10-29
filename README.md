@@ -22,7 +22,8 @@ Les tests Playwright compilent le site puis démarrent un serveur de production 
 
 ## Pages
 
-- `index.html` : atelier, collection des quatre modèles et accès aux univers.
+- `index.html` : atelier, inspirations et accès aux univers.
+- `collection.html` : les 30 modèles Riaux, filtres, photos sourcées et accès à leurs présélections 3D.
 - `particuliers.html` : rénovation, construction et projets de maison.
 - `professionnels.html` : entreprises, commerces, architectes et usages du lieu.
 - `matieres.html` : palettes, matières et liens avec présélection dans le studio.
@@ -32,9 +33,13 @@ Les tests Playwright compilent le site puis démarrent un serveur de production 
 
 ## Configurateur
 
-Quatre formes (droit, quart tournant, demi-tournant, hélicoïdal), six structures (acier, chêne, noyer, frêne, aluminium et inox), marches chêne/noyer/frêne/acier/pierre, huit couleurs proposées et teinte libre, trois aspects métalliques, quatre garde-corps ou une vue sans garde-corps, contremarches, LED, sens et dimensions indicatives. Structure et marches se choisissent indépendamment. Les bois, l’aluminium et l’inox gardent leur teinte naturelle ; les nuances colorées s’appliquent alors à la main courante lorsqu’elle est présente. Les commandes et le dossier indiquent les finitions effectivement applicables. Les choix sont validés par une liste autorisée dans `catalog.js`, repris dans l’URL sans données personnelles, partageables et conservés entre le studio et le dossier. Les matières et protections définitives sont étudiées avec l’atelier ; ces options ne constituent pas une offre de fabrication validée.
+Le studio associe 30 présélections du catalogue Riaux 2026 à une création libre conservant les intentions déjà proposées. Le modèle retenu détermine les structures et options disponibles. Le catalogue couvre des limons latéraux, limons découpés, crémaillères décalées, doubles crémaillères rapprochées, structures centrales bois ou métal, escaliers encloisonnés et hélices circulaires ou carrées. Les quarts tournants bas/milieu/haut, demi-tournants, jours carrés et paliers modifient la géométrie réelle.
 
-Géométries, grain bois et textures minérales sont générés localement. Les rendus `public/models/` proviennent de notre propre moteur ; ils ne représentent pas des chantiers S.B.M. Le modèle est une intention artistique, pas un plan technique ou une preuve de conformité. Les échantillons, dimensions, usages, matériaux et conditions définitifs demandent une étude de l’atelier.
+Les essences comprennent hévéa LCA, hêtre LCA, hêtre massif, chêne, chêne rustique et iroko extérieur, avec leurs teintes et peintures compatibles. Marches et structure sont distinguées. Mains courantes, lisses, balustres, poteaux, têtes décoratives, départs, nez de marche, antidérapants et habillages de dalle disposent de paramètres propres. Les garde-corps d’étage sont séparés des rampants ; verre, panneaux bois et quatre motifs laser reprennent les annexes 2026. Les options libres noyer/frêne/pierre ou sans garde-corps restent des intentions sur étude, sans être attribuées au catalogue Riaux.
+
+`riaux-catalog.js` conserve les modèles et leurs options, `catalog.js` normalise les choix, leurs compatibilités et les liens. `studio-catalogue.js` fournit les commandes natives accessibles et les explications de dimensions. `catalogue-geometry.js` et `catalogue-rails.js` construisent les géométries ; `viewer.js` gère les matériaux, la caméra et les interactions. Les dimensions sont des proportions d’esquisse, sans cotes de fabrication garanties. Si un diamètre d’hélice ou une hauteur de marche impose un ajustement visible, le studio le signale. Les choix sont conservés dans le lien et le dossier, sans données personnelles dans l’URL.
+
+Les rendus `public/models/` sont des études originales générées par le moteur. Les photographies `public/riaux-models/` sont extraites du catalogue Riaux fourni, clairement attribuées à leur source et accompagnées d’un manifeste de provenance. Elles ne sont pas présentées comme des chantiers S.B.M. Le PDF complet est consultable ; `docs/riaux-catalogue.md` documente les sources, restrictions, mises à jour et ambiguïtés. L’ensemble reste une intention de projet, à confirmer avec l’atelier sur relevé et devis.
 
 Le rendu se suspend hors écran ou onglet masqué. La rotation automatique est facultative ; les mouvements réduits sont respectés. Souris, clavier et boutons sont proposés. Sur écran tactile, le glissement horizontal pivote et le pincement zoome directement dans la page ; le glissement vertical conserve le défilement natif. La vue immersive permet aussi d’incliner le modèle. `touch-gestures.js` arbitre les gestes, les transitions et leur nettoyage sans capturer la molette ; `viewer.js` conserve angle et zoom au redimensionnement et réduit le coût graphique sur mobile. Une illustration remplace WebGL en cas d’indisponibilité, et le choix des options et le dossier restent utilisables.
 

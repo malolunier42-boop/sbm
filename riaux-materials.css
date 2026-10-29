@@ -1,0 +1,114 @@
+.riaux-materials-section { padding: 72px clamp(22px, 6vw, 104px); }
+.riaux-materials-section .section-top { margin-bottom: 34px; }
+.riaux-materials-section h2 { font-size: clamp(34px, 4vw, 59px); line-height: 1.16; letter-spacing: -2.5px; }
+.riaux-materials-section .section-intro { max-width: 390px; }
+.riaux-source-tag { display: inline-flex; align-items: center; gap: 10px; border: 1px solid #d1d8c5; border-radius: 999px; padding: 7px 13px; font-size: 10px; color: #68775b; margin-top: 19px; }
+.riaux-source-tag::before { content: ''; width: 5px; height: 5px; background: #9ba67e; border-radius: 50%; }
+.riaux-wood-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.riaux-wood-card { overflow: hidden; border: 1px solid #d6ddcb; border-radius: 24px; background: #fafaf4; }
+.riaux-wood-sample { height: 155px; position: relative; border-bottom: 1px solid #c9c5b170; }
+.riaux-wood-sample::after { content: ''; position: absolute; inset: 0; background: linear-gradient(130deg, #fff4 5%, transparent 65%, #281f1510); }
+.riaux-wood-sample > span { position: absolute; top: 18px; left: 19px; font-size: 10px; color: #665133; background: #f9f4e47d; border-radius: 50%; padding: 5px 8px; z-index: 1; }
+.riaux-grain-hevea { background: repeating-linear-gradient(90deg, #e0c79f 0 33px, #d0b48a 35px, #e7d2b0 38px 71px, #c3a77d 73px, #dfc59e 74px 108px); }
+.riaux-grain-beech-lca { background: repeating-linear-gradient(90deg, #d1a976 0 37px, #e1bf8f 38px 75px, #b99161 76px 77px, #d6ae7b 78px 116px); }
+.riaux-grain-beech { background: repeating-linear-gradient(93deg, #d6b182 0 12px, #c69d6c 13px 14px, #dbb98d 15px 31px, #cfaa7a 32px 35px); }
+.riaux-grain-oak { background: repeating-linear-gradient(91deg, #b98e58 0 3px, #c69f6d 4px 17px, #d2b081 19px 33px, #b9905f 34px 36px, #c8a372 37px 48px); }
+.riaux-grain-oak-rustic { background: radial-gradient(ellipse at 62% 15%, #77603d 0 2%, #a28a64 3% 7%, transparent 8%), radial-gradient(ellipse at 21% 83%, #88734f 0 1%, #ab9470 2% 6%, transparent 7%), repeating-linear-gradient(92deg, #c2b28f 0 7px, #d3c6a9 8px 19px, #ad9c7b 20px 22px, #cbbea1 24px 40px); }
+.riaux-grain-iroko { background: repeating-linear-gradient(91deg, #a57542 0 3px, #b58a54 4px 15px, #976a39 17px 20px, #b08955 22px 39px, #a27645 40px 44px); }
+.riaux-wood-copy { padding: 23px 25px 22px; }
+.riaux-wood-finish { font-size: 9px; letter-spacing: .35px; color: #80906d; line-height: 1.7; }
+.riaux-wood-copy h3 { font: 500 25px/1.25 var(--heading); letter-spacing: -1px; margin: 10px 0 15px; }
+.riaux-wood-heading { display: block; font-size: 11px; font-weight: 500; color: #506445; margin-bottom: 9px; }
+.riaux-wood-copy > p:not(.riaux-wood-finish) { color: #6d7b60; font-size: 12px; line-height: 1.85; }
+.riaux-wood-link { display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid #dfe5d4; margin-top: 19px; padding: 14px 0 0; min-height: 44px; font-size: 11px; color: #415a34; }
+.riaux-wood-link > span { font-size: 18px; }
+.riaux-wood-finishes { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 15px; margin: 36px 0 0; padding-top: 35px; border-top: 1px solid #d7deca; }
+.riaux-finish-chip { min-width: 0; padding-bottom: 8px; }
+.riaux-finish-sample { display: block; height: 92px; border-radius: 16px; background: repeating-linear-gradient(91deg, transparent 0 13px, #42321e10 14px 15px, #fff2 16px 26px, transparent 27px 40px), var(--wood-tone); box-shadow: inset 0 0 0 1px #4b442511; transition: transform .25s; }
+.riaux-finish-chip:hover .riaux-finish-sample { transform: translateY(-4px); }
+.riaux-finish-chip strong { display: block; font-size: 11px; font-weight: 500; margin: 13px 0 6px; }
+.riaux-finish-chip small { display: block; font-size: 9px; line-height: 1.7; color: #82906f; }
+.riaux-materials-note { font-size: 11px; line-height: 1.95; color: #79866c; margin-top: 25px; max-width: 850px; }
+.riaux-paint-section { background: #e5eada; }
+.riaux-color-context { display: flex; align-items: center; gap: 25px; margin-bottom: 31px; padding: 19px 22px; border-radius: 20px; background: #f5f7ed; border: 1px solid #d2ddc1; }
+.riaux-color-context label { font-size: 11px; display: flex; align-items: center; gap: 15px; color: #5c7050; flex-shrink: 0; }
+.riaux-color-context select { min-height: 46px; max-width: 100%; background: #fcfcf6; border: 1px solid #bdcbae; border-radius: 11px; color: #344d28; padding: 9px 12px; font-size: 13px; }
+.riaux-color-context > p { font-size: 11px; line-height: 1.8; color: #7b8a6b; }
+.riaux-paint-colors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 25px; }
+.riaux-paint-chip { display: flex; align-items: center; flex-direction: column; text-align: center; gap: 7px; border: 1px solid #d3ddc6; border-radius: 21px; background: #f6f7ee; padding: 23px 14px 20px; transition: border-color .2s, transform .25s; }
+.riaux-paint-chip:hover { border-color: #9aaf84; transform: translateY(-3px); }
+.riaux-paint-sample { display: block; width: 76px; height: 76px; border-radius: 50%; background: radial-gradient(ellipse at 25% 20%, #ffffff24, transparent 65%), var(--paint-tone); box-shadow: inset -5px -6px 14px #10200f10, 0 6px 14px #2033180a; margin-bottom: 10px; border: 1px solid #60704712; }
+.riaux-paint-chip strong { font-size: 12px; font-weight: 500; }
+.riaux-paint-chip small { font-size: 9px; color: #7b8b69; }
+.riaux-details-section { background: #f5f5ed; }
+.riaux-details-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+.riaux-detail-choice { border: 1px solid #d4ddc7; border-radius: 20px; padding: 0 24px; background: #fafbf5; }
+.riaux-detail-choice summary { display: flex; justify-content: space-between; align-items: center; gap: 22px; min-height: 77px; list-style: none; font-size: 14px; cursor: pointer; }
+.riaux-detail-choice summary::-webkit-details-marker { display: none; }
+.riaux-detail-choice summary > span { display: grid; place-items: center; border-radius: 50%; width: 29px; height: 29px; background: #e9efde; color: #5c7250; font-size: 18px; flex-shrink: 0; transition: transform .2s; }
+.riaux-detail-choice[open] summary > span { transform: rotate(45deg); }
+.riaux-detail-choice > p, .riaux-detail-choice > ul { font-size: 12px; line-height: 1.9; color: #718260; margin: 0 0 18px; }
+.riaux-detail-choice ul { padding-left: 18px; }
+.riaux-detail-choice .text-action { font-size: 11px; padding-bottom: 22px; min-height: 44px; }
+.riaux-laser-board { margin-top: 32px; background: #253c2d; color: #f0f3e6; padding: 31px; border-radius: 24px; display: grid; grid-template-columns: .9fr 1.4fr; gap: 35px; align-items: center; }
+.riaux-laser-board .eyebrow { color: #c9aa87; }
+.riaux-laser-board h3 { font: 500 clamp(25px, 2.8vw, 36px)/1.2 var(--heading); letter-spacing: -1.3px; margin: 13px 0 17px; }
+.riaux-laser-board p:not(.eyebrow) { font-size: 12px; line-height: 1.85; color: #b6c7a7; }
+.riaux-laser-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.riaux-laser-grid > a { min-width: 0; }
+.riaux-laser-grid svg { width: 100%; height: auto; border-radius: 12px; border: 1px solid #a8bc9180; background: #b9c5a3; }
+.riaux-laser-grid a > span { display: block; font-size: 10px; margin-top: 11px; text-align: center; }
+.riaux-care-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 35px; padding-top: 30px; border-top: 1px solid #d7e0ca; }
+.riaux-care-panel h3 { font: 500 20px var(--heading); letter-spacing: -.7px; margin-bottom: 15px; }
+.riaux-care-panel p { font-size: 12px; line-height: 1.85; color: #748365; }
+.riaux-materials-catalogue-link { display: inline-flex; align-items: center; gap: 12px; min-height: 47px; font-size: 12px; margin-top: 24px; text-decoration: underline; text-underline-offset: 5px; }
+@media (max-width: 1080px) {
+  .riaux-wood-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .riaux-wood-finishes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .riaux-paint-colors { gap: 15px; }
+  .riaux-color-context { align-items: start; }
+  .riaux-color-context label { align-items: start; flex-direction: column; gap: 8px; }
+  .riaux-laser-board { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .riaux-materials-section { padding: 47px max(20px, 5.3vw); }
+  .riaux-materials-section h2 { font-size: 37px; letter-spacing: -1.8px; }
+  .riaux-materials-section .section-top { display: block; margin-bottom: 27px; }
+  .riaux-materials-section .section-intro { margin-top: 22px; font-size: 14px; max-width: 520px; }
+  .riaux-source-tag { font-size: 11px; }
+  .riaux-wood-grid { gap: 20px; }
+  .riaux-wood-copy { padding: 23px 22px; }
+  .riaux-wood-copy h3 { font-size: 26px; }
+  .riaux-wood-finish { font-size: 10px; }
+  .riaux-wood-heading { font-size: 13px; }
+  .riaux-wood-copy > p:not(.riaux-wood-finish) { font-size: 14px; }
+  .riaux-wood-link { font-size: 13px; min-height: 49px; }
+  .riaux-wood-finishes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 23px 18px; padding-top: 29px; margin-top: 29px; }
+  .riaux-finish-sample { height: 100px; }
+  .riaux-finish-chip strong { font-size: 13px; }
+  .riaux-finish-chip small { font-size: 11px; }
+  .riaux-materials-note { font-size: 12px; }
+  .riaux-color-context { display: block; padding: 19px; }
+  .riaux-color-context label { font-size: 12px; }
+  .riaux-color-context select { width: 100%; min-height: 49px; font-size: 16px; }
+  .riaux-color-context > p { font-size: 12px; margin-top: 15px; }
+  .riaux-paint-colors { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .riaux-paint-chip { padding: 20px 12px; }
+  .riaux-paint-chip strong { font-size: 13px; }
+  .riaux-paint-chip small { font-size: 10px; }
+  .riaux-paint-sample { width: 72px; height: 72px; }
+  .riaux-details-grid { grid-template-columns: 1fr; gap: 14px; }
+  .riaux-detail-choice { padding: 0 20px; }
+  .riaux-detail-choice summary { min-height: 76px; font-size: 15px; }
+  .riaux-detail-choice > p, .riaux-detail-choice > ul { font-size: 14px; }
+  .riaux-detail-choice .text-action { font-size: 13px; }
+  .riaux-laser-board { padding: 25px 22px; gap: 25px; }
+  .riaux-laser-board p:not(.eyebrow) { font-size: 14px; }
+  .riaux-laser-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+  .riaux-laser-grid a > span { font-size: 12px; }
+  .riaux-care-panel { grid-template-columns: 1fr; gap: 26px; }
+  .riaux-care-panel p { font-size: 14px; }
+  .riaux-materials-catalogue-link { font-size: 13px; }
+}
+@media (max-width: 570px) { .riaux-wood-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .riaux-finish-sample, .riaux-paint-chip, .riaux-detail-choice summary > span { transition: none; } }

@@ -2,26 +2,44 @@ import {
   decodeConfig,
   encodeConfig,
   describeConfiguration,
+  MATERIALS,
+  STRUCTURES,
+  availableOptions,
+  getModel,
 } from "./catalog.js";
+import "./riaux-quote.css";
+import { drawingMetrics } from "./catalogue-geometry.js";
 
 const configuration = decodeConfig(window.location.search);
 const description = describeConfiguration(configuration);
+const drawn = drawingMetrics(configuration);
+if (drawn.widthLimited) description.push({
+  label: "Largeur radiale représentée dans l’aperçu",
+  value: `${drawn.width.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} cm dans le diamètre ${drawn.diameter} cm. Largeur souhaitée : ${configuration.width} cm, à étudier avec l’atelier.`,
+});
+if (drawn.thicknessLimited) description.push({
+  label: "Épaisseur représentée dans l’aperçu",
+  value: `${drawn.treadThickness.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} mm pour laisser les marches distinctes. Épaisseur souhaitée : ${configuration.treadThickness} mm, à étudier.`,
+});
 const form = document.querySelector("#quote-form");
 const fields = document.querySelector("#quote-fields");
 const company = document.querySelector("#company");
 const phone = document.querySelector("#phone");
 const audienceInputs = [...form.querySelectorAll('[name="audience"]')];
 const configurationSummary = document.querySelector("#configuration-summary");
+const model = getModel(configuration.model);
+const catalogueModel = configuration.model !== "custom";
 const result = document.querySelector("#quote-result");
 const printDocument = document.querySelector("#quote-print");
 const actionStatus = document.querySelector("#brief-action-status");
-const materialNames = {
-  oak: "Chêne",
-  walnut: "Noyer",
-  ash: "Frêne",
-  steel: "Acier",
-  stone: "Pierre",
-};
+// Keep the familiar short names in the dossier while accepting every essence
+// supported by the shared catalogue. Availability is evaluated for this model
+// and its actual structure, rather than offering all materials indiscriminately.
+const materialNames = Object.fromEntries(
+  MATERIALS.map((material) => [material.id, material.short || material.label]),
+);
+const comparisonMaterials = availableOptions(configuration).treadMaterial;
+const comparisonIDs = new Set(comparisonMaterials.map((material) => material.id));
 let briefText = "";
 let exportName = "projet-escalier-sbm.txt";
 
@@ -42,15 +60,89 @@ function addDescription(parent, entries) {
 
 addDescription(configurationSummary, description);
 
+const modelCard = document.querySelector("#quote-model-card");
+document.querySelector("#quote-model-source").textContent = catalogueModel
+  ? "COLLECTION RIAUX · 2026"
+  : "VOTRE CRÉATION SUR MESURE";
+document.querySelector("#quote-model-name").textContent = model.label;
+document.querySelector("#quote-model-description").textContent = model.description;
+modelCard.dataset.model = configuration.model;
+modelCard.hidden = false;
+document.body.classList.toggle("quote-catalogue", catalogueModel);
+const quickFacts = document.querySelector("#quote-model-facts");
+for (const [label, detail] of [
+  ["Marches", MATERIALS.find((item) => item.id === configuration.treadMaterial)?.label],
+  ["Structure", STRUCTURES.find((item) => item.id === configuration.structureMaterial)?.label],
+  ["Votre espace", `${configuration.height} × ${configuration.width} cm`],
+]) {
+  const fact = element("div");
+  fact.append(element("span", label), element("strong", detail));
+  quickFacts.append(fact);
+}
+document.querySelector("#quote-config-details").open = !catalogueModel;
+document.querySelector("#quote-config-count").textContent = `${description.length} repères`;
+const modelNotes = document.querySelector("#quote-model-notes");
+const notes = Array.isArray(model.notes) ? model.notes : model.notes ? [model.notes] : [];
+for (const note of notes) modelNotes.append(element("li", note));
+document.querySelector("#quote-model-details").hidden = notes.length === 0;
+if (model.family === "outdoor") document.querySelector("#installation-place").value = "outside";
+
+// Shared links may contain options from a different model. Show when an explicit
+// preference was adapted, so the visitor reviews the actual dossier values.
+const supplied = new URLSearchParams(location.search);
+const configNames = {
+  model: "modèle", shape: "forme", structureMaterial: "matière de structure",
+  structureType: "silhouette de structure", treadMaterial: "matière des marches",
+  railing: "garde-corps", risers: "contremarches", handrail: "main courante",
+  railMaterial: "matière des lisses", railPattern: "dessin des lisses",
+  woodFinish: "finition du bois", structureFinish: "finition de structure",
+  startStep: "marche de départ", nosing: "nez de marche", landingGuard: "garde-corps d’étage",
+  antiSlip: "antidérapant", postCap: "tête de poteau", packDeco: "Pack Déco",
+  balusterStyle: "profil des balustres", postStyle: "poteaux de départ", slabTrim: "habillage de dalle",
+  height: "hauteur", width: "largeur", steps: "nombre de marches", going: "profondeur des marches",
+  landingDepth: "profondeur du palier", diameter: "diamètre", treadThickness: "épaisseur des marches",
+  quarterPosition: "position du quart tournant", turnLayout: "implantation du demi-tournant",
+  structureColor: "couleur de structure", postColor: "couleur des poteaux", metalFinish: "aspect du métal",
+};
+const adjusted = Object.entries(configuration).filter(([key, current]) => {
+  if (!supplied.has(key) || !configNames[key]) return false;
+  const original = supplied.get(key);
+  if (typeof current === "number") return original.trim() === "" || Number(original) !== current;
+  if (typeof current === "boolean") {
+    const accepted = current ? ["1", "true"] : ["0", "false"];
+    return !accepted.includes(original);
+  }
+  return original.toLowerCase() !== String(current).toLowerCase();
+}).map(([key]) => configNames[key]);
+const adjustmentNote = document.querySelector("#quote-config-adjustments");
+adjustmentNote.hidden = adjusted.length === 0;
+if (adjusted.length) {
+  adjustmentNote.textContent = `Choix adaptés aux possibilités de cette configuration : ${adjusted.join(", ")}. Retrouvez les valeurs retenues dans le récapitulatif ; vous pouvez les modifier dans le studio 3D.`;
+}
+
+const comparison = document.querySelector("#comparison-material-options");
+comparison.replaceChildren();
+for (const material of comparisonMaterials) {
+  const label = element("label");
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.name = "compare-material";
+  checkbox.value = material.id;
+  checkbox.checked = material.id === configuration.treadMaterial;
+  const sample = element("span", undefined, `quote-material-sample ${material.className || ""}`);
+  sample.setAttribute("aria-hidden", "true");
+  label.append(checkbox, sample, element("span", materialNames[material.id]));
+  comparison.append(label);
+}
+document.querySelector("#comparison-material-help").textContent = catalogueModel
+  ? "Les essences ci-dessous correspondent au modèle et à la structure choisis. Cochez celles que vous souhaitez comparer sur devis. Pour étudier une autre structure, revenez au studio 3D."
+  : "Choisissez les variantes de marches que vous aimeriez faire chiffrer. L’atelier précisera leur faisabilité et leurs différences de prix.";
+
 const initialAudience = new URLSearchParams(window.location.search).get(
   "audience",
 );
 if (initialAudience === "professional")
   audienceInputs.find((input) => input.value === "professional").checked = true;
-const initialMaterial = form.querySelector(
-  `[name="compare-material"][value="${Object.hasOwn(materialNames, configuration.treadMaterial) ? configuration.treadMaterial : "oak"}"]`,
-);
-if (initialMaterial) initialMaterial.checked = true;
 
 function audienceValue() {
   return audienceInputs.find((input) => input.checked)?.value || "individual";
@@ -139,7 +231,7 @@ form.addEventListener("submit", (event) => {
   ];
   const variants = [
     ...form.querySelectorAll('[name="compare-material"]:checked'),
-  ].map((input) => materialNames[input.value]);
+  ].filter((input) => comparisonIDs.has(input.value)).map((input) => materialNames[input.value]);
   const project = [
     { label: "Lieu du projet", value: value("city") || "À préciser ensemble" },
     { label: "Contexte", value: selectedLabel("project-type") },
@@ -157,6 +249,17 @@ form.addEventListener("submit", (event) => {
         : "Selon la configuration, à discuter avec l’atelier",
     },
   ];
+  const space = [
+    ...["installation-place", "project-use", "floor-support"].flatMap((id) => {
+      if (!value(id)) return [];
+      const labels = { "installation-place": "Emplacement", "project-use": "Usage du lieu", "floor-support": "Support à l’arrivée" };
+      return [{ label: labels[id], value: selectedLabel(id) }];
+    }),
+    ...(value("opening-length") ? [{ label: "Longueur de trémie renseignée", value: `${value("opening-length")} cm (mesure du client, à vérifier)` }] : []),
+    ...(value("opening-width") ? [{ label: "Largeur de trémie renseignée", value: `${value("opening-width")} cm (mesure du client, à vérifier)` }] : []),
+    ...(value("floor-guard-length") ? [{ label: "Longueur de garde-corps d’étage souhaitée", value: `${value("floor-guard-length")} cm (à vérifier)` }] : []),
+    ...(value("access-notes") ? [{ label: "Accès, circulation et contraintes", value: value("access-notes") }] : []),
+  ];
   const date = new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "long",
     timeZone: "Europe/Paris",
@@ -168,7 +271,15 @@ form.addEventListener("submit", (event) => {
   const sections = [
     { title: "VOTRE CONTACT", entries: contact },
     { title: "VOTRE PROJET", entries: project },
+    ...(space.length ? [{ title: "VOTRE ESPACE À ÉTUDIER", entries: space }] : []),
     { title: "VOTRE CONFIGURATION D’INSPIRATION", entries: description },
+    ...(catalogueModel ? [{
+      title: "REPÈRES DU MODÈLE",
+      entries: [
+        { label: "Référence documentaire", value: `Catalogue Riaux 2026 · ${model.label}${model.pages ? ` · pages PDF ${model.pages}` : ""}` },
+        ...(notes.length ? [{ label: "Points à étudier avec l’atelier", value: notes.join(" ") }] : []),
+      ],
+    }] : []),
   ];
 
   printDocument.replaceChildren();

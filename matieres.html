@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#17211e" />
     <meta
       name="description"
-      content="Chêne, noyer, frêne, métal et inspirations minérales : composez votre palette d’escalier, explorez les couleurs et affinez votre projet avec S.B.M. à Luriecq."
+      content="Les essences et finitions du catalogue Riaux 2026, les couleurs, les mains courantes et les motifs laser : composez votre escalier avec S.B.M."
     />
     <link
       rel="canonical"
@@ -20,7 +20,7 @@
     />
     <meta
       property="og:description"
-      content="Chêne, noyer, frêne, métal et inspirations minérales : composez votre palette d’escalier, explorez les couleurs et affinez votre projet avec S.B.M. à Luriecq."
+      content="Les essences et finitions du catalogue Riaux 2026, les couleurs, les mains courantes et les motifs laser : composez votre escalier avec S.B.M."
     />
     <meta
       property="og:image"
@@ -31,9 +31,10 @@
       content="https://malolunier42-boop.github.io/sbm/matieres.html"
     />
     <title>Matières, couleurs et finitions — S.B.M. Décor Stylisé</title>
-    <link rel="icon" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" href="./favicon.svg" />
 
     <script type="module" src="/page.js"></script>
+    <script type="module" src="/riaux-materials.js"></script>
 
     <link rel="stylesheet" href="/site.css" />
   </head>
@@ -91,25 +92,67 @@
                 aria-hidden="true"
               >
                 <path d="M5 19 19 5M5 5h14v14" /></svg></a
-            ><a class="text-action" href="#matieres"
-              >Parcourir les inspirations ↓</a
+            ><a class="text-action" href="#riaux-essences"
+              >Découvrir les matières ↓</a
             >
           </div>
           <p class="page-note">
-            Palette d’étude · Associations à confirmer avec l’atelier
+            Collection Riaux 2026 & créations sur mesure · Devis sur étude
           </p>
         </div>
         <figure class="page-hero-art">
           <img
-            src="%BASE_URL%models/quarter.jpg"
-            width="900"
-            height="1100"
-            alt="Étude de matières originale associant bois chaleureux, structure sombre et lumière naturelle"
+            src="./riaux-models/cottage.webp"
+            width="1171"
+            height="828"
+            alt="Modèle Cottage du catalogue Riaux associant structure vert amande, marches bois et balustres noirs"
           />
           <figcaption>
-            Inspiration 3D · Le rendu des matières reste indicatif.
+            Modèle Cottage · Catalogue Riaux 2026 · Visuel non contractuel.
           </figcaption>
         </figure>
+      </section>
+      <section class="riaux-materials-section" id="riaux-essences" aria-labelledby="riaux-woods-title">
+        <div class="section-top">
+          <div><p class="eyebrow">01 / LES ESSENCES DU CATALOGUE RIAUX</p><h2 id="riaux-woods-title">Le bois, dans toutes<br /><em>ses nuances.</em></h2><span class="riaux-source-tag">Six essences & assemblages · Collection 2026</span></div>
+          <p class="section-intro">Le grain, la teinte et la lumière changent la présence d’un escalier. Explorez les bois du catalogue, puis retrouvez une première association dans le studio 3D.</p>
+        </div>
+        <div class="riaux-wood-grid" id="riaux-wood-grid"></div>
+        <div class="riaux-wood-finishes" id="riaux-wood-finishes" aria-label="Teintes et finitions sur le bois"></div>
+        <p class="riaux-materials-note">Les essences et les finitions sont proposées selon les modèles. Le blanchi est réservé au chêne ; le vernis mat sablé blanchi au chêne rustique. Les échantillons numériques donnent une intention : le veinage et la couleur se précisent sur un échantillon physique.</p>
+      </section>
+      <section class="riaux-materials-section riaux-paint-section" id="riaux-couleurs" aria-labelledby="riaux-paints-title">
+        <div class="section-top">
+          <div><p class="eyebrow">02 / LA COULEUR DESSINE LE CONTRASTE</p><h2 id="riaux-paints-title">Discrète.<br /><em>Ou inoubliable.</em></h2></div>
+          <p class="section-intro">Un ton clair pour alléger la silhouette, un bleu profond ou un rouge de mars pour l’affirmer. Choisissez le support, puis explorez l’une des couleurs du catalogue.</p>
+        </div>
+        <div class="riaux-color-context"><label for="riaux-color-support">Appliquer la couleur sur<select id="riaux-color-support"><option value="metal">Une structure métallique</option><option value="wood">Une structure en hêtre massif</option></select></label><p id="riaux-color-support-note">Thermolaquage du métal ou peinture du bois : les procédés et les possibilités sont propres au modèle.</p></div>
+        <div class="riaux-paint-colors" id="riaux-paint-colors"></div>
+        <p class="riaux-materials-note">Peinture sur bois et thermolaquage du métal sont deux finitions distinctes. Les couleurs, les éléments concernés et leurs associations dépendent du modèle. Les références RAL ne concernent que les teintes explicitement nommées ainsi dans le catalogue ; les autres noms correspondent à sa palette. Le rendu à l’écran reste approximatif.</p>
+      </section>
+      <section class="riaux-materials-section riaux-details-section" id="riaux-details" aria-labelledby="riaux-details-title">
+        <div class="section-top">
+          <div><p class="eyebrow">03 / LA SIGNATURE EST DANS LE DÉTAIL</p><h2 id="riaux-details-title">Affinez la ligne.<br /><em>Jusqu’au dernier trait.</em></h2></div>
+          <p class="section-intro">Départ, main courante, poteaux, nez de marche… Ouvrez les détails qui vous inspirent. Les choix compatibles se retrouvent dans la configuration du modèle.</p>
+        </div>
+        <div class="riaux-details-grid">
+          <details class="riaux-detail-choice"><summary>Un départ qui accueille <span aria-hidden="true">+</span></summary><p>Marche droite, saillante ou arrondie ; départ double ou galbé selon le modèle. Le premier pas change déjà le dessin de l’ensemble.</p><ul><li>Départ droit ou devant poteau.</li><li>Départ saillant, arrondi ou double.</li><li>Poteau bois, métal ou inox, avec têtes décoratives selon les possibilités.</li></ul><a class="text-action" href="./configurateur.html?model=cottage" data-riaux-detail="start">Explorer un départ arrondi <svg class="riaux-link-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></details>
+          <details class="riaux-detail-choice"><summary>La main courante, votre fil conducteur <span aria-hidden="true">+</span></summary><p>Ronde, rectangulaire, à l’anglaise ou en fer plat : la main courante peut suivre la chaleur du bois ou le graphisme du métal. Pour les escaliers encloisonnés, elle devient murale.</p><ul><li>Lisses en inox, aluminium ou métal thermolaqué.</li><li>Balustres verticaux, bois tourné ou bagues décoratives selon les modèles.</li><li>Disposition de lisses 1-3-1 sur certaines gammes.</li></ul><a class="text-action" href="./configurateur.html?model=voile" data-riaux-detail="handrail">Découvrir une ligne en fer plat <svg class="riaux-link-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></details>
+          <details class="riaux-detail-choice"><summary>Le nez de marche & les antidérapants <span aria-hidden="true">+</span></summary><p>Double arrondi, bec de corbin ou dessin sans recouvrement pour le bois, nez carré sur les modèles métalliques : la tranche participe aussi au caractère.</p><p>Les stries continues ou le profil aluminium avec bande polymère sont des options à étudier selon les marches retenues.</p><a class="text-action" href="./configurateur.html?model=origine" data-riaux-detail="anti-slip">Voir les stries dans le studio <svg class="riaux-link-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></details>
+          <details class="riaux-detail-choice"><summary>L’insert qui fait la différence <span aria-hidden="true">+</span></summary><p>Le Pack Déco d’Origine et d’Ambition ajoute un insert inox dans le limon, au départ du premier tiers de l’escalier.</p><p>Cette option est prévue pour les escaliers droits, quarts tournants bas ou hauts, avec garde-corps rampant à lisses inox.</p><a class="text-action" href="./configurateur.html?model=origine" data-riaux-detail="pack">Composer un modèle avec insert <svg class="riaux-link-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></details>
+        </div>
+        <div class="riaux-laser-board">
+          <div><p class="eyebrow">LES NOUVEAUTÉS DU CATALOGUE 2026</p><h3>Un garde-corps d’étage.<br /><em>Une autre expression.</em></h3><p>Verre sur pinces, panneaux bois ajourés ou tôle découpée au laser. Les quatre motifs de la collection dessinent chacun leur propre jeu de lumière.</p></div>
+          <div class="riaux-laser-grid">
+            <a href="./configurateur.html?model=zephyr" data-riaux-detail="laser-curve"><svg viewBox="0 0 100 112" aria-hidden="true"><rect x="11" y="11" width="78" height="91" rx="2" fill="#3a4b39"/><g fill="none" stroke="#bdcba8" stroke-width="4"><path d="M17 100C39 64 39 56 80 15M22 14c10 37 45 59 58 88M13 61C40 60 62 39 88 40M50 12C26 61 59 69 59 100"/></g></svg><span>Courbe</span></a>
+            <a href="./configurateur.html?model=zephyr" data-riaux-detail="laser-nature"><svg viewBox="0 0 100 112" aria-hidden="true"><rect x="11" y="11" width="78" height="91" rx="2" fill="#3a4b39"/><g fill="none" stroke="#bdcba8" stroke-width="3"><path d="m28 101 7-78m-3 41L18 38m16 9 12-26m10 80-1-72m1 40 18-28m-19 7L45 30m29 70-2-52m2 29 13-19M16 87l13 12m34-7 12 11"/></g></svg><span>Nature</span></a>
+            <a href="./configurateur.html?model=zephyr" data-riaux-detail="laser-wave"><svg viewBox="0 0 100 112" aria-hidden="true"><rect x="11" y="11" width="78" height="91" rx="2" fill="#3a4b39"/><g fill="none" stroke="#bdcba8" stroke-width="3.5"><path d="M15 100C75 66 26 41 80 14M26 101C87 62 37 43 89 24M13 82C69 52 29 31 64 12M42 101C96 68 51 49 89 43M13 58C42 45 27 28 46 12M59 102C91 84 66 64 89 59"/></g></svg><span>Vague</span></a>
+            <a href="./configurateur.html?model=zephyr" data-riaux-detail="laser-vitrail"><svg viewBox="0 0 100 112" aria-hidden="true"><rect x="11" y="11" width="78" height="91" rx="2" fill="#3a4b39"/><g fill="none" stroke="#bdcba8" stroke-width="2.5"><path d="m12 13 25 8 16-10 20 17 16-10M11 38l17-8 21 16 24-18 16 21M12 65l16-35 9-9 12 25-8 26 26-9 22-14M11 86l30-14 13 30m-26-6 13-24m26-9 12 38M89 80l-22-17-18-17m-8 26 26 17 22-9M28 96l-17 5"/></g></svg><span>Vitrail</span></a>
+          </div>
+        </div>
+        <p class="riaux-materials-note">Les annexes 2026 du catalogue actualisent les garde-corps d’étage, avec des soubassements annoncés à 62 cm minimum. Le choix adapté à votre espace sera étudié avec l’atelier. Élément’aire est désormais proposé à l’étage avec balustres aluminium anodisé mat ; l’ancien soubassement PLB est retiré.</p>
+        <div class="riaux-care-panel"><div><h3>Choisir aussi la finition.</h3><p>Une finition usine protège les éléments avant leur pose, sur leurs faces visibles et cachées. Le catalogue distingue vernis incolore, teinte avec vernis et peinture des parties structurelles en hêtre massif. Les marches gardent leur finition bois.</p></div><div><h3>Préserver la matière.</h3><p>Le bois se nettoie avec un chiffon propre légèrement humidifié à l’eau claire. L’entretien, la protection des surfaces et les conditions de pose se précisent avec votre modèle et l’environnement du projet.</p></div></div>
+        <a class="riaux-materials-catalogue-link" href="./catalogue-riaux-2026.pdf" target="_blank" rel="noopener">Consulter tous les choix du catalogue Riaux 2026 <span>(PDF · 70 pages)</span><svg class="riaux-link-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
       </section>
       <section
         class="audience-section section"
@@ -120,13 +163,14 @@
           <div>
             <p class="eyebrow">01 / La surface que l’on habite</p>
             <h2 id="materials-title">
-              Cinq directions.<br /><em>Votre combinaison.</em>
+              D’autres envies.<br /><em>L’esprit sur mesure.</em>
             </h2>
           </div>
           <p class="section-intro">
-            Ces matières sont proposées comme pistes visuelles dans le
-            configurateur. Essence, qualité, épaisseur, finition et
-            disponibilité se définissent pour chaque projet.
+            En complément des modèles du catalogue Riaux, le studio libre permet
+            d’explorer d’autres intentions : noyer, frêne, métal ou inspiration
+            minérale. Leur réalisation et leurs associations se définissent
+            sur étude avec l’atelier.
           </p>
         </div>
         <div class="material-grid">

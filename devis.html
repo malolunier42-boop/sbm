@@ -12,7 +12,7 @@
       rel="canonical"
       href="https://malolunier42-boop.github.io/sbm/devis.html"
     />
-    <link rel="icon" href="%BASE_URL%favicon.svg" />
+    <link rel="icon" href="./favicon.svg" />
 
     <title>Votre projet, votre devis — S.B.M. Décor Stylisé</title>
 
@@ -95,7 +95,22 @@
           <div class="quote-config-card">
             <span class="small-label">01 / VOTRE POINT DE DÉPART</span>
             <h2>Votre escalier,<br /><em>en quelques lignes.</em></h2>
-            <dl id="configuration-summary" class="configuration-summary"></dl>
+            <section class="quote-model-card" id="quote-model-card" aria-labelledby="quote-model-name" hidden>
+              <p class="quote-model-source" id="quote-model-source">COLLECTION RIAUX · 2026</p>
+              <h3 id="quote-model-name"></h3>
+              <p id="quote-model-description"></p>
+              <div class="quote-model-facts" id="quote-model-facts"></div>
+              <details id="quote-model-details">
+                <summary>Les détails de ce modèle <span aria-hidden="true">+</span></summary>
+                <ul id="quote-model-notes"></ul>
+              </details>
+              <a class="quote-collection-link" href="./collection.html">Découvrir les autres modèles <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></a>
+            </section>
+            <p class="quote-config-adjustments" id="quote-config-adjustments" role="status" hidden></p>
+            <details id="quote-config-details" class="quote-config-details" open>
+              <summary><strong>Tous mes choix</strong><span id="quote-config-count"></span><span aria-hidden="true">+</span></summary>
+              <dl id="configuration-summary" class="configuration-summary"></dl>
+            </details>
             <a
               id="edit-configuration"
               class="button button-dark"
@@ -279,14 +294,71 @@
                   >
                 </div>
               </div>
+              <details class="quote-space-details">
+                <summary>
+                  <span><strong>Et autour de votre escalier ?</strong><small>Trémie, accès et usage du lieu · facultatif</small></span>
+                  <span class="quote-details-plus" aria-hidden="true">+</span>
+                </summary>
+                <div class="quote-space-content">
+                  <p>Quelques repères, même approximatifs, pour préparer l’échange. Les mesures seront vérifiées lors de l’étude de votre projet.</p>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label for="installation-place">Où se situe l’escalier ?</label>
+                      <select id="installation-place" name="installation-place">
+                        <option value="">À préciser ensemble</option>
+                        <option value="inside">À l’intérieur</option>
+                        <option value="outside">À l’extérieur</option>
+                        <option value="sheltered">Dans un espace extérieur abrité</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="project-use">Comment sera utilisé le lieu ?</label>
+                      <select id="project-use" name="project-use">
+                        <option value="">À préciser ensemble</option>
+                        <option value="home">Habitation privée</option>
+                        <option value="workplace">Locaux professionnels</option>
+                        <option value="public">Lieu accueillant du public</option>
+                        <option value="shared">Parties communes d’un bâtiment</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="opening-length">Longueur de la trémie <span>(cm)</span></label>
+                      <input id="opening-length" name="opening-length" type="number" min="20" max="5000" step="1" inputmode="numeric" placeholder="Ex. 300" aria-describedby="opening-help" />
+                    </div>
+                    <div class="field">
+                      <label for="opening-width">Largeur de la trémie <span>(cm)</span></label>
+                      <input id="opening-width" name="opening-width" type="number" min="20" max="5000" step="1" inputmode="numeric" placeholder="Ex. 100" aria-describedby="opening-help" />
+                    </div>
+                    <div class="field">
+                      <label for="floor-guard-length">Garde-corps à l’étage <span>(longueur en cm)</span></label>
+                      <input id="floor-guard-length" name="floor-guard-length" type="number" min="0" max="10000" step="1" inputmode="numeric" placeholder="Ex. 250" />
+                    </div>
+                    <div class="field">
+                      <label for="floor-support">Quel support à l’arrivée ?</label>
+                      <select id="floor-support" name="floor-support">
+                        <option value="">Je ne sais pas encore</option>
+                        <option value="wood">Plancher bois</option>
+                        <option value="concrete">Dalle béton</option>
+                        <option value="metal">Structure métallique</option>
+                        <option value="other">Autre support à étudier</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p id="opening-help" class="quote-space-help">La trémie est l’ouverture du plancher dans laquelle passe l’escalier. Vous pourrez montrer vos plans ou des photos à l’atelier lors de l’échange.</p>
+                  <div class="field">
+                    <label for="access-notes">Des contraintes particulières ?</label>
+                    <textarea id="access-notes" name="access-notes" rows="3" maxlength="2000" placeholder="Accès au chantier, passage sous plafond, murs existants, circulation, besoins des usagers…"></textarea>
+                  </div>
+                </div>
+              </details>
               <fieldset class="material-comparison">
                 <legend>Envie de comparer les matières ?</legend>
-                <p>
+                <p id="comparison-material-help">
                   Choisissez les variantes de marches que vous aimeriez faire
                   chiffrer. L’atelier précisera leur faisabilité et leurs
                   différences de prix.
                 </p>
-                <div class="material-checks">
+                <div class="material-checks" id="comparison-material-options">
                   <label
                     ><input
                       type="checkbox"

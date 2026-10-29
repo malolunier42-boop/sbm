@@ -3,6 +3,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { createAmbience } from "./ambience.js";
 import { installTouchGestures } from "./touch-gestures.js";
+import { DEFAULT_CONFIG, normalizeConfig } from "./catalog.js";
+import { buildCatalogueGeometry, usesCatalogueGeometry, drawingMetrics } from "./catalogue-geometry.js";
 
 // An original architectural study, not a model of a completed SBM project.
 export async function initViewer({
@@ -70,21 +72,7 @@ export async function initViewer({
   let resizeObserver;
   let intersectionObserver;
   let hasConfiguration = false;
-  let configuration = {
-    shape: "spiral",
-    structureMaterial: "steel",
-    structureColor: "#383d3a",
-    metalFinish: "matte",
-    treadMaterial: "oak",
-    railing: "vertical",
-    risers: false,
-    led: false,
-    direction: "right",
-    height: 280,
-    width: 90,
-    steps: 16,
-    ambience: "studio",
-  };
+  let configuration = { ...DEFAULT_CONFIG };
   let modelBounds;
   let cameraPositioned = false;
   let touchGestures;
@@ -173,7 +161,7 @@ export async function initViewer({
   const outerRadius = 1.43;
   const initialHeight = 0.25;
 
-  const wedge = (inner, outer, from, to, thickness) => {
+  const wedge = (inner, outer, from, to, thickness, exactThickness = false) => {
     const shape = new THREE.Shape();
     shape.moveTo(inner * Math.cos(from), inner * Math.sin(from));
     shape.lineTo(outer * Math.cos(from), outer * Math.sin(from));
@@ -182,7 +170,7 @@ export async function initViewer({
     shape.absarc(0, 0, inner, to, from, true);
     shape.closePath();
     const geometry = new THREE.ExtrudeGeometry(shape, {
-      depth: thickness,
+      depth: exactThickness ? Math.max(0.001, thickness - 0.012) : thickness,
       bevelEnabled: true,
       bevelSize: 0.006,
       bevelThickness: 0.006,
@@ -190,6 +178,7 @@ export async function initViewer({
       curveSegments: 24,
     });
     geometry.rotateX(Math.PI / 2);
+    if (exactThickness) geometry.translate(0, -0.006, 0);
     return geometry;
   };
 
@@ -372,7 +361,7 @@ export async function initViewer({
     const name = configuration.ambience;
     ambience.build(name, modelBounds);
     plinth.visible = name === "studio";
-    plinthRim.visible = name === "studio" && configuration.shape === "spiral";
+    plinthRim.visible = name === "studio" && configuration.shape === "spiral" && !usesCatalogueGeometry(configuration);
     ground.visible = name === "studio";
     key.color.setHex(name === "warm" ? 0xffdfb4 : name === "studio" ? 0xffebcd : 0xf0f4ef);
     rim.color.setHex(name === "warm" ? 0xffcd91 : name === "studio" ? 0xffd8a4 : 0xe0e9e4);
@@ -419,6 +408,31 @@ export async function initViewer({
   };
   const walnutTexture = grainTexture("#76503a", "#35231c", "#c89b70", 93);
   const ashTexture = grainTexture("#dfd0b4", "#9b8b70", "#fff3d9", 117);
+  const beechTexture = grainTexture("#d2ab7e", "#9d7759", "#fff0d0", 131);
+  const heveaTexture = grainTexture("#e0c48d", "#ae915d", "#fff0c8", 149);
+  const irokoTexture = grainTexture("#a7783d", "#654226", "#dfb77c", 181);
+  const rusticTexture = grainTexture("#b9966c", "#70513a", "#e9cf9a", 193);
+  const beechLcaTexture = grainTexture("#d8b582", "#aa855d", "#f7dfb1", 211);
+  for (const [texture, columns, stagger] of [[heveaTexture, 7, 55], [beechLcaTexture, 5, 83]]) {
+    const brush = texture.image.getContext("2d");
+    for (let column = 0; column < columns; column += 1) {
+      const x = column * 512 / columns;
+      brush.fillStyle = column % 2 ? "#583d2112" : "#ffffff12";
+      brush.fillRect(x, 0, 512 / columns, 512);
+      brush.fillStyle = "#72503230";
+      brush.fillRect(x, 0, 1, 512);
+      for (let y = (column * stagger) % 170; y < 512; y += 170) brush.fillRect(x, y, 512 / columns, 1);
+    }
+    texture.needsUpdate = true;
+  }
+  const knotBrush = rusticTexture.image.getContext("2d");
+  for (const [x, y] of [[118, 95], [357, 311], [233, 468]]) {
+    for (let ring = 5; ring < 27; ring += 3) {
+      knotBrush.strokeStyle = `rgba(74,45,23,${0.23 - ring * 0.005})`;
+      knotBrush.beginPath(); knotBrush.ellipse(x, y, ring * 0.42, ring * 1.4, 0.08, 0, Math.PI * 2); knotBrush.stroke();
+    }
+  }
+  rusticTexture.needsUpdate = true;
   const stoneCanvas = document.createElement("canvas");
   stoneCanvas.width = stoneCanvas.height = 512;
   const stoneBrush = stoneCanvas.getContext("2d");
@@ -468,6 +482,17 @@ export async function initViewer({
   });
   materialSet.add(glassMaterial);
   materialSet.add(ledMaterial);
+  const handrailMaterial = new THREE.MeshStandardMaterial({ roughness: 0.53 });
+  const railingMaterial = new THREE.MeshStandardMaterial({ metalness: 0.85, roughness: 0.32 });
+  const postMaterial = new THREE.MeshStandardMaterial({ roughness: 0.55 });
+  const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xe8e5da, transparent: true,
+    opacity: 0.18, roughness: 0.85, side: THREE.DoubleSide, depthWrite: false });
+  const brassMaterial = new THREE.MeshStandardMaterial({ color: 0xb99542, metalness: 0.94, roughness: 0.22 });
+  const trimMetalMaterial = new THREE.MeshStandardMaterial({ metalness: 0.6, roughness: 0.44 });
+  const trimPaintedMaterial = new THREE.MeshStandardMaterial({ metalness: 0, roughness: 0.66 });
+  const plywoodMaterial = new THREE.MeshStandardMaterial({ roughness: 0.73 });
+  [handrailMaterial, railingMaterial, postMaterial, wallMaterial, brassMaterial, trimMetalMaterial,
+    trimPaintedMaterial, plywoodMaterial].forEach((material) => materialSet.add(material));
 
   const clearStaircase = () => {
     const geometries = new Set();
@@ -574,6 +599,11 @@ export async function initViewer({
       wood: { map: oakTexture, color: 0xffe8c5 },
       walnut: { map: walnutTexture, color: 0xf3cfad },
       ash: { map: ashTexture, color: 0xfff0d6 },
+      beech: { map: beechTexture, color: 0xffe9d0 },
+      "beech-lca": { map: beechLcaTexture, color: 0xffead3 },
+      hevea: { map: heveaTexture, color: 0xffedce },
+      "oak-rustic": { map: rusticTexture, color: 0xffe3c4 },
+      iroko: { map: irokoTexture, color: 0xffe0af },
     }[configuration.structureMaterial];
     if (structureWood) {
       metal.map = structureWood.map;
@@ -593,6 +623,16 @@ export async function initViewer({
         metal.roughness = { matte: 0.44, brushed: 0.24, polished: 0.08 }[configuration.metalFinish];
       }
     }
+    const tint = {
+      "pitch-pin": 0xc99755, "grey-light": 0xb6bbb6, "grey-dark": 0x737b78,
+      blanched: 0xfaf5e7, sandblasted: 0xe8ded0, wenge: 0x594337,
+    }[configuration.woodFinish];
+    if (structureWood && tint) metal.color.setHex(tint);
+    if (structureWood && configuration.structureFinish === "painted") {
+      metal.map = null;
+      metal.color.set(configuration.structureColor);
+      metal.roughness = 0.60;
+    }
     metal.needsUpdate = true;
     const treads = {
       oak: { map: oakTexture, color: 0xffe2bc, roughness: 0.57, metalness: 0 },
@@ -600,22 +640,60 @@ export async function initViewer({
       ash: { map: ashTexture, color: 0xfff0d6, roughness: 0.62, metalness: 0 },
       steel: { map: null, color: 0x90978e, roughness: 0.28, metalness: 0.88 },
       stone: { map: stoneTexture, color: 0xe5e2d8, roughness: 0.37, metalness: 0 },
-    }[configuration.treadMaterial];
+      beech: { map: beechTexture, color: 0xffe9d0, roughness: 0.58, metalness: 0 },
+      "beech-lca": { map: beechLcaTexture, color: 0xffead3, roughness: 0.59, metalness: 0 },
+      hevea: { map: heveaTexture, color: 0xffedce, roughness: 0.61, metalness: 0 },
+      "oak-rustic": { map: rusticTexture, color: 0xffe3c4, roughness: 0.71, metalness: 0 },
+      iroko: { map: irokoTexture, color: 0xffe0af, roughness: 0.81, metalness: 0 },
+    }[configuration.treadMaterial] ?? { map: oakTexture, color: 0xffe2bc, roughness: 0.57, metalness: 0 };
     oak.map = treads.map;
     oak.color.setHex(treads.color);
     oak.roughness = treads.roughness;
     oak.metalness = treads.metalness;
+    if (tint && !["steel", "stone"].includes(configuration.treadMaterial)) oak.color.setHex(tint);
     oak.bumpMap = configuration.treadMaterial === "stone" ? stoneTexture : null;
     oak.bumpScale = 0.005;
     oak.needsUpdate = true;
+    const woodHandrail = (configuration.handrail ?? "").includes("wood");
+    handrailMaterial.copy(woodHandrail ? oak : railMetal);
+    if (["fabrique"].includes(configuration.model)) handrailMaterial.copy(metal);
+    const metalPosts = ["escale", "sillage", "transat", "vogue", "voile", "nautique", "cap",
+      "zephyr", "sonora", "levant", "lips", "mistral", "circulaire", "kit-carre"];
+    postMaterial.copy(woodHandrail && !metalPosts.includes(configuration.model) ? metal : railMetal);
+    if (configuration.model === "tricolore") {
+      for (const material of [postMaterial, handrailMaterial]) {
+        material.map = null;
+        material.color.set(configuration.postColor);
+        material.metalness = 0;
+        material.roughness = 0.58;
+      }
+    } else if (metalPosts.includes(configuration.model)) postMaterial.color.set(configuration.postColor ?? configuration.structureColor);
+    if (["marine-metal", "cast-iron"].includes(configuration.postStyle)) {
+      postMaterial.copy(railMetal);
+      postMaterial.color.set(configuration.postColor ?? configuration.structureColor);
+    }
+    railingMaterial.copy(configuration.railMaterial === "wood" ? oak
+      : configuration.railMaterial === "metal" ? railMetal : fastenerMetal);
+    if (configuration.railMaterial === "aluminium") {
+      railingMaterial.color.setHex(0xcbd1cc);
+      railingMaterial.roughness = 0.60;
+      railingMaterial.metalness = 0.66;
+    }
+    trimMetalMaterial.copy(railMetal);
+    trimPaintedMaterial.color.set(configuration.structureColor);
+    plywoodMaterial.copy(oak);
+    plywoodMaterial.color.setHex(0xd9b786);
+    [handrailMaterial, postMaterial, railingMaterial].forEach((material) => { material.needsUpdate = true; });
   };
 
   const buildSpiral = () => {
     const count = configuration.steps;
     const rise = configuration.height / 100 / count;
-    const width = configuration.width / 100;
-    const inner = 0.25;
-    const outer = inner + width;
+    const metrics = drawingMetrics(configuration);
+    const width = metrics.width / 100;
+    const outer = configuration.diameter / 200;
+    const inner = outer - width;
+    const thickness = metrics.treadThickness / 1000;
     const start = -Math.PI * 0.93;
     const sweep = Math.PI * 1.82;
     const angleStep = sweep / count;
@@ -655,24 +733,24 @@ export async function initViewer({
       const from = start + angleStep * i + 0.007;
       const to = start + angleStep * (i + 1) - 0.007;
       const top = base + (i + 1) * rise;
-      const tread = addMesh(wedge(inner, outer, from, to, 0.062), oak);
+      const tread = addMesh(wedge(inner, outer, from, to, thickness, true), oak);
       tread.position.y = top;
       const saddle = addMesh(wedge(inner + 0.05, outer - 0.08, from + 0.02, to - 0.02, 0.022), metal);
-      saddle.position.y = top - 0.074;
+      saddle.position.y = top - thickness - 0.012;
       if (configuration.risers) {
-        const riser = addMesh(new THREE.BoxGeometry(width, rise - 0.048, 0.023), metal);
+        const riser = addMesh(new THREE.BoxGeometry(width, Math.max(0.005, rise - thickness), 0.023), metal);
         const radius = inner + width / 2;
-        riser.position.set(radius * Math.cos(from), top - rise / 2 - 0.02, radius * Math.sin(from));
+        riser.position.set(radius * Math.cos(from), top - thickness - (rise - thickness) / 2, radius * Math.sin(from));
         riser.rotation.y = -from;
       }
       if (configuration.led) {
         const light = addMesh(new THREE.BoxGeometry(width * 0.87, 0.012, 0.013), ledMaterial);
         const radius = inner + width / 2;
-        light.position.set(radius * Math.cos(from - 0.004), top - 0.048, radius * Math.sin(from - 0.004));
+        light.position.set(radius * Math.cos(from - 0.004), top - thickness + 0.008, radius * Math.sin(from - 0.004));
         light.rotation.y = -from;
         light.castShadow = false;
         const backlight = addMesh(new THREE.BoxGeometry(width * 0.87, 0.01, 0.013), ledMaterial);
-        backlight.position.set(radius * Math.cos(to + 0.004), top - 0.048, radius * Math.sin(to + 0.004));
+        backlight.position.set(radius * Math.cos(to + 0.004), top - thickness + 0.008, radius * Math.sin(to + 0.004));
         backlight.rotation.y = -to;
         backlight.castShadow = false;
       }
@@ -714,7 +792,8 @@ export async function initViewer({
     const count = configuration.steps;
     const rise = configuration.height / 100 / count;
     const width = configuration.width / 100;
-    const depth = 0.29;
+    const depth = configuration.going / 100;
+    const thickness = drawingMetrics(configuration).treadThickness / 1000;
     const base = 0.035;
     const flights = [];
     let landing;
@@ -743,21 +822,21 @@ export async function initViewer({
       const at = (distance, lateral, y) => new THREE.Vector3(flight.x, y, flight.z).addScaledVector(forward, distance).addScaledVector(across, lateral);
       for (let i = 0; i < flight.count; i += 1) {
         const top = base + (flight.offset + i + 1) * rise;
-        const tread = addMesh(new THREE.BoxGeometry(width, 0.062, depth + 0.022), oak);
-        tread.position.copy(at(i * depth, 0, top - 0.031));
+        const tread = addMesh(new THREE.BoxGeometry(width, thickness, depth + 0.022), oak);
+        tread.position.copy(at(i * depth, 0, top - thickness / 2));
         tread.rotation.y = flight.angle;
         const saddle = addMesh(new THREE.BoxGeometry(width * 0.84, 0.023, depth * 0.68), metal);
-        saddle.position.copy(at(i * depth, 0, top - 0.076));
+        saddle.position.copy(at(i * depth, 0, top - thickness - 0.014));
         saddle.rotation.y = flight.angle;
         if (configuration.risers) {
-          const riser = addMesh(new THREE.BoxGeometry(width - 0.015, rise - 0.052, 0.022), metal);
-          riser.position.copy(at(i * depth - depth / 2 + 0.009, 0, top - rise / 2 - 0.018));
+          const riser = addMesh(new THREE.BoxGeometry(width - 0.015, Math.max(0.005, rise - thickness), 0.022), metal);
+          riser.position.copy(at(i * depth - depth / 2 + 0.009, 0, top - thickness - (rise - thickness) / 2));
           riser.rotation.y = flight.angle;
         }
         if (configuration.led) {
           for (const edge of [-1, 1]) {
             const light = addMesh(new THREE.BoxGeometry(width * 0.88, 0.01, 0.014), ledMaterial);
-            light.position.copy(at(i * depth + edge * (depth / 2 + 0.012), 0, top - 0.048));
+            light.position.copy(at(i * depth + edge * (depth / 2 + 0.012), 0, top - thickness + 0.008));
             light.rotation.y = flight.angle;
             light.castShadow = false;
           }
@@ -795,8 +874,8 @@ export async function initViewer({
     }
     if (landing) {
       const { x, z, width: landingWidth, depth: landingDepth, top, quarter } = landing;
-      const surface = addMesh(new THREE.BoxGeometry(landingWidth, 0.065, landingDepth), oak);
-      surface.position.set(x, top - 0.0325, z);
+      const surface = addMesh(new THREE.BoxGeometry(landingWidth, thickness, landingDepth), oak);
+      surface.position.set(x, top - thickness / 2, z);
       const support = addMesh(new THREE.BoxGeometry(landingWidth - 0.03, 0.12, landingDepth - 0.03), metal);
       support.position.set(x, top - 0.12, z);
       for (const side of [-1, 1]) {
@@ -829,7 +908,13 @@ export async function initViewer({
 
   const rebuildModel = () => {
     clearStaircase();
-    if (configuration.shape === "spiral") buildSpiral();
+    const catalogueGeometry = usesCatalogueGeometry(configuration);
+    if (catalogueGeometry) {
+      staircase.userData.catalogue = buildCatalogueGeometry({ THREE, config: configuration, addMesh,
+        materials: { structure: metal, tread: oak, handrail: handrailMaterial, rail: railingMaterial,
+          post: postMaterial, inox: fastenerMetal, glass: glassMaterial, wall: wallMaterial, led: ledMaterial,
+          brass: brassMaterial, trimMetal: trimMetalMaterial, trimPainted: trimPaintedMaterial, plywood: plywoodMaterial } });
+    } else if (configuration.shape === "spiral") buildSpiral();
     else buildFlights();
     staircase.scale.x = configuration.direction === "left" ? -1 : 1;
     staircase.updateMatrixWorld(true);
@@ -841,8 +926,8 @@ export async function initViewer({
     modelBounds = new THREE.Box3().setFromObject(staircase);
     const size = modelBounds.getSize(new THREE.Vector3());
     plinth.geometry.dispose();
-    if (configuration.shape === "spiral") {
-      const radius = configuration.width / 100 + 0.25 + 0.23;
+    if (configuration.shape === "spiral" && !catalogueGeometry) {
+      const radius = configuration.diameter / 200 + 0.23;
       plinth.geometry = new THREE.CylinderGeometry(radius, radius + 0.035, 0.09, 80);
       plinthRim.visible = true;
       plinthRim.geometry.dispose();
@@ -866,31 +951,7 @@ export async function initViewer({
     key.shadow.needsUpdate = true;
   };
 
-  const sanitizeConfiguration = (input = {}) => {
-    const next = { ...configuration };
-    const choices = {
-      shape: ["spiral", "straight", "quarter", "half"],
-      structureMaterial: ["steel", "wood", "walnut", "ash", "aluminium", "stainless"],
-      metalFinish: ["matte", "brushed", "polished"],
-      treadMaterial: ["oak", "walnut", "ash", "steel", "stone"],
-      railing: ["none", "vertical", "horizontal", "glass", "solid"],
-      direction: ["right", "left"],
-      ambience: ["studio", "warm", "contemporary", "professional"],
-    };
-    for (const [key, values] of Object.entries(choices)) {
-      if (values.includes(input[key])) next[key] = input[key];
-    }
-    if (typeof input.structureColor === "string" && /^#[\da-f]{6}$/i.test(input.structureColor)) next.structureColor = input.structureColor.toLowerCase();
-    for (const key of ["risers", "led"]) {
-      if (typeof input[key] === "boolean") next[key] = input[key];
-    }
-    for (const [key, min, max] of [["height", 240, 360], ["width", 70, 130], ["steps", 12, 20]]) {
-      if (input[key] === undefined || input[key] === null || input[key] === "") continue;
-      const number = Number(input[key]);
-      if (Number.isFinite(number)) next[key] = THREE.MathUtils.clamp(Math.round(number), min, max);
-    }
-    return next;
-  };
+  const sanitizeConfiguration = (input = {}) => normalizeConfig({ ...configuration, ...input });
 
   const state = () => ({
     finish,
@@ -1028,7 +1089,10 @@ export async function initViewer({
     setConfiguration(input) {
       if (disposed || !input || typeof input !== "object") return;
       const next = sanitizeConfiguration(input);
-      const geometryKeys = ["shape", "railing", "risers", "led", "direction", "height", "width", "steps"];
+      const geometryKeys = ["model", "shape", "railing", "risers", "led", "direction", "height", "width", "steps",
+        "structureType", "quarterPosition", "turnLayout", "going", "landingDepth", "diameter", "treadThickness",
+        "handrail", "railMaterial", "railPattern", "startStep", "nosing", "landingGuard", "antiSlip", "postCap", "packDeco",
+        "balusterStyle", "postStyle", "slabTrim", "structureMaterial", "structureFinish"];
       const geometryChanged = !hasConfiguration || geometryKeys.some((key) => next[key] !== configuration[key]);
       const ambienceChanged = !hasConfiguration || next.ambience !== configuration.ambience;
       const changed = !hasConfiguration || Object.keys(next).some((key) => next[key] !== configuration[key]);
